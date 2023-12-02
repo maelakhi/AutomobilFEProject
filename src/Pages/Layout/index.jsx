@@ -19,7 +19,7 @@ import { useNavigate, } from 'react-router-dom';
 
 const drawerWidth = 240;
 const navItems = [
-  { label:'Sign Up', variant: 'text', color: 'secondary', link: '/'},
+  { label:'Sign Up', variant: 'text', color: 'secondary', link: '/register'},
   { label:'Login', variant: 'contained' ,color: 'success', link: '/login'},
 ];
 
