@@ -1,0 +1,11 @@
+.default-input{
+    background-color: transparent;
+    padding: 2%;
+    color: black;
+}
+
+.input-rd-medium {
+    border: 2px solid black;
+   border-radius: 0.5rem;
+}
+
