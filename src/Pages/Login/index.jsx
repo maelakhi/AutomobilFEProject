@@ -71,7 +71,7 @@ const Login = () => {
                                     Dont have account? {' '}
                                     <Link
                                     className='btn-link'
-                                    to={'/'}
+                                    to={'/register'}
                                 >
                                     Sign Up here
                                 </Link>
