@@ -2,19 +2,20 @@
 import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import './ResetPassword.css'
+import './CreatePassword.css'
 import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { Stack } from '@mui/material'
 
-const ResetPassword = () => {
-    const [email, setEmail] = useState('');
+const CreatePassword = () => {
+    const [newPassword, setPassword] = useState('');
+    const [confirmNewPassword, setNewPassword] = useState('');
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email)
+        console.log(newPassword, confirmNewPassword)
     }
 
 
@@ -25,18 +26,19 @@ const ResetPassword = () => {
                     <div className='container_form'>
                         <div className=''>
                             <Typography variant="h4" component="h3">
-                                Reset Password
-                            </Typography>
-                            <Typography variant='h6' component='h4'>
-                                Send OTP Code to your email address
+                                Create Password
                             </Typography>
                         </div>
                         <div className='container_input'>
                             <Input 
-                                name='email'
-                                type='email'
-                                placeholder='Email'
-                                handleState={setEmail}
+                                type='password'
+                                placeholder='New Password'
+                                handleState={setPassword}
+                                radiusBorder="md"
+                            />
+                            <Input 
+                                placeholder='Confirm New Password'
+                                handleState={setNewPassword}
                                 radiusBorder="md"
                             />
                         </div>
@@ -49,11 +51,12 @@ const ResetPassword = () => {
                                     Cancel
                                 </Button>
                                 <Button
-                                    component={Link} to="/createpassword"
+                                    component={Link} to="/"
                                     variant='contained'
+                                    type='submit'
                                     color='success'
                                 >
-                                    Confirm
+                                    Submit
                                 </Button>                                
                             </Stack>
                         </div>
@@ -64,4 +67,4 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export default CreatePassword
