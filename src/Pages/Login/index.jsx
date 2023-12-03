@@ -52,7 +52,7 @@ const Login = () => {
                                 Forgot Password ?{' '}
                                 <Link
                                     className='btn-link'
-                                    to={'/'}
+                                    to={'/resetpassword'}
                                 >
                                     Click Here
                                 </Link>
