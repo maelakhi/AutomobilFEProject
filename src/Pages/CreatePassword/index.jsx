@@ -6,7 +6,16 @@ import './CreatePassword.css'
 import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
-import { Stack } from '@mui/material'
+import { Container, Stack, Paper } from '@mui/material'
+import { styled } from '@mui/material/styles'
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: 'transparent',
+    ...theme.typography.body2,
+    margin: theme.spacing(2),
+    elevation: 0,
+    
+}));
 
 const CreatePassword = () => {
     const [newPassword, setPassword] = useState('');
@@ -22,28 +31,31 @@ const CreatePassword = () => {
     return (
       <>
         <Layout>
-            <form className='container_login' onSubmit={handleSubmit}>
-                    <div className='container_form'>
-                        <div className=''>
+            <form className='container_createPassword' onSubmit={handleSubmit}>
+                <Container maxWidth="sm">
+                    <Stack spacing={6}>
+                        <Item elevation={0}>
                             <Typography variant="h4" component="h3">
                                 Create Password
                             </Typography>
-                        </div>
-                        <div className='container_input'>
-                            <Input 
-                                type='password'
-                                placeholder='New Password'
-                                handleState={setPassword}
-                                radiusBorder="md"
-                            />
-                            <Input 
-                                placeholder='Confirm New Password'
-                                handleState={setNewPassword}
-                                radiusBorder="md"
-                            />
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'end'}}>
-                            <Stack direction="row" spacing={2}>
+                        </Item> 
+                        <Item elevation={0}>
+                            <div className='input_spacing_createPassword'>
+                                <Input 
+                                    type='password'
+                                    placeholder='New Password'
+                                    handleState={setPassword}
+                                    radiusBorder="md"
+                                />
+                                <Input 
+                                    placeholder='Confirm New Password'
+                                    handleState={setNewPassword}
+                                    radiusBorder="md"
+                                />
+                            </div>
+                        </Item>
+                        <Item elevation={0}>
+                            <Stack direction="row" spacing={2} justifyContent='end'>
                                 <Button
                                     component={Link} to="/Login"
                                     variant='outlined'
@@ -57,10 +69,11 @@ const CreatePassword = () => {
                                     color='success'
                                 >
                                     Submit
-                                </Button>                                
-                            </Stack>
-                        </div>
-                    </div>       
+                                </Button>
+                            </Stack>    
+                        </Item>
+                    </Stack>
+                </Container>
            </form>
         </Layout>    
       </>
