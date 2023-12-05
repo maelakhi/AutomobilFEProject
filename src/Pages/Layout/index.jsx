@@ -16,11 +16,12 @@ import Button from '@mui/material/Button';
 
 import logo from '../../Assets/Frame 1738.png'
 import { useNavigate, } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 const drawerWidth = 240;
 const navItems = [
-  { label:'Sign Up', variant: 'text', color: 'secondary', link: '/register'},
-  { label:'Login', variant: 'contained' ,color: 'success', link: '/login'},
+  { label:'Sign Up', variant: 'text', color: 'secondary', textColor: 'green', link: '/register'},
+  { label:'Login', variant: 'contained' ,color: 'success', textColor: '', link: '/login'},
 ];
 
 
@@ -84,7 +85,7 @@ const Layout = (props) => {
                   sx={{ mx: '20px'}}
                   onClick={() => handleRedirect(item.link)}
                 >
-                  {item.label}
+                  <Typography color={item.textColor}>{item.label}</Typography>
                 </Button>
               )
             })}
@@ -111,12 +112,7 @@ const Layout = (props) => {
       </nav>
       <Box component="main" sx={{ py: 3 }}>
         {/* <Toolbar /> */}
-        <div style={{
-          display: 'flex',
-          justifyItems: 'center',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
+        <div>
           {children}
         </div>
       </Box>
