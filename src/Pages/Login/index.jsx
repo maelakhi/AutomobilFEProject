@@ -6,6 +6,16 @@ import './Login.css'
 import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
+import { Container, Paper, Stack } from '@mui/material'
+import { styled } from '@mui/material/styles'
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: 'transparent',
+    ...theme.typography.body2,
+    margin: theme.spacing(2),
+    elevation: 0,
+    
+}));
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -22,32 +32,36 @@ const Login = () => {
       <>
         <Layout>
             <form className='container_login' onSubmit={handleSubmit}>
-                    <div className='container_form'>
-                        <div className=''>
-                            <Typography variant="h3" component="h2">
+                <Container maxWidth='sm'>
+                    <Stack spacing={6}>
+                        <Item elevation={0}>
+                            <Typography variant="h3" component="h2" color="#790B0A">
                                 Welcome Back!
                             </Typography>
-                            <Typography variant='h5' component='h3'>
+                            <br />
+                            <Typography variant='h5' component='h3' color="#4F4F4F">
                                 Please login first
                             </Typography>
-                        </div>
-                        <div className='container_input'>
-                            <Input 
-                                name='email'
-                                type='email'
-                                placeholder='Email'
-                                handleState={setEmail}
-                                radiusBorder="md"
-                            />
-                            <Input 
-                                type='password'
-                                placeholder='Password' 
-                                name='password'
-                                handleState={setPassword}
-                                radiusBorder="md"
-                            />
-                        </div>
-                        <div>
+                        </Item>
+                        <Item elevation={0}>
+                            <div className='input_spacing_login'>
+                                <Input 
+                                    name='email'
+                                    type='email'
+                                    placeholder='Email'
+                                    handleState={setEmail}
+                                    radiusBorder="md"
+                                />
+                                <Input 
+                                    type='password'
+                                    placeholder='Password' 
+                                    name='password'
+                                    handleState={setPassword}
+                                    radiusBorder="md"
+                                />
+                            </div>
+                        </Item>
+                        <Item elevation={0}>
                             <Typography variant="caption" component="p">
                                 Forgot Password ?{' '}
                                 <Link
@@ -77,10 +91,10 @@ const Login = () => {
                                 </Link>
                                 </Typography>
                             </div>
-                        </div>
-                </div>       
-                
-           </form>
+                        </Item>
+                    </Stack>
+                </Container>
+            </form>
         </Layout>    
       </>
   )
