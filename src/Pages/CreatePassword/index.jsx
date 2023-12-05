@@ -8,6 +8,7 @@ import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { Container, Stack, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { ValidationConfirmPassword } from '../../Utils/Validation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -20,18 +21,21 @@ const Item = styled(Paper)(({ theme }) => ({
 const CreatePassword = () => {
     const [newPassword, setPassword] = useState('');
     const [confirmNewPassword, setNewPassword] = useState('');
-
+    const [validation, setValidation] = useState({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(newPassword, confirmNewPassword)
+        const validationPass = ValidationConfirmPassword(newPassword, confirmNewPassword)
+        setValidation(validationPass)
+        if (!validationPass.value) {
+            console.log('API')
+        } 
     }
-
 
     return (
       <>
         <Layout>
-            <form className='container_createPassword' onSubmit={handleSubmit}>
+            <form method='POST' className='container_createPassword' onSubmit={handleSubmit}>
                 <Container maxWidth="sm">
                     <Stack spacing={6}>
                         <Item elevation={0}>
@@ -44,13 +48,17 @@ const CreatePassword = () => {
                                 <Input 
                                     type='password'
                                     placeholder='New Password'
-                                    handleState={setPassword}
                                     radiusBorder="md"
+                                    handleState={setPassword}
+                                    required={true}
                                 />
                                 <Input 
                                     placeholder='Confirm New Password'
-                                    handleState={setNewPassword}
                                     radiusBorder="md"
+                                    handleState={setNewPassword}
+                                    required={true}
+                                    error={!validation?.value}
+                                    messageValidation={!validation?.value ? validation?.message : null}
                                 />
                             </div>
                         </Item>
@@ -64,7 +72,7 @@ const CreatePassword = () => {
                                     Cancel
                                 </Button>
                                 <Button
-                                    component={Link} to="/"
+                                    // component={Link} to="/"
                                     variant='contained'
                                     type='submit'
                                     color='success'

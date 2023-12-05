@@ -1,4 +1,3 @@
-import React from 'react'
 import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -8,6 +7,7 @@ import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { Container, Paper, Stack } from '@mui/material'
+import { ValidationConfirmPassword } from '../../Utils/Validation'
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -21,13 +21,17 @@ const Item = styled(Paper)(({ theme }) => ({
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [password, setPassword] = useState('');
-
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [validation, setValidation] = useState({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password, confirmPassword, name)
+        const validationPass = ValidationConfirmPassword(password, confirmPassword)
+        setValidation(validationPass)
+        if (!validationPass.value) {
+            console.log('API')
+        } 
     }
 
     return (
@@ -52,27 +56,33 @@ const Register = () => {
                                     name='name'
                                     handleState={setName}
                                     radiusBorder="md"
+                                    required={true}
                                 />
                                 <Input
                                     type='email'
                                     placeholder='Email' 
                                     name='email'
-                                    onChange={setEmail}
+                                    handleState={setEmail}
                                     radiusBorder="md"
+                                    required={true}
                                 />
                                 <Input
                                     type='password'
                                     placeholder='Password' 
                                     name='password'
-                                    onChange={setPassword}
+                                    handleState={setPassword}
                                     radiusBorder="md"
+                                    required={true}
                                 />
                                 <Input
-                                type='password'
+                                    type='password'
                                     placeholder='Confirm Password' 
                                     name='confirmPassword'
-                                    onChange={setConfirmPassword}
+                                    handleState={setConfirmPassword}
                                     radiusBorder="md"
+                                    error={!validation?.value}
+                                    messageValidation={!validation?.value ? validation?.message : null}
+                                    required={true}
                                 />
                             </div>
                         </Item>
