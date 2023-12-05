@@ -37,10 +37,10 @@ const Register = () => {
                 <Container maxWidth='sm'>
                     <Stack spacing={6}>
                         <Item elevation={0}>
-                            <Typography variant="h3" component="h2" color="green">
+                            <Typography variant="h3" component="h2" color="#790B0A">
                                 Lets Join our couse!
                             </Typography>
-                            <Typography variant='h5' component='h3' color="green">
+                            <Typography variant='h5' component='h3' color="#4F4F4F">
                                 Please register first
                             </Typography>
                         </Item>

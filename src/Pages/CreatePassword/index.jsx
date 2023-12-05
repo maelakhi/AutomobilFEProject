@@ -59,6 +59,7 @@ const CreatePassword = () => {
                                 <Button
                                     component={Link} to="/Login"
                                     variant='outlined'
+                                    color='success'
                                 >
                                     Cancel
                                 </Button>
