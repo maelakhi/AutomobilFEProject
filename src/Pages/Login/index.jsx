@@ -35,10 +35,11 @@ const Login = () => {
                 <Container maxWidth='sm'>
                     <Stack spacing={6}>
                         <Item elevation={0}>
-                            <Typography variant="h3" component="h2" color="green">
+                            <Typography variant="h3" component="h2" color="#790B0A">
                                 Welcome Back!
                             </Typography>
-                            <Typography variant='h5' component='h3' color="green">
+                            <br />
+                            <Typography variant='h5' component='h3' color="#4F4F4F">
                                 Please login first
                             </Typography>
                         </Item>

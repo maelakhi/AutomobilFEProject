@@ -33,10 +33,10 @@ const ResetPassword = () => {
                 <Container maxWidth='sm'>
                     <Stack spacing={6}>
                         <Item elevation={0}>
-                            <Typography variant="h4" component="h3" color="green">
+                            <Typography variant="h4" component="h3">
                                 Reset Password
                             </Typography>
-                            <Typography variant='h6' component='h4' color="green">
+                            <Typography variant='h6' component='h4'>
                                 Send OTP Code to your email address
                             </Typography>
                         </Item>
@@ -54,6 +54,7 @@ const ResetPassword = () => {
                             <Button
                                 component={Link} to="/Login"
                                 variant='outlined'
+                                color='success'
                             >
                                 Cancel
                             </Button>
