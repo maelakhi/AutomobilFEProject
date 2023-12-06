@@ -30,7 +30,7 @@ const Footer = () => {
                     {typeCar && typeCar.slice(0,6).map((value) => {
                         return (
                             <>
-                             <Grid item lg={6}>
+                             <Grid item lg={6} key={value.id}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon sx={{ minWidth: '20px !important'}}>
