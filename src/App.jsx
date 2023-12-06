@@ -4,6 +4,7 @@ import LoginPage from './Pages/Login'
 import RegisterPage from './Pages/Register'
 import ResetPasswordPage from './Pages/ResetPassword'
 import CreatePasswordPage from './Pages/CreatePassword'
+import ListMenuPage from './Pages/ListMenu'
 import './App.css'
 import Layout from "./Pages/Layout";
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/register' element={<RegisterPage /> } />
           <Route path='/resetpassword' element={<ResetPasswordPage /> } />
           <Route path='/createpassword' element={<CreatePasswordPage /> } />
+          <Route path='/listmenu' element={<ListMenuPage /> } />
         </Route>
     </Routes>
     </>
