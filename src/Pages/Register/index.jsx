@@ -7,7 +7,7 @@ import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { Container, Paper, Stack } from '@mui/material'
-import { ValidationConfirmPassword } from '../../Utils/Validation'
+import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +24,19 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [validation, setValidation] = useState({})
+    const [validatePassword, setValidatePassword] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // To check the password strength
+        const validatePass = ValidatePassword(password)
+        setValidatePassword(validatePass)
+
+        // To validate the password is the same        
         const validationPass = ValidationConfirmPassword(password, confirmPassword)
         setValidation(validationPass)
+
         if (!validationPass.value) {
             console.log('API')
         } 
@@ -71,6 +79,8 @@ const Register = () => {
                                 name='password'
                                 handleState={setPassword}
                                 radiusBorder="md"
+                                error={!validatePassword?.value}
+                                messageValidation={!validatePassword?.value? validatePassword?.message : null}
                                 required={true}
                             />
                             <Input

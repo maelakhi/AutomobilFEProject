@@ -8,6 +8,7 @@ import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { ValidatePassword } from '../../Utils/Validation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -19,11 +20,12 @@ const Item = styled(Paper)(({ theme }) => ({
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [validation, setValidation] = useState({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password)
+        const validationPass = ValidatePassword(password)
+        setValidation(validationPass)
     }
 
 
@@ -51,12 +53,14 @@ const Login = () => {
                                 radiusBorder="md"
                             />
                             <Input 
+                                name='password'
                                 type='password'
                                 placeholder='Password' 
-                                name='password'
                                 handleState={setPassword}
                                 radiusBorder="md"
-                            />
+                                error={!validation?.value}
+                                messageValidation={!validation?.value ? validation?.message : null}
+                                required={true}                            />
                         </div>
                     </Item>
                     <Item elevation={0}>
