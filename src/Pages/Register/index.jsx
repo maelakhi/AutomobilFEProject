@@ -36,80 +36,78 @@ const Register = () => {
 
     return (
       <>
-        <Layout>
-            <form className='container_register' onSubmit={handleSubmit}>
-                <Container maxWidth='sm'>
-                    <Stack spacing={6}>
-                        <Item elevation={0}>
-                            <Typography variant="h3" component="h2" color="#790B0A">
-                                Lets Join our couse!
-                            </Typography>
-                            <Typography variant='h5' component='h3' color="#4F4F4F">
-                                Please register first
-                            </Typography>
-                        </Item>
-                        <Item elevation={0}>
-                            <div className='input_spacing_register' color="green">
-                                <Input
-                                    type='name'
-                                    placeholder='Name' 
-                                    name='name'
-                                    handleState={setName}
-                                    radiusBorder="md"
-                                    required={true}
-                                />
-                                <Input
-                                    type='email'
-                                    placeholder='Email' 
-                                    name='email'
-                                    handleState={setEmail}
-                                    radiusBorder="md"
-                                    required={true}
-                                />
-                                <Input
-                                    type='password'
-                                    placeholder='Password' 
-                                    name='password'
-                                    handleState={setPassword}
-                                    radiusBorder="md"
-                                    required={true}
-                                />
-                                <Input
-                                    type='password'
-                                    placeholder='Confirm Password' 
-                                    name='confirmPassword'
-                                    handleState={setConfirmPassword}
-                                    radiusBorder="md"
-                                    error={!validation?.value}
-                                    messageValidation={!validation?.value ? validation?.message : null}
-                                    required={true}
-                                />
-                            </div>
-                        </Item>
-                        <Item elevation={0}>
-                            <div style={{ display: 'flex', justifyContent: 'end'}}>
-                                <Button
-                                    variant='contained'
-                                    type='submit'
-                                    color='success'
-                                >
-                                    Sign up
-                                </Button>
-                            </div>
-                            <Typography variant="caption" component="p">
-                                Have account? {' '}
-                                <Link
-                                    className='btn-link'
-                                    to={'/login'}
-                                >
-                                    Log In here
-                                </Link>
-                            </Typography>
-                        </Item>
-                    </Stack>
-                </Container>
-           </form>
-        </Layout>    
+        <form method='POST' className='container_register' onSubmit={handleSubmit} style={{ margin: "40px 0 0 0" }}>
+            <Container maxWidth='sm'>
+                <Stack spacing={6}>
+                    <Item elevation={0}>
+                        <Typography variant="h3" component="h2" color="#790B0A">
+                            Lets Join our couse!
+                        </Typography>
+                        <Typography variant='h5' component='h3' color="#4F4F4F">
+                            Please register first
+                        </Typography>
+                    </Item>
+                    <Item elevation={0}>
+                        <div className='input_spacing_register' color="green">
+                            <Input
+                                type='name'
+                                placeholder='Name' 
+                                name='name'
+                                handleState={setName}
+                                radiusBorder="md"
+                                required={true}
+                            />
+                            <Input
+                                type='email'
+                                placeholder='Email' 
+                                name='email'
+                                handleState={setEmail}
+                                radiusBorder="md"
+                                required={true}
+                            />
+                            <Input
+                                type='password'
+                                placeholder='Password' 
+                                name='password'
+                                handleState={setPassword}
+                                radiusBorder="md"
+                                required={true}
+                            />
+                            <Input
+                                type='password'
+                                placeholder='Confirm Password' 
+                                name='confirmPassword'
+                                handleState={setConfirmPassword}
+                                radiusBorder="md"
+                                error={!validation?.value}
+                                messageValidation={!validation?.value ? validation?.message : null}
+                                required={true}
+                            />
+                        </div>
+                    </Item>
+                    <Item elevation={0}>
+                        <div style={{ display: 'flex', justifyContent: 'end'}}>
+                            <Button
+                                variant='contained'
+                                type='submit'
+                                color='success'
+                            >
+                                Sign up
+                            </Button>
+                        </div>
+                        <Typography variant="caption" component="p">
+                            Have account? {' '}
+                            <Link
+                                className='btn-link'
+                                to={'/login'}
+                            >
+                                Log In here
+                            </Link>
+                        </Typography>
+                    </Item>
+                </Stack>
+            </Container>
+        </form> 
       </>
   )
 }

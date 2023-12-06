@@ -28,49 +28,47 @@ const ResetPassword = () => {
 
     return (
       <>
-        <Layout>
-            <form className='container_resetPassword' onSubmit={handleSubmit}>
-                <Container maxWidth='sm'>
-                    <Stack spacing={6}>
-                        <Item elevation={0}>
-                            <Typography variant="h4" component="h3">
-                                Reset Password
-                            </Typography>
-                            <Typography variant='h6' component='h4'>
-                                Send OTP Code to your email address
-                            </Typography>
-                        </Item>
-                        <Item elevation={0}>
-                            <Input 
-                                name='email'
-                                type='email'
-                                placeholder='Email'
-                                handleState={setEmail}
-                                radiusBorder="md"
-                            />
-                        </Item>
-                        <Item elevation={0}>
-                            <Stack direction="row" spacing={2} justifyContent='end'>
-                            <Button
-                                component={Link} to="/Login"
-                                variant='outlined'
-                                color='success'
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                component={Link} to="/createpassword"
-                                variant='contained'
-                                color='success'
-                            >
-                                Confirm
-                            </Button>                                
-                        </Stack>
-                        </Item>
+        <form className='container_resetPassword' onSubmit={handleSubmit}>
+            <Container maxWidth='sm'>
+                <Stack spacing={6}>
+                    <Item elevation={0}>
+                        <Typography variant="h4" component="h3">
+                            Reset Password
+                        </Typography>
+                        <Typography variant='h6' component='h4'>
+                            Send OTP Code to your email address
+                        </Typography>
+                    </Item>
+                    <Item elevation={0}>
+                        <Input 
+                            name='email'
+                            type='email'
+                            placeholder='Email'
+                            handleState={setEmail}
+                            radiusBorder="md"
+                        />
+                    </Item>
+                    <Item elevation={0}>
+                        <Stack direction="row" spacing={2} justifyContent='end'>
+                        <Button
+                            component={Link} to="/Login"
+                            variant='outlined'
+                            color='success'
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            component={Link} to="/createpassword"
+                            variant='contained'
+                            color='success'
+                        >
+                            Confirm
+                        </Button>                                
                     </Stack>
-                </Container>
-           </form>
-        </Layout>    
+                    </Item>
+                </Stack>
+            </Container>
+        </form>  
       </>
   )
 }
