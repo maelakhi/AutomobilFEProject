@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,7 +16,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 
 
 import logo from '../../Assets/Frame 1738.png'
-import { useNavigate, } from 'react-router-dom';
+import { Outlet, useNavigate, } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -56,7 +55,7 @@ const navItems = [
 
 
 const Layout = (props) => {
-  const { window, children } = props;
+  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -92,7 +91,7 @@ const Layout = (props) => {
     <ThemeProvider theme={myTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ background: '#FFFFFF', boxShadow:'none'}}>
+        <AppBar component="nav" sx={{ background: '#FFFFFF', boxShadow: 'none'}}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -104,7 +103,7 @@ const Layout = (props) => {
               <MenuIcon />
             </IconButton>
             <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-              <img src={logo} alt="LOGO" />
+              <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block'} }}>
               {navItems.map((item) => {
@@ -134,23 +133,15 @@ const Layout = (props) => {
             }}
             sx={{
               display: { xs: 'block', sm: 'none' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, boxShadow:'none' },
-              boxShadow:'none'
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
             }}
           >
             {drawer}
           </Drawer>
         </nav>
-        <Box component="main" sx={{ py: 3 }}>
+        <Box component="main" sx={{  width: '100%' }}>
           {/* <Toolbar /> */}
-          <div style={{
-            display: 'flex',
-            justifyItems: 'center',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            {children}
-          </div>
+            <Outlet />
         </Box>
       </Box>
     </ThemeProvider>
