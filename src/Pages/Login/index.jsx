@@ -1,14 +1,14 @@
 // import React from 'react'
-import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './Login.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword } from '../../Utils/Validation'
+import authContext from '../../Context/authContext'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -18,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Login = () => {
+    const authCtx = useContext(authContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validation, setValidation] = useState({})
@@ -26,6 +27,7 @@ const Login = () => {
         e.preventDefault();
         const validationPass = ValidatePassword(password)
         setValidation(validationPass)
+        authCtx.setLogIn(true)
     }
 
 
@@ -51,6 +53,7 @@ const Login = () => {
                                 placeholder='Email'
                                 handleState={setEmail}
                                 radiusBorder="md"
+                                // required={true}  
                             />
                             <Input 
                                 name='password'
@@ -58,9 +61,10 @@ const Login = () => {
                                 placeholder='Password' 
                                 handleState={setPassword}
                                 radiusBorder="md"
-                                error={!validation?.value}
-                                messageValidation={!validation?.value ? validation?.message : null}
-                                required={true}                            />
+                                // error={!validation?.value}
+                                // messageValidation={!validation?.value ? validation?.message : null}
+                                // required={true}                            
+                            />
                         </div>
                     </Item>
                     <Item elevation={0}>

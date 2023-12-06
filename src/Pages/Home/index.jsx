@@ -5,6 +5,7 @@ import imgThree from '../../assets/Image/image_bg2.png'
 import { useEffect, useState } from 'react'
 import { dataMobil, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
+import { Link } from 'react-router-dom'
 // import CardCar from '../../components/CardCar'
 
 const Home = () => {
@@ -174,15 +175,20 @@ const Home = () => {
                     </Grid>
                 </Box>
                 <Box sx={{ padding: "2% 0  2%  8%" }}>
-                    <Grid container spacing={3} justifyContent='center'>
-                        <Grid item lg={7}>
-                            <Typography variant='h5'>
-                                Gets your best benefit
-                            </Typography>
-                            <Typography variant="p" color="text.secondary">
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.
-                                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-                            </Typography>
+                    <Grid container columnSpacing={2} >
+                        <Grid item lg={7} >
+                            <Stack sx={{ flex: 'column', justifyContent: 'center', width:'100%', height:'100%' }}>
+                                <Typography variant='h5'sx={{ py: '2%', width:'100%'}}>
+                                    Gets your best benefit
+                                </Typography>
+                                <Typography variant="p" component='p' color="text.secondary" textAlign={'justify'} sx={{ py: '2%'}}>
+                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.
+                                </Typography>
+                                <Typography variant="p" component='p' color="text.secondary" textAlign={'justify'} sx={{ py: '2%'}}>
+                                    Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                                </Typography>
+                            </Stack>
+
                         </Grid>
                         <Grid item lg={5} >
                                 <Box
@@ -200,7 +206,7 @@ const Home = () => {
                                         src={imgTwo}
                                         style={{
                                             padding: "0 8%  0  0",
-                                            width: '100%', maxHeight: '40vh',
+                                            width: '100%',
                                             backgroundSize: 'cover',
                                             zIndex: 10
                                         }}     
@@ -218,7 +224,7 @@ const Home = () => {
                             return (
                                 <>
                                     <Grid item lg={3} md={4} sm={6} xs={6}>
-                                        <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                        <Stack sx={{ justifyContent: 'center', alignItems: 'center' }} component={Link} to="/listmenu">
                                             <Card sx={{ maxWidth: 345, boxShadow: 'none',":hover": { boxShadow: 3 } }}>
                                                 <CardMedia
                                                     sx={{ height: 140, minWidth: '180px', width: '100%' }}
@@ -240,7 +246,6 @@ const Home = () => {
                                         </Stack>
                                     </Grid>
                                 </>
-                                
                             )
                         })}
                         
