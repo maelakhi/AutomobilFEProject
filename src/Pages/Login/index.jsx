@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import './Login.css'
 import { useContext, useState } from 'react'
 import Input from '../../Components/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword } from '../../Utils/Validation'
@@ -18,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Login = () => {
+    const navigate = useNavigate()
     const authCtx = useContext(authContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,7 +28,9 @@ const Login = () => {
         e.preventDefault();
         const validationPass = ValidatePassword(password)
         setValidation(validationPass)
-        authCtx.setLogIn({type: "LOGIN", value: false})
+        
+        authCtx.setLogIn({ type: "LOGIN", value: false })
+        navigate('/')
     }
 
 
