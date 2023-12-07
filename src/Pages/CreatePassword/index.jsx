@@ -8,6 +8,7 @@ import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { Container, Stack, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -20,63 +21,77 @@ const Item = styled(Paper)(({ theme }) => ({
 const CreatePassword = () => {
     const [newPassword, setPassword] = useState('');
     const [confirmNewPassword, setNewPassword] = useState('');
-
+    const [validation, setValidation] = useState({})
+    const [validatePassword, setValidatePassword] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(newPassword, confirmNewPassword)
-    }
 
+        // To check the password strength
+        const validatePass = ValidatePassword(newPassword, setPassword)
+        setValidatePassword(validatePass)
+
+        // To validate the password is the same
+        const validationPass = ValidationConfirmPassword(newPassword, confirmNewPassword)
+        setValidation(validationPass)
+
+        if (!validationPass.value) {
+            console.log('API')
+        } 
+    }
 
     return (
       <>
-        <Layout>
-            <form className='container_createPassword' onSubmit={handleSubmit}>
-                <Container maxWidth="sm">
-                    <Stack spacing={6}>
-                        <Item elevation={0}>
-                            <Typography variant="h4" component="h3">
-                                Create Password
-                            </Typography>
-                        </Item> 
-                        <Item elevation={0}>
-                            <div className='input_spacing_createPassword'>
-                                <Input 
-                                    type='password'
-                                    placeholder='New Password'
-                                    handleState={setPassword}
-                                    radiusBorder="md"
-                                />
-                                <Input 
-                                    placeholder='Confirm New Password'
-                                    handleState={setNewPassword}
-                                    radiusBorder="md"
-                                />
-                            </div>
-                        </Item>
-                        <Item elevation={0}>
-                            <Stack direction="row" spacing={2} justifyContent='end'>
-                                <Button
-                                    component={Link} to="/Login"
-                                    variant='outlined'
-                                    color='success'
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    component={Link} to="/"
-                                    variant='contained'
-                                    type='submit'
-                                    color='success'
-                                >
-                                    Submit
-                                </Button>
-                            </Stack>    
-                        </Item>
-                    </Stack>
-                </Container>
-           </form>
-        </Layout>    
+        <form method='POST' className='container_createPassword' onSubmit={handleSubmit}>
+            <Container maxWidth="sm">
+                <Stack spacing={6}>
+                    <Item elevation={0}>
+                        <Typography variant="h4" component="h3">
+                            Create Password
+                        </Typography>
+                    </Item> 
+                    <Item elevation={0}>
+                        <div className='input_spacing_createPassword'>
+                            <Input 
+                                type='password'
+                                placeholder='New Password'
+                                radiusBorder="md"
+                                handleState={setPassword}
+                                required={true}
+                                error={!validatePassword?.value}
+                                messageValidation={!validatePassword?.value ? validatePassword.message : null}                            />
+                            <Input 
+                                placeholder='Confirm New Password'
+                                radiusBorder="md"
+                                handleState={setNewPassword}
+                                required={true}
+                                error={!validation?.value}
+                                messageValidation={!validation?.value ? validation?.message : null}
+                            />
+                        </div>
+                    </Item>
+                    <Item elevation={0}>
+                        <Stack direction="row" spacing={2} justifyContent='end'>
+                            <Button
+                                component={Link} to="/Login"
+                                variant='outlined'
+                                color='success'
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                // component={Link} to="/"
+                                variant='contained'
+                                type='submit'
+                                color='success'
+                            >
+                                Submit
+                            </Button>
+                        </Stack>    
+                    </Item>
+                </Stack>
+            </Container>
+        </form>  
       </>
   )
 }

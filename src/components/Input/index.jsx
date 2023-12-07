@@ -9,36 +9,29 @@ const InputField = ({
   type,
   placeholder,
   handleState,
-  // backgroundColor='transparent',
-  // radiusBorder,
+  required=false,
+  error=false,
+  messageValidation,
 }) => {
-
-  // const handleOnchange = (e) => {
-  //   handleState(e)
-  // }
   // const rdStyle = {
   //   md : 'input-rd-medium'
   // }
 
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <>
-      {/* <input
-          className={`default-input ${rdStyle[radiusBorder]} ${rdStyle[radiusBorder]}`}
-          type={type}
-          placeholder={placeholder}
-          name={name}
-          onChange={(e) => handleOnchange(e.target.value)}
-      /> */}
         <TextField 
           sx={{ width: '100%'}}
           name={name}
           type={type}
           placeholder={placeholder}
-          onChange={handleState}
+          onChange={(e) => handleState(e.target.value)}
+          required={required}
+          error={error}
+          helperText={messageValidation}
         />
     </>
   )
