@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { Container, Grid, ThemeProvider, Typography, createTheme } from "@mui/material";
+import { Container, Grid, Stack, ThemeProvider, Typography, createTheme } from "@mui/material";
 import logo from '../../Assets/Frame 1738.png'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import authContext from '../../Context/authContext';
@@ -51,13 +51,13 @@ const myTheme = createTheme({
 });
 
 const navItems = [
-  { label:'Sign Up', variant: 'contained', color: 'warning', link: '/register'},
-  { label:'Login', variant: 'contained' ,color: 'success', link: '/login'},
+  { label: 'Sign Up', variant: 'contained', color: 'warning', link: '/register' },
+  { label: 'Login', variant: 'contained', color: 'success', link: '/login' },
 ];
 
 const navItemsLogin = [
   {
-    icon: <ShoppingCartIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }}  />,
+    icon: <ShoppingCartIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
     label: 'Cart', variant: '', color: 'warning', link: '/cart'
   },
   {
@@ -67,7 +67,11 @@ const navItemsLogin = [
   {
     icon: null,
     label: 'Invoice', variant: '', color: 'success', link: '/invoice',
-    divider: <Divider orientation="vertical" sx={{ borderRightWidth: 3, borderColor: '#790B0A' }} flexItem />
+    divider:
+      <Divider orientation="vertical"
+        sx={{ borderRightWidth: 3, borderColor: '#790B0A', my: '2%' }}
+        flexItem 
+      />
   },
   {
     icon: <PersonIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
@@ -102,7 +106,7 @@ const Layout = (props) => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Box sx={{ display: 'flex' }}  onClick={() => handleRedirect('/')}>
+      <Box sx={{ display: 'flex' }} onClick={() => handleRedirect('/')}>
         <img src={logo} alt="LOGO" />
       </Box>
       <Divider />
@@ -115,7 +119,7 @@ const Layout = (props) => {
           </ListItem>
         ))}
         {authCtx.isLogin && navItemsLogin.map((item) => (
-          <ListItem key={item.label} disablePadding  onClick={() => handleRedirect(item.link)}>
+          <ListItem key={item.label} disablePadding onClick={() => handleRedirect(item.link)}>
             <ListItemButton sx={{ textAlign: 'center', justifyContent: "center" }}>
               {item?.icon ? <>{item.icon}{item.label}</> : <ListItemText primary={item.label} />}
             </ListItemButton>
@@ -126,15 +130,20 @@ const Layout = (props) => {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-  
+
   return (
     <ThemeProvider theme={myTheme}>
-      
-        <Box sx={{ display: 'flex' }}>
+
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ background: '#FFFFFF', boxShadow: 'none'}}>
-          <Container maxWidth='xl' sx={{ padding: '0px !important'}}>
-            <Toolbar>
+        <AppBar component="nav"
+          sx={{
+            background: '#FFFFFF',
+            boxShadow: 'none', padding: '0px !important'
+          }}
+        >
+          <Container maxWidth='xl' sx={{ padding: '0px !important' }} >
+            <Toolbar >
               {!authCtx.isLogin && (
                 <IconButton
                   color="inherit"
@@ -157,115 +166,165 @@ const Layout = (props) => {
                   <MenuIcon />
                 </IconButton>
               )}
-              
               {!authCtx.isLogin && (
-                <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                  <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
-                </Box>
-              )}
-              {authCtx.isLogin && (
-                <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', md: 'block' } }}>
-                  <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
-                </Box>
-              )}
-              {!authCtx.isLogin && (
-                <Box sx={{ display: { xs: 'none', sm: 'block'}}}>
-                  {navItems.map((item) => {
-                    return (
-                      <Button
-                        key={item.label}
-                        variant={item.variant}
-                        color={item.color}
-                        sx={{ mx: '10px' }}
-                        onClick={() => handleRedirect(item.link)}
+                <>
+                  <Grid container sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                    <Grid item sm md={6} >
+                      <Link to={"/"}>
+                        <Box
+                          component="img"
+                          sx={{
+                            height: '100%',
+                            width: '100%',
+                            maxWidth: '200px'
+                          }}
+                          alt="Car Image"
+                          src={logo}
+                        />
+                      </Link>
+                    </Grid>
+                    <Grid item md={6}>
+                      <Box
+                        sx={{
+                          height: '100%',
+                          display: { xs: 'none', sm: 'flex' },
+                          justifyContent: 'end',
+                          alignItems: 'center'
+                        }}
                       >
-                        {item.label}
-                      </Button>
-                    )
-                  })}
-                </Box>
+                        {navItems.map((item) => {
+                          return (
+                            <Button
+                              key={item.label}
+                              variant={item.variant}
+                              color={item.color}
+                              sx={{ mx: '10px' }}
+                              onClick={() => handleRedirect(item.link)}
+                            >
+                              {item.label}
+                            </Button>
+                          )
+                        })}
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </>
               )}
               {authCtx.isLogin && (
-                <Box sx={{ display: { xs: 'none', md: 'block'} }}>
-                  <Grid container >
-                    {navItemsLogin.map((item) =>(
-                      <>
-                        <Grid item lg={2} key={item.label}>
-                          {item.label == 'LogOut' ? (
-                            <>
-                              <Button onClick={() => handleLogOut()}>
-                                  {item?.icon ?
-                                    item.icon :
-                                    <Typography component="p" variant='subtitle2' color="#790B0A">
-                                    {item.label}
-                                    </Typography>
-                                  }
-                                </Button>
-                            </>
-                          ): (
+                <>
+                  <Grid container sx={{ display: { sm: 'none', md: 'flex' } }}>
+                    <Grid item sm md={6} >
+                      <Link to={"/"}>
+                        <Box
+                          component="img"
+                          sx={{
+                            height: '100%',
+                            width: '100%',
+                            maxWidth: '200px'
+                          }}
+                          alt="Car Image"
+                          src={logo}
+                        />
+                      </Link>
+                    </Grid>
+                    <Grid item md={6}>
+                      <Box
+                        sx={{
+                          height: '100%',
+                          display: { xs: 'none', sm: 'flex' },
+                          justifyContent: 'end',
+                          alignItems: 'center',
+                          gap: '20px',
+                          px: '1%'
+                        }}
+                      >
+                          {/* <Grid container sx={{ border: '2px solid black', width: '100%' }}> */}
+                            {navItemsLogin.map((item) => (
                               <>
-                                <Button  component={Link} to={item.link} key={item.label}>
-                                  {item?.icon ?
-                                    item.icon :
-                                    <Typography component="p" variant='subtitle2' color="#790B0A">
-                                    {item.label}
-                                    </Typography>
-                                  }
-                                </Button>
+                                {/* <Grid item lg={2} key={item.label}> */}
+                                  <Box sx={{width: '100%'}}    key={item.label}>
+                                    {item.label == 'LogOut' ? (
+                                      <>
+                                      <Button onClick={() => handleLogOut()} >
+                                          {item?.icon ?
+                                            item.icon :
+                                            <Typography component="p" variant='caption' color="#790B0A">
+                                              {item.label}
+                                            </Typography>
+                                          }
+                                        </Button>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Button
+                                          component={Link}
+                                          to={item.link}
+                                          sx={{ minWidth: '100px' }}
+                                        >
+                                          {item?.icon ?
+                                            item.icon :
+                                            <Typography component="p" variant='caption' color="#790B0A">
+                                              {item.label}
+                                            </Typography>
+                                          }
+                                        </Button>
+                                      </>
+                                    )}
+                                  </Box>
+                                {/* </Grid> */}
+                                {item?.divider && (item?.divider)}
                               </>
-                          )}
-                          
-                        </Grid>
-                        {item?.divider && (item?.divider)}
-                      </>
-                    ))}
+                            ))}
+                          {/* </Grid> */}
+                        </Box>
+                    </Grid>
                   </Grid>
-                </Box>
+                </>
               )}
             </Toolbar>
           </Container>
-          </AppBar>
-          <nav>
-            {!authCtx.isLogin && (
-              <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                  display: { xs: 'block', sm: 'none' },
-                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
-                }}
-              >
-                {drawer}
-              </Drawer>
-            )}
-            {authCtx.isLogin && (
-              <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                  display: { md: 'block', lg: 'none' },
-                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
-                }}
-              >
-                {drawer}
-              </Drawer>
-            )}
-          </nav>
-          <Box component="main" sx={{  width: '100%' }}>
-            {/* <Toolbar /> */}
-              <Outlet />
-          </Box>
+        </AppBar>
+        <nav>
+          {!authCtx.isLogin && (
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { xs: 'block', sm: 'none' },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+              }}
+            >
+              {drawer}
+            </Drawer>
+          )}
+          {authCtx.isLogin && (
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { md: 'block', lg: 'none' },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+              }}
+            >
+              {drawer}
+            </Drawer>
+          )}
+        </nav>
+        <Box component="main" sx={{ width: '100%' }}>
+          {/* <Toolbar /> */}
+          <Outlet />
         </Box>
+      </Box>
     </ThemeProvider>
 
   );
