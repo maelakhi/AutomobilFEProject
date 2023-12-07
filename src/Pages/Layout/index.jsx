@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { Grid, ThemeProvider, Typography, createTheme } from "@mui/material";
+import { Container, Grid, ThemeProvider, Typography, createTheme } from "@mui/material";
 import logo from '../../Assets/Frame 1738.png'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import authContext from '../../Context/authContext';
@@ -129,140 +129,143 @@ const Layout = (props) => {
   
   return (
     <ThemeProvider theme={myTheme}>
-      <Box sx={{ display: 'flex' }}>
+      
+        <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar component="nav" sx={{ background: '#FFFFFF', boxShadow: 'none'}}>
-          <Toolbar>
-            {!authCtx.isLogin && (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#000000' }}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
-            {authCtx.isLogin && (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { md: 'none' }, color: '#000000' }}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
-            
-            {!authCtx.isLogin && (
-              <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
-              </Box>
-            )}
-            {authCtx.isLogin && (
-              <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', md: 'block' } }}>
-                <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
-              </Box>
-            )}
-            {!authCtx.isLogin && (
-              <Box sx={{ display: { xs: 'none', sm: 'block'}}}>
-                {navItems.map((item) => {
-                  return (
-                    <Button
-                      key={item.label}
-                      variant={item.variant}
-                      color={item.color}
-                      sx={{ mx: '10px' }}
-                      onClick={() => handleRedirect(item.link)}
-                    >
-                      {item.label}
-                    </Button>
-                  )
-                })}
-              </Box>
-            )}
-            {authCtx.isLogin && (
-              <Box sx={{ display: { xs: 'none', md: 'block'} }}>
-                <Grid container >
-                  {navItemsLogin.map((item) =>(
-                    <>
-                      <Grid item lg={2} key={item.label}>
-                        {item.label == 'LogOut' ? (
-                          <>
-                             <Button onClick={() => handleLogOut()}>
-                                {item?.icon ?
-                                  item.icon :
-                                  <Typography component="p" variant='subtitle2' color="#790B0A">
-                                  {item.label}
-                                  </Typography>
-                                }
-                              </Button>
-                          </>
-                        ): (
+          <Container maxWidth='xl' sx={{ padding: '0px !important'}}>
+            <Toolbar>
+              {!authCtx.isLogin && (
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ mr: 2, display: { sm: 'none' }, color: '#000000' }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+              {authCtx.isLogin && (
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ mr: 2, display: { md: 'none' }, color: '#000000' }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+              
+              {!authCtx.isLogin && (
+                <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+                  <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
+                </Box>
+              )}
+              {authCtx.isLogin && (
+                <Box component="div" sx={{ flexGrow: 1, display: { xs: 'none', md: 'block' } }}>
+                  <img src={logo} alt="LOGO" onClick={() => handleRedirect('/')} />
+                </Box>
+              )}
+              {!authCtx.isLogin && (
+                <Box sx={{ display: { xs: 'none', sm: 'block'}}}>
+                  {navItems.map((item) => {
+                    return (
+                      <Button
+                        key={item.label}
+                        variant={item.variant}
+                        color={item.color}
+                        sx={{ mx: '10px' }}
+                        onClick={() => handleRedirect(item.link)}
+                      >
+                        {item.label}
+                      </Button>
+                    )
+                  })}
+                </Box>
+              )}
+              {authCtx.isLogin && (
+                <Box sx={{ display: { xs: 'none', md: 'block'} }}>
+                  <Grid container >
+                    {navItemsLogin.map((item) =>(
+                      <>
+                        <Grid item lg={2} key={item.label}>
+                          {item.label == 'LogOut' ? (
                             <>
-                              <Button  component={Link} to={item.link} key={item.label}>
-                                {item?.icon ?
-                                  item.icon :
-                                  <Typography component="p" variant='subtitle2' color="#790B0A">
-                                  {item.label}
-                                  </Typography>
-                                }
-                              </Button>
+                              <Button onClick={() => handleLogOut()}>
+                                  {item?.icon ?
+                                    item.icon :
+                                    <Typography component="p" variant='subtitle2' color="#790B0A">
+                                    {item.label}
+                                    </Typography>
+                                  }
+                                </Button>
                             </>
-                        )}
-                        
-                      </Grid>
-                      {item?.divider && (item?.divider)}
-                    </>
-                  ))}
-                </Grid>
-              </Box>
+                          ): (
+                              <>
+                                <Button  component={Link} to={item.link} key={item.label}>
+                                  {item?.icon ?
+                                    item.icon :
+                                    <Typography component="p" variant='subtitle2' color="#790B0A">
+                                    {item.label}
+                                    </Typography>
+                                  }
+                                </Button>
+                              </>
+                          )}
+                          
+                        </Grid>
+                        {item?.divider && (item?.divider)}
+                      </>
+                    ))}
+                  </Grid>
+                </Box>
+              )}
+            </Toolbar>
+          </Container>
+          </AppBar>
+          <nav>
+            {!authCtx.isLogin && (
+              <Drawer
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                  display: { xs: 'block', sm: 'none' },
+                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+                }}
+              >
+                {drawer}
+              </Drawer>
             )}
-          </Toolbar>
-        </AppBar>
-        <nav>
-          {!authCtx.isLogin && (
-            <Drawer
-              container={container}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                display: { xs: 'block', sm: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
-              }}
-            >
-              {drawer}
-            </Drawer>
-          )}
-          {authCtx.isLogin && (
-            <Drawer
-              container={container}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                display: { md: 'block', lg: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
-              }}
-            >
-              {drawer}
-            </Drawer>
-          )}
-        </nav>
-        <Box component="main" sx={{  width: '100%' }}>
-          {/* <Toolbar /> */}
-            <Outlet />
+            {authCtx.isLogin && (
+              <Drawer
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                  display: { md: 'block', lg: 'none' },
+                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+                }}
+              >
+                {drawer}
+              </Drawer>
+            )}
+          </nav>
+          <Box component="main" sx={{  width: '100%' }}>
+            {/* <Toolbar /> */}
+              <Outlet />
+          </Box>
         </Box>
-      </Box>
     </ThemeProvider>
 
   );

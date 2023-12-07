@@ -28,7 +28,7 @@ const AuthProvider = ({children}) => {
         dispatchAuthAction({type: 'LOGOUT', value: value})
     }
 
-     const handleLogin = (value) =>{
+    const handleLogin = (value) =>{
         dispatchAuthAction({type: "LOGIN", value: value})
     }
 

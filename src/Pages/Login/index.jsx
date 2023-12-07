@@ -27,7 +27,7 @@ const Login = () => {
         e.preventDefault();
         const validationPass = ValidatePassword(password)
         setValidation(validationPass)
-        authCtx.setLogIn(true)
+        authCtx.setLogIn({type: "LOGIN", value: false})
     }
 
 

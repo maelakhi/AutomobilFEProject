@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { dataMobil, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import { Link } from 'react-router-dom'
-// import CardCar from '../../components/CardCar'
+import './Home.css'
 
 const Home = () => {
     const [dataCar, setDataCar] = useState([])
@@ -22,7 +22,7 @@ const Home = () => {
     
     return (
         <>
-            <Container maxWidth={false} sx={{ mt: '60px', padding: '0px !important' }}>
+            <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
                 {/* Header */}
                 <Box
                     sx={{
@@ -32,9 +32,7 @@ const Home = () => {
                         backgroundRepeat: "no-repeat",
                         backgroundSize: 'cover',
                         width: '100%',
-                        height: '100%',
-                        minHeight: '60vh',
-                        minWidth: '95vw'
+                        height: '100%'                      
                     }}
                 >
                     <Stack
@@ -128,7 +126,7 @@ const Home = () => {
                     </Stack>
                 </Box>
                 {/* Body */}
-                <Box sx={{ padding: "5%" }}>
+                <Container maxWidth='lg' sx={{padding: '0px !important'}}>
                     <Typography variant='h5' sx={{ textAlign: 'center', mb: "5% "}}>
                         Join us for the course
                     </Typography>
@@ -173,11 +171,11 @@ const Home = () => {
                         })}
                         
                     </Grid>
-                </Box>
-                <Box sx={{ padding: "2% 0  2%  8%" }}>
-                    <Grid container columnSpacing={2} >
-                        <Grid item lg={7} >
-                            <Stack sx={{ flex: 'column', justifyContent: 'center', width:'100%', height:'100%' }}>
+                </Container>
+                <Container maxWidth='xl' sx={{ px: '0 !important', py: '5%' }}>
+                    <Grid container columnSpacing={2}>
+                        <Grid item md={7}  sm={12}>
+                            <div className='box_header_benefit'>
                                 <Typography variant='h5'sx={{ py: '2%', width:'100%'}}>
                                     Gets your best benefit
                                 </Typography>
@@ -187,10 +185,9 @@ const Home = () => {
                                 <Typography variant="p" component='p' color="text.secondary" textAlign={'justify'} sx={{ py: '2%'}}>
                                     Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
                                 </Typography>
-                            </Stack>
-
+                            </div>
                         </Grid>
-                        <Grid item lg={5} >
+                        <Grid item md={5} sm={12}>
                                 <Box
                                     sx={{
                                         backgroundImage: `url(${imgThree})`,
@@ -214,8 +211,8 @@ const Home = () => {
                                 </Box>
                         </Grid>
                     </Grid>
-                </Box>
-                <Box sx={{ padding: "5%" }}>
+                </Container>
+                <Container maxWidth='lg' sx={{padding: '0px !important'}}>
                     <Typography variant='h5' sx={{ textAlign: 'center', mb: "5% "}}>
                         More car type you can choose
                     </Typography>
@@ -250,7 +247,7 @@ const Home = () => {
                         })}
                         
                     </Grid>
-                </Box>
+                </Container>
                 {/* Footer */}
                 <Footer />
             </Container>
