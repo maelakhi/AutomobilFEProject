@@ -7,6 +7,7 @@ import CreatePasswordPage from './Pages/CreatePassword'
 import ListMenuPage from './Pages/ListMenu'
 import './App.css'
 import Layout from "./Pages/Layout";
+import ClassDetailsPage from "./Pages/ClassDetails";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/resetpassword' element={<ResetPasswordPage /> } />
           <Route path='/createpassword' element={<CreatePasswordPage /> } />
           <Route path='/listmenu' element={<ListMenuPage /> } />
+          <Route path='/classdetails' element={<ClassDetailsPage /> } />
         </Route>
     </Routes>
     </>
