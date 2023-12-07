@@ -15,7 +15,7 @@ const ListMenu = () => {
 
     return (
         <>
-            <Container maxWidth={false} sx={{ mt: '60px', padding: '0px !important' }}>
+            <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
                 {/* Header */}
                 <Box
                     sx={{
@@ -26,8 +26,7 @@ const ListMenu = () => {
                         backgroundSize: 'cover',
                         width: '100%',
                         height: '100%',
-                        minHeight: '60vh',
-                        minWidth: '95vw'
+                        minHeight: '60vh'
                     }}
                 >
                 </Box>
