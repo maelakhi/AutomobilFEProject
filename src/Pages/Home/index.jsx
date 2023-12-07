@@ -3,26 +3,36 @@ import background_header from '../../assets/Image/background_home.png'
 import imgTwo from '../../assets/Image/image_bg.png'
 import imgThree from '../../assets/Image/image_bg2.png'
 import { useEffect, useState } from 'react'
-import { dataMobil, typeCar as typeCarRaw } from '../../data'
+// import { dataMobil, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import { Link } from 'react-router-dom'
 import './Home.css'
+import ServiceLandingPage from '../../Service/ServiceLandingPage'
+import LoadingAnimation from '../../components/LoadingAnimation'
 
 const Home = () => {
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        setDataCar(dataMobil)
-        setTypeCar(typeCarRaw)
-    //   return () => {
-    //     second
-    //   }
+        setIsLoading(true)
+        Promise.allSettled([
+            ServiceLandingPage.GetCarsLimit(),
+            ServiceLandingPage.GetCategoryData()
+        ])
+        .then(([getCarsLimit, categoryData]) => {
+            setDataCar(getCarsLimit.value.data)
+            setTypeCar(categoryData.value.data)
+        })
+        .then((response) => setIsLoading(false))
     }, [])
-    
+
+
     return (
         <>
             <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
+            {isLoading && (<LoadingAnimation />)}
                 {/* Header */}
                 <Box
                     sx={{
@@ -127,31 +137,39 @@ const Home = () => {
                 </Box>
                 {/* Body */}
                 <Container maxWidth='lg' sx={{padding: '0px !important'}}>
-                    <Typography variant='h5' sx={{ textAlign: 'center', mb: "5% "}}>
+                    <Typography variant='h5' sx={{ textAlign: 'center', my: "5% "}}>
                         Join us for the course
                     </Typography>
                     <Grid container rowGap={6} alignItems='center' justifyContent='center' >
-                        {dataCar && dataCar.map((value) => {
+                        {dataCar && dataCar.map((value, index) => {
                             return (
-                                <>
-                                   <Grid item lg={4} md={6} sm={12}>
+                                <Grid item lg={4} md={6} sm={12} key={index}>
                                     <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
                                         <Card sx={{ maxWidth: 345, ":hover": { boxShadow: 3 } }}>
                                             <CardMedia
-                                                sx={{ height: 140, width: '100%' }}
-                                                image={value.image}
-                                                title={value.typeCar}
+                                                sx={{ height: 140, width: '100%'  }}
+                                                image={`data:image/jpeg;base64, ${value.image}`}
+                                                title={value.type_name}
                                             />
                                             <CardContent>
                                                 <Typography gutterBottom variant="caption" component="p" color="gray">
-                                                    {value.typeCar}
+                                                    {value.type_name}
                                                 </Typography>
-                                                <Typography gutterBottom variant="h6" component="p" noWrap={true}>
+                                                <Typography gutterBottom variant="h6" component="p" >
                                                     {value.title}
                                                 </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                                                    species, ranging across all continents except Antarctica
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                    paragraph={true}
+                                                    sx={{
+                                                        wordBreak: "break-word",
+                                                        textAlign: 'justify',
+                                                        height: '100%'
+                                                    }}
+                                                    noWrap={true}
+                                                >
+                                                    {value.description}
                                                 </Typography>
                                                 <Typography
                                                     variant="h6"
@@ -165,8 +183,6 @@ const Home = () => {
                                         </Card>
                                     </Stack>
                                 </Grid>
-                                </>
-                                
                             )
                         })}
                         
@@ -217,32 +233,34 @@ const Home = () => {
                         More car type you can choose
                     </Typography>
                     <Grid container rowGap={6} alignItems='center' justifyContent='center' >
-                        {typeCar && typeCar.map((value) => {
+                        {typeCar && typeCar.map((value, index) => {
                             return (
-                                <>
-                                    <Grid item lg={3} md={4} sm={6} xs={6}>
-                                        <Stack sx={{ justifyContent: 'center', alignItems: 'center' }} component={Link} to="/listmenu">
-                                            <Card sx={{ maxWidth: 345, boxShadow: 'none',":hover": { boxShadow: 3 } }}>
-                                                <CardMedia
-                                                    sx={{ height: 140, minWidth: '180px', width: '100%' }}
-                                                    image={value.image}
-                                                    title={value.typeCar}
-                                                />
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="p"
-                                                        component="p"
-                                                        color="text.secondary"
-                                                        sx={{ mt: '8%', color: 'black', textAlign: 'center' }}
-                                                    >
-                                                        { value.typeCar }
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions></CardActions>
-                                            </Card>
-                                        </Stack>
-                                    </Grid>
-                                </>
+                                <Grid item lg={3} md={4} sm={6} xs={6} key={index}>
+                                    <Stack
+                                        sx={{ justifyContent: 'center', alignItems: 'center' }}
+                                        component={Link}
+                                        to={`/listmenu/${value.type_name}`}
+                                    >
+                                        <Card sx={{ maxWidth: 345, boxShadow: 'none',":hover": { boxShadow: 3 } }}>
+                                            <CardMedia
+                                                sx={{ height: 140, minWidth: '180px', width: '100%' }}
+                                                image={`data:image/jpeg;base64, ${value.image}`}
+                                                title={value.type_name}
+                                            />
+                                            <CardContent>
+                                                <Typography
+                                                    variant="p"
+                                                    component="p"
+                                                    color="text.secondary"
+                                                    sx={{ mt: '8%', color: 'black', textAlign: 'center' }}
+                                                >
+                                                    { value.type_name }
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions></CardActions>
+                                        </Card>
+                                    </Stack>
+                                </Grid>
                             )
                         })}
                         
