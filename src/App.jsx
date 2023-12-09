@@ -8,6 +8,7 @@ import ListMenuPage from './Pages/ListMenu'
 import './App.css'
 import Layout from "./Pages/Layout";
 import ClassDetailsPage from "./Pages/ClassDetails";
+import CheckoutPage from "./Pages/Checkout";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/createpassword' element={<CreatePasswordPage /> } />
           <Route path='/listmenu/:typeName' element={<ListMenuPage /> } />
           <Route path='/classdetails' element={<ClassDetailsPage /> } />
+          <Route path='/checkout' element={<CheckoutPage /> } />
         </Route>
     </Routes>
     </>
