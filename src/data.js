@@ -60,42 +60,42 @@ const dataMobilListMenu = [
         typeCar: "SUV",
         image: img1,
         title: "Course SUV Kijang Innova",
-        price: '700.000'
+        price: 700000
     },
     {
         id: 2,
         typeCar: "SUV",
         image: img3,
         title: "Hyundai Palisade 2021",
-        price: '800.000'
+        price: 800000
     },
     {
         id: 3,
         typeCar: "SUV",
         image: img7,
         title: "Course Suzuki XL7",
-        price: '600.000'
+        price: 600000
     },
     {
         id: 4,
         typeCar: "SUV",
         image: img8,
         title: "Course Mitsubishi Pajero",
-        price: '800.000'
+        price: 800000
     },
     {
         id: 5,
         typeCar: "SUV",
         image: img9,
         title: "SUV Toyota Fortunner",
-        price: '850.000'
+        price: 850000
     },
     {
         id: 6,
         typeCar: "SUV",
         image: img10,
         title: "Premium Mazda CX-5 Course",
-        price: '1.000.000'
+        price: 1000000
     },
 ]
 
