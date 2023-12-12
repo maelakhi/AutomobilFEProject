@@ -15,42 +15,42 @@ const dataMobil = [
         typeCar: "SUV",
         image: img1,
         title: "Course SUV Kijang Innova",
-        price: '700.000'
+        price: 700000
     },
     {
         id: 2,
         typeCar: "LCGC",
         image: img2,
         title: "Course LCCC Honda Brio",
-        price: '500.000'
+        price: 500000
     },
     {
         id: 3,
         typeCar: "SUV",
         image: img3,
         title: "Hyundai Palisade 2021",
-        price: '800.000'
+        price: 800000
     },
     {
         id: 4,
         typeCar: "SUV",
         image: img4,
         title: "Course Mitsubishi Pajero",
-        price: '800.000'
+        price: 800000
     },
     {
         id: 5,
         typeCar: "Truck",
         image: img5,
         title: "Dump Truck for Mining Constructor",
-        price: '1.200.000'
+        price: 1200000
     },
     {
         id: 6,
         typeCar: "Sedan",
         image: img6,
         title: "Sedan Honda Civic",
-        price: '400.000'
+        price: 400000
     },
 ]
 
