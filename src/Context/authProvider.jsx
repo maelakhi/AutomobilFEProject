@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import AuthContext from './authContext';
 
 const defaultAuthState = {
-    isLogin: false,
+    isLogin: true,
     token: '',
 }
 

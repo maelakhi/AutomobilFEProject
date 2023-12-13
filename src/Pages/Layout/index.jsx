@@ -58,7 +58,7 @@ const navItems = [
 const navItemsLogin = [
   {
     icon: <ShoppingCartIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
-    label: 'Cart', variant: '', color: 'warning', link: '/cart'
+    label: 'Cart', variant: '', color: 'warning', link: '/checkout'
   },
   {
     icon: null,
@@ -69,7 +69,7 @@ const navItemsLogin = [
     label: 'Invoice', variant: '', color: 'success', link: '/invoice',
     divider:
       <Divider orientation="vertical"
-        sx={{ borderRightWidth: 3, borderColor: '#790B0A', my: '2%' }}
+        sx={{ borderRightWidth: 3, borderColor: '#790B0A', my: '1%' }}
         flexItem 
       />
   },
@@ -320,10 +320,10 @@ const Layout = (props) => {
             </Drawer>
           )}
         </nav>
-        <Box component="main" sx={{ width: '100%' }}>
+        <Container maxWidth='xl' sx={{ padding: '0px !important', width: '100%' }}>
           {/* <Toolbar /> */}
           <Outlet />
-        </Box>
+        </Container>
       </Box>
     </ThemeProvider>
 

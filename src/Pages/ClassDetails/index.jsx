@@ -67,7 +67,7 @@ const ClassDetails = () => {
                                     </FormControl>
                                 </Grid>
                                 <Grid item sm={12}>
-                                    <Stack direction="row" spacing={2}>
+                                    <Stack direction={{ sm: 'column', md:'row' }}  columnGap={2} rowGap={2}>
                                     <Button
                                         sx={{width:233.5, height:40}}
                                         variant='outlined'

@@ -56,7 +56,7 @@ const Login = () => {
                                 placeholder='Email'
                                 handleState={setEmail}
                                 radiusBorder="md"
-                                required={true}  
+                                // required={true}  
                             />
                             <Input 
                                 name='password'
@@ -64,9 +64,9 @@ const Login = () => {
                                 placeholder='Password' 
                                 handleState={setPassword}
                                 radiusBorder="md"
-                                error={!validation?.value}
-                                messageValidation={!validation?.value ? validation?.message : null}
-                                required={true}                            
+                                // error={!validation?.value}
+                                // messageValidation={!validation?.value ? validation?.message : null}
+                                // required={true}                            
                             />
                         </div>
                     </Item>

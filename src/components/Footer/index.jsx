@@ -10,7 +10,7 @@ import IC5 from '../../assets/Image/Group 99.png';
 const Footer = () => {
     return (
       <>
-        <Container maxWidth={false} sx={{margin: '0px !important', padding: '0px !important' }}>
+        <Container maxWidth={false} sx={{mx: '0px !important', px: '0px !important', py: '2%', borderTop: '1px solid #d3d3d3' }}>
           <Grid container spacing={3} sx={{ px: '8%'}}>
             <Grid item lg={4} >
                 <Typography sx={{ fontWeight:'800', pb: '5%'}}>

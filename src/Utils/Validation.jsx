@@ -46,10 +46,10 @@ const ValidatePassword = (Password) => {
 
 }
 
-const ValidationEmail = (oldPass, newPass) => {
+// const ValidationEmail = (oldPass, newPass) => {
 
-    return { value: true, message: "Password Same" }
-}
+//     return { value: true, message: "Password Same" }
+// }
 
 
 export {

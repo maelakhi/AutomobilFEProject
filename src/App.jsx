@@ -9,6 +9,10 @@ import './App.css'
 import Layout from "./Pages/Layout";
 import ClassDetailsPage from "./Pages/ClassDetails";
 import CheckoutPage from "./Pages/Checkout";
+import ConfirmationLayout from './components/ConfirmationLayout';
+import EmailConfirmation from "./Pages/ConfirmationPages/EmailConfirmation";
+import PurchaseConfirmation from "./Pages/ConfirmationPages/PurchaseConfirmation";
+import MyClassPage from "./Pages/MyClass";
 
 function App() {
 
@@ -24,7 +28,13 @@ function App() {
           <Route path='/listmenu/:typeName' element={<ListMenuPage /> } />
           <Route path='/classdetails' element={<ClassDetailsPage /> } />
           <Route path='/checkout' element={<CheckoutPage /> } />
+          <Route path='/myclass' element={<MyClassPage /> } />
         </Route>
+        <Route path='/' element={<ConfirmationLayout />}>
+          <Route path="confirmationEmail" element={<EmailConfirmation />} />
+          <Route path="confirmationPurchase" element={<PurchaseConfirmation />} />
+        </Route>
+       
     </Routes>
     </>
   )
