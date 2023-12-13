@@ -15,7 +15,7 @@ const ServiceListMenu = {
             }
         })
         .then((response) => response)
-        .catch((err) => err.response)
+        .catch((err) => console.error(err.message) )
         
         return data
     },
@@ -30,7 +30,7 @@ const ServiceListMenu = {
             }
         })
         .then((response) => response)
-        .catch((err) => err.response)
+        .catch((err) => console.error(err.message) )
         
         return data
     }

@@ -150,7 +150,17 @@ const typeCar = [
     },
 ]
 
+const MyClass = [
+    {
+        id: 1,
+        typeCar: 'SUV',
+        title:'Hyundai Palisade 2021',
+        schedule: 'Wednesday, 27 July 2022',
+        image: img10
+    }
+]
 
 export {
-    dataMobil, typeCar, dataMobilListMenu
+    dataMobil, typeCar, dataMobilListMenu, 
+    MyClass
 }

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import './Home.css'
 import ServiceLandingPage from '../../Service/ServiceLandingPage'
 import LoadingAnimation from '../../components/LoadingAnimation'
+import CardCar from '../../components/CardCar'
 
 const Home = () => {
     const [dataCar, setDataCar] = useState([])
@@ -26,6 +27,8 @@ const Home = () => {
             setTypeCar(categoryData.value.data)
         })
         .then((response) => setIsLoading(false))
+        .catch((error) => { setIsLoading(false) })
+        
     }, [])
 
 
@@ -143,46 +146,7 @@ const Home = () => {
                     <Grid container rowGap={6} alignItems='center' justifyContent='center' >
                         {dataCar && dataCar.map((value, index) => {
                             return (
-                                <Grid item lg={4} md={6} sm={12} key={index}>
-                                    <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <Card sx={{ maxWidth: 345, ":hover": { boxShadow: 3 } }}>
-                                            <CardMedia
-                                                sx={{ height: 140, width: '100%'  }}
-                                                image={`data:image/jpeg;base64, ${value.image}`}
-                                                title={value.type_name}
-                                            />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="caption" component="p" color="gray">
-                                                    {value.type_name}
-                                                </Typography>
-                                                <Typography gutterBottom variant="h6" component="p" >
-                                                    {value.title}
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                    paragraph={true}
-                                                    sx={{
-                                                        wordBreak: "break-word",
-                                                        textAlign: 'justify',
-                                                        height: '100%'
-                                                    }}
-                                                    noWrap={true}
-                                                >
-                                                    {value.description}
-                                                </Typography>
-                                                <Typography
-                                                    variant="h6"
-                                                    color="text.secondary"
-                                                    sx={{ mt: '8%', color: 'black' }}
-                                                >
-                                                    IDR { value.price }
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions></CardActions>
-                                        </Card>
-                                    </Stack>
-                                </Grid>
+                                <CardCar value={value} key={index} />
                             )
                         })}
                         
@@ -190,7 +154,7 @@ const Home = () => {
                 </Container>
                 <Container maxWidth='xl' sx={{ px: '0 !important', py: '5%' }}>
                     <Grid container columnSpacing={2}>
-                        <Grid item md={7}  sm={12}>
+                        <Grid item md={7}  xs={12}>
                             <div className='box_header_benefit'>
                                 <Typography variant='h5'sx={{ py: '2%', width:'100%'}}>
                                     Gets your best benefit
@@ -203,7 +167,7 @@ const Home = () => {
                                 </Typography>
                             </div>
                         </Grid>
-                        <Grid item md={5} sm={12}>
+                        <Grid item md={5} xs={12}>
                                 <Box
                                     sx={{
                                         backgroundImage: `url(${imgThree})`,
@@ -237,7 +201,7 @@ const Home = () => {
                             return (
                                 <Grid item lg={3} md={4} sm={6} xs={6} key={index}>
                                     <Stack
-                                        sx={{ justifyContent: 'center', alignItems: 'center' }}
+                                        sx={{ justifyContent: 'center', alignItems: 'center', textDecoration: 'none' }}
                                         component={Link}
                                         to={`/listmenu/${value.type_name}`}
                                     >
@@ -245,14 +209,14 @@ const Home = () => {
                                             <CardMedia
                                                 sx={{ height: 140, minWidth: '180px', width: '100%' }}
                                                 image={`data:image/jpeg;base64, ${value.image}`}
-                                                title={value.type_name}
+                                                // title={value.type_name}
                                             />
                                             <CardContent>
                                                 <Typography
                                                     variant="p"
                                                     component="p"
                                                     color="text.secondary"
-                                                    sx={{ mt: '8%', color: 'black', textAlign: 'center' }}
+                                                    sx={{ mt: '8%', color: 'black', textAlign: 'center'}}
                                                 >
                                                     { value.type_name }
                                                 </Typography>
