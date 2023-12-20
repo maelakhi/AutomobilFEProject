@@ -19,6 +19,8 @@ import authContext from '../../Context/authContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Cookie from 'js-cookie';
+import { token_name } from '../../data';
 
 const drawerWidth = 240;
 
@@ -99,8 +101,8 @@ const Layout = (props) => {
   }
 
   const handleLogOut = () => {
-    authCtx.setLogOut(false)
-    console.log('test logout')
+    authCtx.setLogOut(null, null)
+    Cookie.remove(token_name)
     return navigate('/')
   }
 
@@ -166,7 +168,7 @@ const Layout = (props) => {
                   <MenuIcon />
                 </IconButton>
               )}
-              {!authCtx.isLogin && (
+              {!authCtx.token && (
                 <>
                   <Grid container sx={{ display: { xs: 'none', sm: 'flex' } }}>
                     <Grid item sm md={6} >
@@ -210,7 +212,7 @@ const Layout = (props) => {
                   </Grid>
                 </>
               )}
-              {authCtx.isLogin && (
+              {authCtx.token && (
                 <>
                   <Grid container sx={{ display: { sm: 'none', md: 'flex' } }}>
                     <Grid item sm md={6} >
@@ -240,8 +242,7 @@ const Layout = (props) => {
                       >
                           {/* <Grid container sx={{ border: '2px solid black', width: '100%' }}> */}
                             {navItemsLogin.map((item) => (
-                              <>
-                                {/* <Grid item lg={2} key={item.label}> */}
+                              <div key={item.label}>
                                   <Box sx={{width: '100%'}}    key={item.label}>
                                     {item.label == 'LogOut' ? (
                                       <>
@@ -271,9 +272,8 @@ const Layout = (props) => {
                                       </>
                                     )}
                                   </Box>
-                                {/* </Grid> */}
                                 {item?.divider && (item?.divider)}
-                              </>
+                              </div>
                             ))}
                           {/* </Grid> */}
                         </Box>
@@ -285,7 +285,7 @@ const Layout = (props) => {
           </Container>
         </AppBar>
         <nav>
-          {!authCtx.isLogin && (
+          {!authCtx.token && (
             <Drawer
               container={container}
               variant="temporary"
@@ -302,7 +302,7 @@ const Layout = (props) => {
               {drawer}
             </Drawer>
           )}
-          {authCtx.isLogin && (
+          {authCtx.token && (
             <Drawer
               container={container}
               variant="temporary"
