@@ -1,21 +1,20 @@
-import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './Register.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Input from '../../Components/Input'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { Container, Paper, Stack } from '@mui/material'
 import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
-
+import Swal from 'sweetalert2';
+import { ServiceLogin } from '../../Service/ServiceUser'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
     ...theme.typography.body2,
     margin: theme.spacing(2),
     elevation: 0,
-    
 }));
 
 const Register = () => {
@@ -23,24 +22,59 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [validation, setValidation] = useState({})
-    const [validatePassword, setValidatePassword] = useState({});
+    const [valPass, setValPass] = useState({})
+    const [valPassCon, setValPassCon] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // To check the password strength
-        const validatePass = ValidatePassword(password)
-        setValidatePassword(validatePass)
-
-        // To validate the password is the same        
-        const validationPass = ValidationConfirmPassword(password, confirmPassword)
-        setValidation(validationPass)
-
-        if (!validationPass.value) {
-            console.log('API')
-        } 
+        // To check the password strength and password is the same  
+        if (valPass.value && valPassCon.value) {
+            const data = { email : email, name: name, password: password}
+            ServiceLogin.Register(data)
+                .then((response) => {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    } else {
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    }
+                })
+        } else {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${valPass.value ? valPassCon.message : valPass.message}`,
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }
+       
     }
+
+    useEffect(() => {
+        if (password != "" ) {
+            const validatePass = ValidatePassword(password)
+            setValPass(validatePass)
+        }
+    }, [password]);
+
+    useEffect(() => {
+        if (confirmPassword != "" ) {
+            const validatePass = ValidationConfirmPassword(password,confirmPassword)
+            setValPassCon(validatePass)
+        }
+    }, [confirmPassword]);
 
     return (
       <>
@@ -79,8 +113,8 @@ const Register = () => {
                                 name='password'
                                 handleState={setPassword}
                                 radiusBorder="md"
-                                error={!validatePassword?.value}
-                                messageValidation={!validatePassword?.value? validatePassword?.message : null}
+                                error={!valPass?.value}
+                                messageValidation={!valPass?.value? valPass?.message : null}
                                 required={true}
                             />
                             <Input
@@ -89,8 +123,8 @@ const Register = () => {
                                 name='confirmPassword'
                                 handleState={setConfirmPassword}
                                 radiusBorder="md"
-                                error={!validation?.value}
-                                messageValidation={!validation?.value ? validation?.message : null}
+                                error={!valPassCon?.value}
+                                messageValidation={!valPassCon?.value ? valPassCon?.message : null}
                                 required={true}
                             />
                         </div>

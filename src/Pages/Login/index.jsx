@@ -2,13 +2,17 @@
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './Login.css'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Input from '../../Components/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword } from '../../Utils/Validation'
 import authContext from '../../Context/authContext'
+import { ServiceLogin } from '../../Service/ServiceUser'
+import Swal from 'sweetalert2'
+import Cookies from 'js-cookie'
+import { token_name } from '../../data';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -26,12 +30,52 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationPass = ValidatePassword(password)
-        setValidation(validationPass)
-        
-        authCtx.setLogIn({ type: "LOGIN", value: false })
-        navigate('/')
+        if (validation.value) {
+            ServiceLogin.Login(email, password)
+            .then((response) => {
+                if (response.status == 200) {
+                    var expiresTime = new Date(new Date().getTime() + 15 * 60 * 1000);
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(() => {
+                        Cookies.set(token_name, response.data.data.token, { expires: expiresTime })
+                        authCtx.setLogIn(response.data.data.token, response.data.data.role)
+                        navigate('/')
+                    }, 1010);
+                } else {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            }).catch((error) => {
+                alert(error)
+            })
+        } else {
+            Swal.fire({
+                position: "center",
+                icon: "waring",
+                title: `Password ${validation.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
     }
+    useEffect(() => {
+        if (password != "" ) {
+            const validationPass = ValidatePassword(password)
+            setValidation(validationPass)
+        }
+    }, [password]);
 
 
     return (
@@ -56,7 +100,7 @@ const Login = () => {
                                 placeholder='Email'
                                 handleState={setEmail}
                                 radiusBorder="md"
-                                // required={true}  
+                                required={true}  
                             />
                             <Input 
                                 name='password'
@@ -66,7 +110,7 @@ const Login = () => {
                                 radiusBorder="md"
                                 // error={!validation?.value}
                                 // messageValidation={!validation?.value ? validation?.message : null}
-                                // required={true}                            
+                                required={true}                            
                             />
                         </div>
                     </Item>

@@ -39,7 +39,7 @@ const ListMenu = () => {
                     sx={{
                         margin: '0px !important',
                         padding: '0px !important',
-                        backgroundImage: `url(data:image/jpeg;base64,${typeCar.image})`,
+                        backgroundImage: `url(${typeCar.imagePath})`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: 'cover',
                         width: '100%',
@@ -63,7 +63,10 @@ const ListMenu = () => {
                         Another favorite course
                     </Typography>
                     <Grid container rowGap={5} columnSpacing={3} alignItems='center' justifyContent='center' >
-                        {dataCar && dataCar.map((value, index) => {
+                        {dataCar.length <= 0 && (
+                            <Typography variant='h5'>Data Kosong</Typography>
+                        )}
+                        {dataCar.length > 0 && dataCar.map((value, index) => {
                             return (
                                 <CardCar value={value} key={index} />
                             )

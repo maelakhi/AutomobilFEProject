@@ -9,6 +9,8 @@ import img8 from './assets/Image/Rectangle 12-9.png'
 import img9 from './assets/Image/Rectangle 12-10.png'
 import img10 from './assets/Image/Rectangle 12-11.png'
 
+const token_name = "ACCESS_TOKEN";
+
 const dataMobil = [
     {
         id: 1,
@@ -162,5 +164,5 @@ const MyClass = [
 
 export {
     dataMobil, typeCar, dataMobilListMenu, 
-    MyClass
+    MyClass, token_name
 }

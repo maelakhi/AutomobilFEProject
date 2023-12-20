@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URLbase = 'http://52.237.194.35:2024'
+const URLbase = 'https://localhost:7052';
 
 
 const ServiceLandingPage = {
@@ -8,7 +8,7 @@ const ServiceLandingPage = {
   async GetCarsLimit() {
     const data = await axios({
       method: "GET",
-      url: URLbase + '/api/Menu/GetMenuLimit',
+      url: URLbase + '/productsLimit',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,
@@ -23,7 +23,7 @@ const ServiceLandingPage = {
   async GetCategoryData() {
     const data = await axios({
       method: "GET",
-      url: URLbase+'/api/Type/GetActiveType',
+      url: URLbase+'/Category',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,

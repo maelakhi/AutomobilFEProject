@@ -13,9 +13,19 @@ import ConfirmationLayout from './components/ConfirmationLayout';
 import EmailConfirmation from "./Pages/ConfirmationPages/EmailConfirmation";
 import PurchaseConfirmation from "./Pages/ConfirmationPages/PurchaseConfirmation";
 import MyClassPage from "./Pages/MyClass";
+import { useContext } from "react";
+import authContext from "./Context/authContext";
+import Cookie from 'js-cookie';
+import { token_name } from './data';
+
 
 function App() {
+  const authCtx = useContext(authContext)
 
+  if (authCtx.token == "") {
+    authCtx.token = Cookie.get(token_name)
+  }
+  
   return (
     <>
      <Routes>
