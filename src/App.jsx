@@ -18,6 +18,7 @@ import authContext from "./Context/authContext";
 import Cookie from 'js-cookie';
 import { token_name } from './data';
 import NotFoundPage from "./Pages/NotFound";
+import InformationRegister from "./Pages/ConfirmationPages/InformationRegister";
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path='/' element={<ConfirmationLayout />}>
           <Route path="confirmationEmail/:token" element={<EmailConfirmation />} />
           <Route path="confirmationPurchase" element={<PurchaseConfirmation />} />
+          <Route path="informationEmail" element={<InformationRegister />} />
         </Route>
        <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>
