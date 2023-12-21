@@ -1,10 +1,8 @@
 import { Box, Container, CssBaseline, Stack } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import logoPage from '../../Assets/Frame 1738.png'
-import logoConfirmation from '../../Assets/Image/image_confirmation.png'
 
-const ConfirmationLayout = (props) => {
-  const { children } = props;
+const ConfirmationLayout = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -36,13 +34,6 @@ const ConfirmationLayout = (props) => {
             gap: 3
           }}
         >
-          <Box
-            component="img"
-            sx={{ height: '100%', width: '100%' }}
-            maxWidth={{ xs: '200px', sm: '300px' }}
-            alt="Confirmation Image"
-            src={logoConfirmation}
-          />
           <Outlet />
         </Stack>
       </Container>

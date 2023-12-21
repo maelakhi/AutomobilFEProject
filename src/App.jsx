@@ -17,6 +17,7 @@ import { useContext } from "react";
 import authContext from "./Context/authContext";
 import Cookie from 'js-cookie';
 import { token_name } from './data';
+import NotFoundPage from "./Pages/NotFound";
 
 
 function App() {
@@ -41,10 +42,10 @@ function App() {
           <Route path='/myclass' element={<MyClassPage /> } />
         </Route>
         <Route path='/' element={<ConfirmationLayout />}>
-          <Route path="confirmationEmail" element={<EmailConfirmation />} />
+          <Route path="confirmationEmail/:token" element={<EmailConfirmation />} />
           <Route path="confirmationPurchase" element={<PurchaseConfirmation />} />
         </Route>
-       
+       <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>
     </>
   )
