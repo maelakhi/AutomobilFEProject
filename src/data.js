@@ -9,6 +9,8 @@ import img8 from './assets/Image/Rectangle 12-9.png'
 import img9 from './assets/Image/Rectangle 12-10.png'
 import img10 from './assets/Image/Rectangle 12-11.png'
 
+const token_name = "ACCESS_TOKEN";
+
 const dataMobil = [
     {
         id: 1,
@@ -150,7 +152,17 @@ const typeCar = [
     },
 ]
 
+const MyClass = [
+    {
+        id: 1,
+        typeCar: 'SUV',
+        title:'Hyundai Palisade 2021',
+        schedule: 'Wednesday, 27 July 2022',
+        image: img10
+    }
+]
 
 export {
-    dataMobil, typeCar, dataMobilListMenu
+    dataMobil, typeCar, dataMobilListMenu, 
+    MyClass, token_name
 }

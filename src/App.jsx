@@ -9,9 +9,24 @@ import './App.css'
 import Layout from "./Pages/Layout";
 import ClassDetailsPage from "./Pages/ClassDetails";
 import CheckoutPage from "./Pages/Checkout";
+import ConfirmationLayout from './components/ConfirmationLayout';
+import EmailConfirmation from "./Pages/ConfirmationPages/EmailConfirmation";
+import PurchaseConfirmation from "./Pages/ConfirmationPages/PurchaseConfirmation";
+import MyClassPage from "./Pages/MyClass";
+import { useContext } from "react";
+import authContext from "./Context/authContext";
+import Cookie from 'js-cookie';
+import { token_name } from './data';
+import NotFoundPage from "./Pages/NotFound";
+
 
 function App() {
+  const authCtx = useContext(authContext)
 
+  if (authCtx.token == "") {
+    authCtx.token = Cookie.get(token_name)
+  }
+  
   return (
     <>
      <Routes>
@@ -24,7 +39,13 @@ function App() {
           <Route path='/listmenu/:typeName' element={<ListMenuPage /> } />
           <Route path='/classdetails' element={<ClassDetailsPage /> } />
           <Route path='/checkout' element={<CheckoutPage /> } />
+          <Route path='/myclass' element={<MyClassPage /> } />
         </Route>
+        <Route path='/' element={<ConfirmationLayout />}>
+          <Route path="confirmationEmail/:token" element={<EmailConfirmation />} />
+          <Route path="confirmationPurchase" element={<PurchaseConfirmation />} />
+        </Route>
+       <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>
     </>
   )

@@ -4,19 +4,22 @@ import AuthContext from './authContext';
 const defaultAuthState = {
     isLogin: false,
     token: '',
+    role:''
 }
 
 const authReducers = (state, action) => {
     if (action.type === 'LOGIN') {
         return {
             isLogin: true,
-            token: action.value
+            token: action.token,
+            role: action.role
         }
     }
     if(action.type === 'LOGOUT'){
         return{
             isLogin: false,
-            token: action.value
+            token: action.value,
+            role: action.role
         }
     }
 }
@@ -24,12 +27,12 @@ const authReducers = (state, action) => {
 const AuthProvider = ({children}) => {
     const [authState, dispatchAuthAction] = useReducer(authReducers, defaultAuthState);
 
-    const handleLogOut = (value) => {
-        dispatchAuthAction({type: 'LOGOUT', value: value})
+    const handleLogOut = (token, role) => {
+        dispatchAuthAction({type: 'LOGOUT', token: token, role: role})
     }
 
-    const handleLogin = (value) =>{
-        dispatchAuthAction({type: "LOGIN", value: value})
+    const handleLogin = (token, role) =>{
+        dispatchAuthAction({type: "LOGIN", token: token, role: role})
     }
 
     const authValue = {  

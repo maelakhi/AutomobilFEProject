@@ -2,32 +2,53 @@ import { Card, CardActions, CardContent, CardMedia, Grid, Stack, Typography } fr
 
 const CardCar = (props) => {
     const { value } = props;
+    console.log(value.imagePath)
   return (
-        <Grid item lg={4} md={6} sm={12}>
+         <Grid item lg={4} md={6} sm={12} >
             <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345, ":hover": { boxShadow: 3 } }}>
                     <CardMedia
-                        sx={{ height: 140, width: '100%' }}
-                        image={value.image}
-                        title={value.typeCar}
+                        sx={{ height: 140, width: '100%'  }}
+                        // image={`data:image/jpeg;base64, ${value.image}`}
+                        image={value?.imagePath}
+                        title={value?.name}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="caption" component="p" color="gray">
-                            {value.typeCar}
+                            {value?.categoryName}
                         </Typography>
-                        <Typography gutterBottom variant="h6" component="p" noWrap={true}>
-                            {value.title}
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="p"
+                          sx={{
+                            wordBreak: "break-word",
+                            textAlign: 'justify',
+                            height: '100%'
+                            }}
+                          noWrap={true}
+                        >
+                            {value?.name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                            species, ranging across all continents except Antarctica
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            paragraph={true}
+                            sx={{
+                                wordBreak: "break-word",
+                                textAlign: 'justify',
+                                height: '100%'
+                            }}
+                            noWrap={true}
+                        >
+                            {value?.description}
                         </Typography>
                         <Typography
                             variant="h6"
                             color="text.secondary"
                             sx={{ mt: '8%', color: 'black' }}
                         >
-                            IDR { value.price }
+                            IDR { value?.price }
                         </Typography>
                     </CardContent>
                     <CardActions></CardActions>

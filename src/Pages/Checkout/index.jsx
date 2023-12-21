@@ -2,12 +2,15 @@ import { Grid, Card, CardActions, CardContent, CardMedia, Checkbox, Container, D
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useEffect, useState } from "react";
 import { dataMobil } from '../../data';
+import ModalLayout from "../../components/ModalLayout";
+import ModalPayment from "./ModalPayment";
 
 const Checkout = () => {
   const [dataCar, setDataCar] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
+  const [modalPayment, setModalPayment] = useState(false);
 
   useEffect(() => {
     setDataCar(dataMobil);
@@ -57,8 +60,13 @@ const Checkout = () => {
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
+  const handleModalPayment = () => {
+    setModalPayment(prev => !prev);
+  }
+
   return (
     <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important' }}>
+      {modalPayment && (<ModalPayment open={modalPayment} handleClose={handleModalPayment} />)}
         <Paper sx={{ p: 1 }}>
             <List>
                 <ListItem disablePadding>
@@ -137,7 +145,12 @@ const Checkout = () => {
                 <Typography variant="h6">
                     Total Price: IDR {totalSelectedPrice.toFixed(3)}
                 </Typography>
-                <Button variant='contained' color='success' sx={{ width: isSmallScreen ? '100%' : 'auto' }}>
+                  <Button
+                    variant='contained'
+                    color='success'
+                    sx={{ width: isSmallScreen ? '100%' : 'auto' }}
+                    onClick={handleModalPayment}
+                  >
                     Pay Now
                 </Button>
             </Stack>
