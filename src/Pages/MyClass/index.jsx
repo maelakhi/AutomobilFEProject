@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { Box, Card, CardContent, CardMedia, Container, Divider, List, ListItem, Typography } from "@mui/material"
-import './MyClass.css'
 import { MyClass } from '../../data';
 import Footer from "../../components/Footer";
 

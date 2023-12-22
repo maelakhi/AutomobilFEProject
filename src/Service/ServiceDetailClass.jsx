@@ -31,7 +31,28 @@ const ServiceDetailClass = {
         .catch((err) => err.response )
         
         return data
-    }
+    },
+
+    async AddToCart(token, date, idProduct) {
+        const senData = {
+            idProduct: idProduct,
+            dateSchedule: date
+        }
+        const data = await axios({
+            method: "POST",
+            url: URLbase+`/carts`,
+            headers:{
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`,
+            },
+            data: senData
+        })
+        .then((response) => response)
+        .catch((err) => err.response )
+        
+        return data
+    },
+
 }
 
 export default ServiceDetailClass
