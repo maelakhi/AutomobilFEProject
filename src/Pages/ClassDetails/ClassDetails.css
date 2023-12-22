@@ -1,0 +1,18 @@
+.example-custom-input{
+    background-color: transparent;
+    padding: 10px 20px;
+    min-width: 200px;
+    width: 100%;
+    border: 2px solid grey;
+    color: black;
+    border-radius: 10px;
+}
+.example-custom-input-disable {
+    background-color: transparent;
+    padding: 10px 20px;
+    min-width: 200px;
+    width: 100%;
+    border: 2px solid lightgray;
+    color: lightgray;
+    border-radius: 10px;
+}
