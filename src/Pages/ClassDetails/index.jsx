@@ -3,22 +3,43 @@ import { useEffect, useState } from 'react'
 import { dataMobilListMenu, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import carImg from '../../assets/Image/Rectangle 12-7.png'
+import { useParams } from 'react-router-dom'
+import ServiceDetailClass from '../../Service/ServiceDetailClass'
+import CardCar from '../../components/CardCar'
 
 
 const ClassDetails = () => {
+    const { id } = useParams();
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const [date, setDate] = useState('')
 
+    //scroll to top first render
     useEffect(() => {
-        setDataCar(dataMobilListMenu)
-        setTypeCar(typeCarRaw)
-    }, [])
+        window.scrollTo(0, 0)
+    }, [id])
+
+    useEffect(() => {
+        setIsLoading(true);
+        ServiceDetailClass.GetDetailClass(id)
+        .then((detailClass) => {
+            setDataCar(detailClass.data)
+            return detailClass.data
+        })
+        .then((response) => {
+            const idCategory = response?.idCategory
+
+            ServiceDetailClass.GetDataCarRelateType(idCategory)
+                .then((response) => setTypeCar(response.data))
+                .then((res)=> setIsLoading(false))
+        })
+    }, [id])
 
     const handleChange = (event) => {
         setDate(event.target.value);
-      };
-    
+    };
+
     return (
         <>
             <Container maxWidth={'xl'} sx={{ mt: '60px', padding: '0px !important' }}>
@@ -33,20 +54,20 @@ const ClassDetails = () => {
                                     width: '100%',
                                 }}
                                 alt="Car Image"
-                                src={carImg}
+                                src={dataCar?.imagePath}
                                 />
                         </Grid>
                         <Grid item md={8}>
                             <Grid container rowSpacing={5}>
                                 <Grid item sm={12}>
-                                    <Typography>
-                                        SUV
+                                    <Typography component="p">
+                                        { dataCar.categoryName }
                                     </Typography>
-                                    <Typography variant='h5'>
-                                        Hyundai Palisade 2021
+                                    <Typography variant='h5' component="p">
+                                        { dataCar?.name }
                                     </Typography>
-                                    <Typography variant='h5' sx={{color:'#790B0A'}}>
-                                        IDR 800.000
+                                    <Typography variant='h5' component="p" sx={{color:'#790B0A'}}>
+                                        IDR { dataCar.price }
                                     </Typography>
                                 </Grid>
                                 <Grid item sm={12}>
@@ -93,10 +114,7 @@ const ClassDetails = () => {
                     </Typography>
                     <br />
                     <Typography display='block' variant='h10' sx={{ textAlign: 'left', mb: "5% "}}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </Typography>
-                    <Typography variant='h9' sx={{ textAlign: 'left', mb: "5% "}}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                       {dataCar.description}
                     </Typography>
                 </Box>
                 
@@ -105,49 +123,14 @@ const ClassDetails = () => {
                         Another favorite course
                     </Typography>
                     <Grid container rowGap={6} alignItems='center' justifyContent='center' >
-                        {dataCar && dataCar.map((value) => {
+                        {typeCar && typeCar.map((value) => {
                             return (
-                                <>
-                                   <Grid item lg={4} md={6} sm={12}>
-                                    <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <Card sx={{ maxWidth: 345, ":hover": { boxShadow: 3 } }}>
-                                            <CardMedia
-                                                sx={{ height: 140, width: '100%' }}
-                                                image={value.image}
-                                                title={value.typeCar}
-                                            />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="caption" component="p" color="gray">
-                                                    {value.typeCar}
-                                                </Typography>
-                                                <Typography gutterBottom variant="h6" component="p" noWrap={true}>
-                                                    {value.title}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                                                    species, ranging across all continents except Antarctica
-                                                </Typography>
-                                                <Typography
-                                                    variant="h6"
-                                                    color="text.secondary"
-                                                    sx={{ mt: '8%', color: '#790B0A' }}
-                                                >
-                                                    IDR { value.price }
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions></CardActions>
-                                        </Card>
-                                    </Stack>
-                                </Grid>
-                                </>
-                                
+                                <CardCar value={value} key={value.id} />
                             )
                         })}
                         
                     </Grid>
                 </Box>
-
-
                 {/* Footer */}
                 <Footer />
             </Container>

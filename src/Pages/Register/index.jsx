@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles'
 import { Container, Paper, Stack } from '@mui/material'
 import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
 import Swal from 'sweetalert2';
-import { ServiceLogin } from '../../Service/ServiceUser'
+import ServiceUser from '../../Service/ServiceUser'
 import LoadingAnimation from '../../components/LoadingAnimation'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -39,7 +39,7 @@ const Register = () => {
                 password: password,
                 confirmPassword : confirmPassword
             }
-            ServiceLogin.Register(data)
+            ServiceUser.Register(data)
                 .then((response) => {
                     console.log(response)
                     if (response.status == 200) {

@@ -9,7 +9,7 @@ import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword } from '../../Utils/Validation'
 import authContext from '../../Context/authContext'
-import { ServiceLogin } from '../../Service/ServiceUser'
+import ServiceUser from '../../Service/ServiceUser'
 import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
 import { token_name } from '../../data';
@@ -31,7 +31,7 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validation.value) {
-            ServiceLogin.Login(email, password)
+            ServiceUser.Login(email, password)
             .then((response) => {
                 if (response.status == 200) {
                     var expiresTime = new Date(new Date().getTime() + 15 * 60 * 1000);
