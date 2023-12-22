@@ -1,7 +1,5 @@
-import { Box, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material'
-// import background_header from '../../assets/Image/background_listmenu.png'
+import { Box, Container, Grid, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-// import { dataMobilListMenu, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import { useParams } from 'react-router'
 import ServiceListMenu from '../../Service/ServiceListMenu'
@@ -28,6 +26,10 @@ const ListMenu = () => {
         .catch((error) => { setIsLoading(false) })
         
     }, [typeName])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     return (
         <>

@@ -1,7 +1,6 @@
 // import React from 'react'
-import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
-import './ResetPassword.css'
+import './OTPClass.css'
 import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,64 +18,63 @@ const Item = styled(Paper)(({ theme }) => ({
     
 }));
 
-const ResetPassword = () => {
-    const [email, setEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+const OTPPage = () => {
+    const [otpCode, setOtpCode] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true)
-        ServiceUser.ResetPassword(email)
-        .then((response) => {
-            if (response.status == 200) {
-                setIsLoading(false)
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: `${response.data.message}`,
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-                setTimeout(() => {
-                    navigate('/otppage')
-                }, 1010);
-            } else {
-                setIsLoading(false)
-                Swal.fire({
-                    position: "center",
-                    icon: "warning",
-                    title: `${response.data.message}`,
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-        })
+        setIsLoading(true);
+        ServiceUser.VerifieOTPCode(otpCode)
+            .then((response) => {
+                console.log(response)
+                if (response.status == 200) {
+                    setIsLoading(false)
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    setTimeout(() => {
+                        navigate(`/createpassword/${otpCode}`)
+                    }, 1010);
+                } else {
+                    setIsLoading(false)
+                    Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                }
+            })
     }
 
 
     return (
         <>
             {isLoading && (<LoadingAnimation />)}
-        <form method='POST' className='container_resetPassword' onSubmit={handleSubmit}>
+        <form method='POST' className='container_otp' onSubmit={handleSubmit}>
             <Container maxWidth='sm'>
                 <Stack spacing={6}>
                     <Item elevation={0}>
                         <Typography variant="h4" component="h3">
-                            Reset Password
+                            OTP Code
                         </Typography>
                         <Typography variant='h6' component='h4'>
-                            Send Link reset password to your email address
+                            Verified Code to Reset Password
                         </Typography>
                     </Item>
                     <Item elevation={0}>
                         <Input 
-                            name='email'
-                            type='email'
-                            placeholder='Email'
-                            handleState={setEmail}
+                            name='OTPcode'
+                            type='text'
+                            placeholder='OTP Code Here'
+                            handleState={setOtpCode}
                             radiusBorder="md"
                             required={true}
                         />
@@ -84,7 +82,7 @@ const ResetPassword = () => {
                     <Item elevation={0}>
                         <Stack direction="row" spacing={2} justifyContent='end'>
                         <Button
-                            component={Link} to="/Login"
+                            component={Link} to="/resetPassword"
                             variant='outlined'
                             color='success'
                         >
@@ -106,4 +104,4 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export default OTPPage

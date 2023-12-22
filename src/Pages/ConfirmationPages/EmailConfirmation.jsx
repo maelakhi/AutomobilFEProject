@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Typography } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
-import { ServiceLogin } from '../../Service/ServiceUser';
+import ServiceUser from '../../Service/ServiceUser';
 import logoConfirmation from '../../assets/Image/image_confirmation.png'
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -13,7 +13,7 @@ const EmailConfirmation = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    ServiceLogin.VerifiedAccount(token)
+    ServiceUser.VerifiedAccount(token)
       .then((response) => {
         if (response.status == 200) {
           setIsSuccess(true);

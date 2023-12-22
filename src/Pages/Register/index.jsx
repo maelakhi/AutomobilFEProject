@@ -3,12 +3,13 @@ import Button from '@mui/material/Button'
 import './Register.css'
 import { useEffect, useState } from 'react'
 import Input from '../../Components/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { Container, Paper, Stack } from '@mui/material'
 import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
 import Swal from 'sweetalert2';
-import { ServiceLogin } from '../../Service/ServiceUser'
+import ServiceUser from '../../Service/ServiceUser'
+import LoadingAnimation from '../../components/LoadingAnimation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -24,15 +25,25 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [valPass, setValPass] = useState({})
     const [valPassCon, setValPassCon] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
+        setIsLoading(true);
         e.preventDefault();
         // To check the password strength and password is the same  
         if (valPass.value && valPassCon.value) {
-            const data = { email : email, name: name, password: password}
-            ServiceLogin.Register(data)
+            const data = {
+                email: email,
+                name: name,
+                password: password,
+                confirmPassword : confirmPassword
+            }
+            ServiceUser.Register(data)
                 .then((response) => {
+                    console.log(response)
                     if (response.status == 200) {
+                        setIsLoading(false)
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -40,7 +51,11 @@ const Register = () => {
                             showConfirmButton: false,
                             timer: 1000
                         });
+                        setTimeout(() => {
+                           navigate("/informationEmail")
+                        }, 1001);
                     } else {
+                        setIsLoading(false)
                         Swal.fire({
                             position: "center",
                             icon: "warning",
@@ -51,6 +66,7 @@ const Register = () => {
                     }
                 })
         } else {
+            setIsLoading(false)
             Swal.fire({
                 position: "center",
                 icon: "error",
@@ -59,7 +75,6 @@ const Register = () => {
                 timer: 1000
             });
         }
-       
     }
 
     useEffect(() => {
@@ -77,7 +92,8 @@ const Register = () => {
     }, [confirmPassword]);
 
     return (
-      <>
+        <>
+        {isLoading && (<LoadingAnimation />)}
         <form method='POST' className='container_register' onSubmit={handleSubmit} style={{ margin: "40px 0 0 0" }}>
             <Container maxWidth='sm'>
                 <Stack spacing={6}>

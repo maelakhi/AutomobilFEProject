@@ -18,6 +18,8 @@ import authContext from "./Context/authContext";
 import Cookie from 'js-cookie';
 import { token_name } from './data';
 import NotFoundPage from "./Pages/NotFound";
+import InformationRegister from "./Pages/ConfirmationPages/InformationRegister";
+import OTPPage from "./Pages/OTPPage";
 
 
 function App() {
@@ -34,16 +36,19 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage /> } />
-          <Route path='/resetpassword' element={<ResetPasswordPage /> } />
-          <Route path='/createpassword' element={<CreatePasswordPage /> } />
+          <Route path='/resetpassword' element={<ResetPasswordPage />} />
+          {/* <Route path='/createpassword' element={<CreatePasswordPage /> } /> */}
+          <Route path='/createpassword/:otpCode' element={<CreatePasswordPage /> } />
           <Route path='/listmenu/:typeName' element={<ListMenuPage /> } />
-          <Route path='/classdetails' element={<ClassDetailsPage /> } />
+          <Route path='/classdetails/:id' element={<ClassDetailsPage /> } />
           <Route path='/checkout' element={<CheckoutPage /> } />
-          <Route path='/myclass' element={<MyClassPage /> } />
+          <Route path='/myclass' element={<MyClassPage />} />
+          <Route path='/otppage' element={<OTPPage /> } />
         </Route>
         <Route path='/' element={<ConfirmationLayout />}>
           <Route path="confirmationEmail/:token" element={<EmailConfirmation />} />
           <Route path="confirmationPurchase" element={<PurchaseConfirmation />} />
+          <Route path="informationEmail" element={<InformationRegister />} />
         </Route>
        <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>
