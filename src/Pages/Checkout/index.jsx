@@ -1,27 +1,40 @@
 import { Grid, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Divider, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Paper, Stack, Typography, useMediaQuery } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dataMobil } from '../../data';
 import ModalLayout from "../../components/ModalLayout";
 import ModalPayment from "./ModalPayment";
+import ServiceCheckout from "../../Service/ServiceCheckout";
+import LoadingAnimation from "../../components/LoadingAnimation";
+import authContext from "../../Context/authContext";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
+  const authCtx = React.useContext(authContext)
   const [dataCar, setDataCar] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [modalPayment, setModalPayment] = useState(false);
+const [flagDelete, setDelete] = useState(false);
 
   useEffect(() => {
-    setDataCar(dataMobil);
-  }, []);
+    setIsLoading(true);
+    ServiceCheckout.GetItems(authCtx.token)
+    .then((orderDetails) => {
+        setDataCar(orderDetails.data)
+    })
+    .then((res)=> setIsLoading(false))
+}, [flagDelete])
+
 
   const handleCheckboxChange = (id) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(id)) {
         return prevSelectedItems.filter((item) => item !== id);
       } else {
-        return [...prevSelectedItems, id];
+        return [...prevSelectedItems, id];  
       }
     });
   };
@@ -45,15 +58,35 @@ const Checkout = () => {
   };
 
   const handleDelete = () => {
-    const updatedData = dataCar.filter((item) => item.id !== deleteItemId);
-    setDataCar(updatedData);
-    setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((item) => item !== deleteItemId));
+    ServiceCheckout.DeleteItem(authCtx.token, deleteItemId)
+    .then((response) => {
+      if (response.status == 200) {
+        setIsLoading(false)
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${response.data.message}`,
+            showConfirmButton: false,
+            timer: 1000
+        });
+        setDelete(prev => !prev);
+      } else {
+        setIsLoading(false)
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: `${response.data.message}`,
+            showConfirmButton: false,
+            timer: 1000
+        });
+    }
+  })
     handleCloseDeleteModal();
   };
 
-  const totalSelectedPrice = dataCar.reduce((total, item) => {
+  const totalSelectedPrice = dataCar?.reduce((total, item) => {
     if (selectedItems.includes(item.id)) {
-      return total + parseFloat(item.price);
+      return total + parseFloat(item.product.price);
     }
     return total;
   }, 0);
@@ -65,6 +98,8 @@ const Checkout = () => {
   }
 
   return (
+  <>
+    {isLoading && (<LoadingAnimation />)}
     <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important' }}>
       {modalPayment && (<ModalPayment open={modalPayment} handleClose={handleModalPayment} />)}
         <Paper sx={{ p: 1 }}>
@@ -79,6 +114,7 @@ const Checkout = () => {
                             inputProps={{ 'aria-labelledby': 'select-all-checkbox' }}
                             className="custom-checkbox"
                             color="success"
+                            disabled={dataCar?.length === 0}
                             />
                         </ListItemIcon>
                         <ListItemText
@@ -108,7 +144,7 @@ const Checkout = () => {
                                         alt="Car Image"
                                         width='200'
                                         height='133.33'
-                                        image={value.image}
+                                        image={value.product.imagePath}
                                         sx={{objectFit: "contain"}}
                                         />
                                         <CardContent>
@@ -117,13 +153,13 @@ const Checkout = () => {
                                                 {value.typeCar}
                                                 </Typography>
                                                 <Typography noWrap variant="h6">
-                                                {value.title}
+                                                {value.product.name}
                                                 </Typography>
                                                 <Typography noWrap>
-                                                Schedule: Wednesday, 27 July 2022
+                                                {value.dateSchedule}
                                                 </Typography>
                                                 <Typography variant="h6" sx={{ color: '#790B0A'}}>
-                                                IDR {value.price}.00
+                                                IDR {value.product.price}.00
                                                 </Typography>
                                             </Stack>
                                         </CardContent>
@@ -181,6 +217,7 @@ const Checkout = () => {
         </Paper>
         </Modal>
     </Container>
+  </>
   );
 }
 
