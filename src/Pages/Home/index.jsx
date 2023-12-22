@@ -2,7 +2,7 @@ import { Box, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack,
 import background_header from '../../assets/Image/background_home.png'
 import imgTwo from '../../assets/Image/image_bg.png'
 import imgThree from '../../assets/Image/image_bg2.png'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { dataMobil, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import { Link } from 'react-router-dom'
@@ -31,7 +31,7 @@ const Home = () => {
         .catch((error) => { setIsLoading(false) })
         
     }, [])
-
+console.log(dataCar)
     return (
         <>
             <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
@@ -205,7 +205,7 @@ const Home = () => {
                                         component={Link}
                                         to={`/listmenu/${value.id}`}
                                     >
-                                        <Card sx={{ maxWidth: 345, boxShadow: 'none',":hover": { boxShadow: 3 } }}>
+                                        <Card sx={{ maxWidth: 345, boxShadow: 1,":hover": { boxShadow: 3 } }}>
                                             <CardMedia
                                                 sx={{ height: 140, minWidth: '180px', width: '100%' }}
                                                 image={value.imagePath}

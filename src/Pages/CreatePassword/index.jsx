@@ -3,12 +3,15 @@ import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './CreatePassword.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Input from '../../Components/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Container, Stack, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validation'
+import ServiceUser from '../../Service/ServiceUser'
+import Swal from 'sweetalert2'
+import LoadingAnimation from '../../components/LoadingAnimation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -19,29 +22,79 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const CreatePassword = () => {
-    const [newPassword, setPassword] = useState('');
-    const [confirmNewPassword, setNewPassword] = useState('');
-    const [validation, setValidation] = useState({})
-    const [validatePassword, setValidatePassword] = useState({});
+    const { otpCode } = useParams();
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setNewPassword] = useState('');
+    const [valPass, setValPass] = useState({})
+    const [valPassCon, setValPassCon] = useState({});
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // To check the password strength
-        const validatePass = ValidatePassword(newPassword, setPassword)
-        setValidatePassword(validatePass)
-
-        // To validate the password is the same
-        const validationPass = ValidationConfirmPassword(newPassword, confirmNewPassword)
-        setValidation(validationPass)
-
-        if (!validationPass.value) {
-            console.log('API')
-        } 
+        setIsLoading(true);
+        if (valPass.value && valPassCon.value) {
+            const data = {
+                dtOkey: {
+                    otpCode: otpCode
+                },
+                password: password,
+                confirmPassword: confirmPassword
+            }
+              ServiceUser.CreateNewPassword(data)
+                .then((response) => {
+                    console.log(response)
+                    if (response.status == 200) {
+                        setIsLoading(false)
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        setTimeout(() => {
+                           navigate("/login")
+                        }, 1001);
+                    } else {
+                        setIsLoading(false)
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    }
+                })
+        } else {
+            setIsLoading(false)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${valPass.value ? valPassCon.message : valPass.message}`,
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }
     }
+    useEffect(() => {
+        if (password != "" ) {
+            const validatePass = ValidatePassword(password)
+            setValPass(validatePass)
+        }
+    }, [password]);
+
+    useEffect(() => {
+        if (confirmPassword != "" ) {
+            const validatePass = ValidationConfirmPassword(password,confirmPassword)
+            setValPassCon(validatePass)
+        }
+    }, [confirmPassword]);
 
     return (
-      <>
+        <>
+            {isLoading && (<LoadingAnimation />)}
         <form method='POST' className='container_createPassword' onSubmit={handleSubmit}>
             <Container maxWidth="sm">
                 <Stack spacing={6}>
@@ -57,16 +110,18 @@ const CreatePassword = () => {
                                 placeholder='New Password'
                                 radiusBorder="md"
                                 handleState={setPassword}
-                                required={true}
-                                error={!validatePassword?.value}
-                                messageValidation={!validatePassword?.value ? validatePassword.message : null}                            />
+                                error={!valPass?.value}
+                                messageValidation={!valPass?.value ? valPass.message : null}
+                                required={true} 
+                            />
                             <Input 
+                                type="password"
                                 placeholder='Confirm New Password'
                                 radiusBorder="md"
                                 handleState={setNewPassword}
+                                error={!valPassCon?.value}
+                                messageValidation={!valPassCon?.value ? valPassCon?.message : null}
                                 required={true}
-                                error={!validation?.value}
-                                messageValidation={!validation?.value ? validation?.message : null}
                             />
                         </div>
                     </Item>

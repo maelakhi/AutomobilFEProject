@@ -1,8 +1,13 @@
-import { Card, CardActions, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom';
 
 const CardCar = (props) => {
     const { value } = props;
-    console.log(value.imagePath)
+    const navigate = useNavigate();
+
+    const handleRedirect = (value) => {
+        return navigate(value);
+    }
   return (
          <Grid item lg={4} md={6} sm={12} >
             <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -51,7 +56,15 @@ const CardCar = (props) => {
                             IDR { value?.price }
                         </Typography>
                     </CardContent>
-                    <CardActions></CardActions>
+                    <CardActions>
+                      <Button
+                          variant='text'
+                          sx={{ width: "100%" }}
+                          onClick={()=>handleRedirect(`/classdetails/${value?.id}`)}
+                      >
+                          Learn More
+                      </Button>
+                    </CardActions>
                 </Card>
             </Stack>
         </Grid>
