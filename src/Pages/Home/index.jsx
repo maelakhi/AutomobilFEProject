@@ -31,7 +31,7 @@ const Home = () => {
         .catch((error) => { setIsLoading(false) })
         
     }, [])
-console.log(dataCar)
+
     return (
         <>
             <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
