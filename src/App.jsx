@@ -34,7 +34,7 @@ function App() {
      <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login' element={<LoginPage />} /> 
           <Route path='/register' element={<RegisterPage /> } />
           <Route path='/resetpassword' element={<ResetPasswordPage />} />
           <Route path='/invoice' element={<InvociePage/>} />
