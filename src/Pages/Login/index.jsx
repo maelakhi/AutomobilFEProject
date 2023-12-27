@@ -2,17 +2,17 @@
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './Login.css'
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Input from '../../Components/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Paper, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ValidatePassword } from '../../Utils/Validation'
-import authContext from '../../Context/authContext'
 import ServiceUser from '../../Service/ServiceUser'
 import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
 import { token_name } from '../../data';
+import useAuth from '../../Hooks/useAuth'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -23,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Login = () => {
     const navigate = useNavigate()
-    const authCtx = useContext(authContext)
+    const authCtx = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validation, setValidation] = useState({})
@@ -62,7 +62,7 @@ const Login = () => {
         } else {
             Swal.fire({
                 position: "center",
-                icon: "waring",
+                icon: "warning",
                 title: `Password ${validation.message}`,
                 showConfirmButton: false,
                 timer: 1500

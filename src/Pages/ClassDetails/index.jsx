@@ -1,17 +1,18 @@
 import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
 import React, { forwardRef, useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ServiceDetailClass from '../../Service/ServiceDetailClass'
 import CardCar from '../../components/CardCar'
 import LoadingAnimation from '../../components/LoadingAnimation'
-import authContext from '../../Context/authContext'
 import DatePicker from "react-datepicker";
 import'./ClassDetails.css';
 import Swal from 'sweetalert2'
+import useAuth from '../../Hooks/useAuth'
 
 const ClassDetails = () => {
-    const authCtx = React.useContext(authContext)
+    const authCtx = useAuth();
+    const navigate = useNavigate();
     const { id } = useParams(); 
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
@@ -40,10 +41,22 @@ const ClassDetails = () => {
     }, [id])
 
     const handleAddCart = () => {
-        setIsLoading(true);
-        ServiceDetailClass.AddToCart(authCtx.token, startDate, dataCar.id)
-            .then((response) => {
-                 if (response.status == 200) {
+        if (authCtx.token == undefined) {
+            Swal.fire({
+                title: "Do you want to add the cart? Please LOG IN first",
+                showCancelButton: true,
+                confirmButtonText: "LOG IN"
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    navigate('/login')
+                }
+            });
+        } else {
+            setIsLoading(true);
+            ServiceDetailClass.AddToCart(authCtx.token, startDate, dataCar.id)
+                .then((response) => {
+                    if (response.status == 200) {
                         setIsLoading(false)
                         Swal.fire({
                             position: "center",
@@ -62,13 +75,31 @@ const ClassDetails = () => {
                             timer: 1000
                         });
                     }
-        }).catch(err => console.log(err.response))
+            }).catch(err => console.log(err.response))
+        }
 
+    }
+
+    const handleBuyNow = () => {
+        if (authCtx.token == undefined) {
+            Swal.fire({
+                title: "Do you want to add the cart? Please LOG IN first",
+                showCancelButton: true,
+                confirmButtonText: "LOG IN"
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    navigate('/login')
+                }
+            });
+        } else {
+            console.log('API')
+        }
     }
     
     // eslint-disable-next-line react/display-name, react/prop-types
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-        <button className={authCtx.token ? `example-custom-input`:`example-custom-input-disable`} onClick={onClick} ref={ref}>
+        <button className={`example-custom-input`} onClick={onClick} ref={ref}>
             {value}
         </button>
     ));
@@ -105,26 +136,10 @@ const ClassDetails = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid item sm={12} >
-                                    {/* <FormControl sx={{ m: 1, minWidth: 300 }} size="small">
-                                        <InputLabel id="demo-select-small-label">Select Schedule</InputLabel>
-                                        <Select
-                                            value={date}
-                                            label="Select Schedule"
-                                            onChange={handleChange}
-                                        >
-                                            <MenuItem value="">
-                                            <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
-                                        </Select>
-                                    </FormControl> */}
                                     <DatePicker
                                         selected={startDate}
                                         onChange={(date) => setStartDate(date)}
                                         customInput={<ExampleCustomInput />}
-                                        disabled={authCtx.token ? false:true}
                                     />
                                 </Grid>
                                 <Grid item sm={12}>
@@ -133,7 +148,6 @@ const ClassDetails = () => {
                                         sx={{width:233.5, height:40}}
                                         variant='outlined'
                                         color='success'
-                                        disabled={authCtx.token ? false : true}
                                         onClick={handleAddCart}
                                     >
                                         Add To Cart 
@@ -141,8 +155,8 @@ const ClassDetails = () => {
                                     <Button
                                         sx={{width:233.5 ,height:40}}
                                         variant='contained'
-                                        color='success'
-                                        disabled={authCtx.token ? false:true}
+                                            color='success'
+                                            onClick={handleBuyNow}
                                     >
                                         Buy Now
                                     </Button>                                
