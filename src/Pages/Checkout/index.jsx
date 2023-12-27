@@ -1,27 +1,38 @@
 import { Grid, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Divider, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Paper, Stack, Typography, useMediaQuery } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useEffect, useState } from "react";
-import { dataMobil } from '../../data';
-import ModalLayout from "../../components/ModalLayout";
 import ModalPayment from "./ModalPayment";
+import ServiceCheckout from "../../Service/ServiceCheckout";
+import LoadingAnimation from "../../components/LoadingAnimation";
+import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const Checkout = () => {
+  const authCtx = useAuth();
   const [dataCar, setDataCar] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [modalPayment, setModalPayment] = useState(false);
+  const [flagRefresh, setFlagRefresh] = useState(false);
 
   useEffect(() => {
-    setDataCar(dataMobil);
-  }, []);
+    setIsLoading(true);
+    ServiceCheckout.GetItems(authCtx.token)
+    .then((orderDetails) => {
+        setDataCar(orderDetails.data)
+    })
+    .then((res)=> setIsLoading(false))
+}, [flagRefresh])
+
 
   const handleCheckboxChange = (id) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(id)) {
         return prevSelectedItems.filter((item) => item !== id);
       } else {
-        return [...prevSelectedItems, id];
+        return [...prevSelectedItems, id];  
       }
     });
   };
@@ -45,28 +56,99 @@ const Checkout = () => {
   };
 
   const handleDelete = () => {
-    const updatedData = dataCar.filter((item) => item.id !== deleteItemId);
-    setDataCar(updatedData);
-    setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((item) => item !== deleteItemId));
+    ServiceCheckout.DeleteItem(authCtx.token, deleteItemId)
+    .then((response) => {
+      if (response.status == 200) {
+        setIsLoading(false)
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${response.data.message}`,
+            showConfirmButton: false,
+            timer: 1000
+        });
+        setFlagRefresh(prev => !prev);
+      } else {
+        setIsLoading(false)
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: `${response.data.message}`,
+            showConfirmButton: false,
+            timer: 1000
+        });
+    }
+  })
     handleCloseDeleteModal();
   };
 
-  const totalSelectedPrice = dataCar.reduce((total, item) => {
-    if (selectedItems.includes(item.id)) {
-      return total + parseFloat(item.price);
-    }
-    return total;
-  }, 0);
+  const totalSelectedPrice = dataCar ? (dataCar?.reduce((total, item) => {
+      if (selectedItems.includes(item.id)) {
+        return total + parseFloat(item.product.price);
+      }
+      return total;
+    }, 0)) : (0)
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   const handleModalPayment = () => {
-    setModalPayment(prev => !prev);
+    if (selectedItems.length <=  0) {
+      Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Select Items First",
+          showConfirmButton: false,
+          timer: 1000
+      });
+    } else {
+      setModalPayment(prev => !prev);
+    }
+  }
+
+  const handlePayment = (idPaymentMethod) => {
+    setModalPayment(false);
+    setIsLoading(true)
+    ServiceCheckout.CheckOutInvoice(authCtx.token,idPaymentMethod, selectedItems)
+      .then((response) => {
+        if (response.status == 200) {
+          setIsLoading(false)
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: `${response.data.message}`,
+              showConfirmButton: false,
+              timer: 1000
+          });
+          setFlagRefresh(prev => !prev);
+        } else {
+          setIsLoading(false)
+          Swal.fire({
+              position: "center",
+              icon: "error",
+              title: `${response.data.message}`,
+              showConfirmButton: false,
+              timer: 1000
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        setIsLoading(false)
+    })
   }
 
   return (
+  <>
+    {isLoading && (<LoadingAnimation />)}
     <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important' }}>
-      {modalPayment && (<ModalPayment open={modalPayment} handleClose={handleModalPayment} />)}
+        {modalPayment && (
+          <ModalPayment
+            open={modalPayment}
+            handleClose={handleModalPayment}
+            selectedItems={selectedItems} 
+            handlePayment={handlePayment}
+          />
+        )}
         <Paper sx={{ p: 1 }}>
             <List>
                 <ListItem disablePadding>
@@ -79,6 +161,7 @@ const Checkout = () => {
                             inputProps={{ 'aria-labelledby': 'select-all-checkbox' }}
                             className="custom-checkbox"
                             color="success"
+                            disabled={dataCar?.length === 0}
                             />
                         </ListItemIcon>
                         <ListItemText
@@ -87,7 +170,7 @@ const Checkout = () => {
                     </ListItemButton>
                 </ListItem>
                 <Divider />
-                {dataCar.map((value) => (
+                {dataCar && dataCar.map((value) => (
                     <ListItem key={value.id}>
                         <Card sx={{width: '100%', border: 'none', boxShadow: 'none', borderBottom: 1, borderColor: '#BDBDBD'}}>
                             <Grid container>
@@ -108,7 +191,7 @@ const Checkout = () => {
                                         alt="Car Image"
                                         width='200'
                                         height='133.33'
-                                        image={value.image}
+                                        image={value.product.imagePath}
                                         sx={{objectFit: "contain"}}
                                         />
                                         <CardContent>
@@ -117,13 +200,13 @@ const Checkout = () => {
                                                 {value.typeCar}
                                                 </Typography>
                                                 <Typography noWrap variant="h6">
-                                                {value.title}
+                                                {value.product.name}
                                                 </Typography>
                                                 <Typography noWrap>
-                                                Schedule: Wednesday, 27 July 2022
+                                                {value.dateSchedule}
                                                 </Typography>
                                                 <Typography variant="h6" sx={{ color: '#790B0A'}}>
-                                                IDR {value.price}.00
+                                                IDR {value.product.price}.00
                                                 </Typography>
                                             </Stack>
                                         </CardContent>
@@ -181,6 +264,7 @@ const Checkout = () => {
         </Paper>
         </Modal>
     </Container>
+  </>
   );
 }
 
