@@ -1,23 +1,21 @@
 import { Grid, Card, CardActions, CardContent, CardMedia, Checkbox, Container, Divider, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Paper, Stack, Typography, useMediaQuery } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import React, { useEffect, useState } from "react";
-import { dataMobil } from '../../data';
-import ModalLayout from "../../components/ModalLayout";
+import { useEffect, useState } from "react";
 import ModalPayment from "./ModalPayment";
 import ServiceCheckout from "../../Service/ServiceCheckout";
 import LoadingAnimation from "../../components/LoadingAnimation";
-import authContext from "../../Context/authContext";
 import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const Checkout = () => {
-  const authCtx = React.useContext(authContext)
+  const authCtx = useAuth();
   const [dataCar, setDataCar] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [modalPayment, setModalPayment] = useState(false);
-const [flagDelete, setDelete] = useState(false);
+  const [flagRefresh, setFlagRefresh] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -26,7 +24,7 @@ const [flagDelete, setDelete] = useState(false);
         setDataCar(orderDetails.data)
     })
     .then((res)=> setIsLoading(false))
-}, [flagDelete])
+}, [flagRefresh])
 
 
   const handleCheckboxChange = (id) => {
@@ -69,7 +67,7 @@ const [flagDelete, setDelete] = useState(false);
             showConfirmButton: false,
             timer: 1000
         });
-        setDelete(prev => !prev);
+        setFlagRefresh(prev => !prev);
       } else {
         setIsLoading(false)
         Swal.fire({
@@ -84,24 +82,73 @@ const [flagDelete, setDelete] = useState(false);
     handleCloseDeleteModal();
   };
 
-  const totalSelectedPrice = dataCar?.reduce((total, item) => {
-    if (selectedItems.includes(item.id)) {
-      return total + parseFloat(item.product.price);
-    }
-    return total;
-  }, 0);
+  const totalSelectedPrice = dataCar ? (dataCar?.reduce((total, item) => {
+      if (selectedItems.includes(item.id)) {
+        return total + parseFloat(item.product.price);
+      }
+      return total;
+    }, 0)) : (0)
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   const handleModalPayment = () => {
-    setModalPayment(prev => !prev);
+    if (selectedItems.length <=  0) {
+      Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Select Items First",
+          showConfirmButton: false,
+          timer: 1000
+      });
+    } else {
+      setModalPayment(prev => !prev);
+    }
+  }
+
+  const handlePayment = (idPaymentMethod) => {
+    setModalPayment(false);
+    setIsLoading(true)
+    ServiceCheckout.CheckOutInvoice(authCtx.token,idPaymentMethod, selectedItems)
+      .then((response) => {
+        if (response.status == 200) {
+          setIsLoading(false)
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: `${response.data.message}`,
+              showConfirmButton: false,
+              timer: 1000
+          });
+          setFlagRefresh(prev => !prev);
+        } else {
+          setIsLoading(false)
+          Swal.fire({
+              position: "center",
+              icon: "error",
+              title: `${response.data.message}`,
+              showConfirmButton: false,
+              timer: 1000
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        setIsLoading(false)
+    })
   }
 
   return (
   <>
     {isLoading && (<LoadingAnimation />)}
     <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important' }}>
-      {modalPayment && (<ModalPayment open={modalPayment} handleClose={handleModalPayment} />)}
+        {modalPayment && (
+          <ModalPayment
+            open={modalPayment}
+            handleClose={handleModalPayment}
+            selectedItems={selectedItems} 
+            handlePayment={handlePayment}
+          />
+        )}
         <Paper sx={{ p: 1 }}>
             <List>
                 <ListItem disablePadding>
@@ -123,7 +170,7 @@ const [flagDelete, setDelete] = useState(false);
                     </ListItemButton>
                 </ListItem>
                 <Divider />
-                {dataCar.map((value) => (
+                {dataCar && dataCar.map((value) => (
                     <ListItem key={value.id}>
                         <Card sx={{width: '100%', border: 'none', boxShadow: 'none', borderBottom: 1, borderColor: '#BDBDBD'}}>
                             <Grid container>

@@ -12,15 +12,15 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { Container, Grid, Stack, ThemeProvider, Typography, createTheme } from "@mui/material";
+import { Container, Grid, ThemeProvider, Typography, createTheme } from "@mui/material";
 import logo from '../../Assets/Frame 1738.png'
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import authContext from '../../Context/authContext';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Cookie from 'js-cookie';
 import { token_name } from '../../data';
+import useAuth from '../../Hooks/useAuth';
 
 const drawerWidth = 240;
 
@@ -88,7 +88,7 @@ const navItemsLogin = [
 
 const Layout = (props) => {
   const { window } = props;
-  const authCtx = React.useContext(authContext)
+  const authCtx = useAuth();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
 

@@ -69,7 +69,7 @@ const Register = () => {
             setIsLoading(false)
             Swal.fire({
                 position: "center",
-                icon: "error",
+                icon: "warning",
                 title: `${valPass.value ? valPassCon.message : valPass.message}`,
                 showConfirmButton: false,
                 timer: 1000

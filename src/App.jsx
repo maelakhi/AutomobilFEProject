@@ -13,17 +13,17 @@ import ConfirmationLayout from './components/ConfirmationLayout';
 import EmailConfirmation from "./Pages/ConfirmationPages/EmailConfirmation";
 import PurchaseConfirmation from "./Pages/ConfirmationPages/PurchaseConfirmation";
 import MyClassPage from "./Pages/MyClass";
-import { useContext } from "react";
-import authContext from "./Context/authContext";
 import Cookie from 'js-cookie';
 import { token_name } from './data';
 import NotFoundPage from "./Pages/NotFound";
 import InformationRegister from "./Pages/ConfirmationPages/InformationRegister";
 import OTPPage from "./Pages/OTPPage";
+import useAuth from "./Hooks/useAuth";
+import InvociePage from "./Pages/Invoice";
 
 
 function App() {
-  const authCtx = useContext(authContext)
+  const authCtx = useAuth();
 
   if (authCtx.token == "") {
     authCtx.token = Cookie.get(token_name)
@@ -34,10 +34,10 @@ function App() {
      <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login' element={<LoginPage />} /> 
           <Route path='/register' element={<RegisterPage /> } />
           <Route path='/resetpassword' element={<ResetPasswordPage />} />
-          {/* <Route path='/createpassword' element={<CreatePasswordPage /> } /> */}
+          <Route path='/invoice' element={<InvociePage/>} />
           <Route path='/createpassword/:otpCode' element={<CreatePasswordPage /> } />
           <Route path='/listmenu/:typeName' element={<ListMenuPage /> } />
           <Route path='/classdetails/:id' element={<ClassDetailsPage /> } />
