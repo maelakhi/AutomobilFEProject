@@ -1,14 +1,11 @@
 import axios from 'axios'
 
-const URLbase = 'https://localhost:7052';
-
-
 const ServiceMyClass = {
 
     async GetMyClass(token) {
         const data = await axios({
             method: "GET",
-            url: URLbase+`/orderDetailsByUser`,
+            url: import.meta.env.VITE_BASE_URL+`/orderDetailsByUser`,
             headers:{
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`,
