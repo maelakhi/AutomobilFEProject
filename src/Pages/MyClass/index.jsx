@@ -33,7 +33,7 @@ const MyClassPage = () => {
                     return (
                         <Box sx={{ width: '100%', ":hover": { bgcolor: 'lightgray' }, cursor: 'pointer' }} key={i}>
                             <ListItem alignItems="flex-start" width='100%' >
-                                <Card sx={{ display: 'flex', width: '100%', boxShadow: 'none', bgcolor: 'transparent', padding: '1% 0' }}>
+                                <Card sx={{ display: 'flex', width: '100%', boxShadow: 'none', bgcolor: 'transparent', padding: '1  % 0' }}>
                                     <CardMedia
                                         component="img"
                                         sx={{ width: 151 }}
