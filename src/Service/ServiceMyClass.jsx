@@ -8,7 +8,7 @@ const ServiceMyClass = {
     async GetMyClass(token) {
         const data = await axios({
             method: "GET",
-            url: URLbase+`/category`,
+            url: URLbase+`/orderDetailsByUser`,
             headers:{
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`,
@@ -20,3 +20,5 @@ const ServiceMyClass = {
         return data
     },
 }
+
+export default ServiceMyClass;
