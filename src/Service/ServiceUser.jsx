@@ -8,7 +8,7 @@ const ServiceUser = {
     async Login(email, password) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/Login`,
+            url: import.meta.env.VITE_BASE_URL+`/Login`,
             data: { Email:email, Password: password }
         })
         .then((response) => response)
@@ -20,7 +20,7 @@ const ServiceUser = {
     async Register(sendData) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/Register`,
+            url: import.meta.env.VITE_BASE_URL+`/Register`,
             data: sendData
         })
         .then((response) => response)
@@ -32,7 +32,7 @@ const ServiceUser = {
     async VerifiedAccount(sendData) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/verifiedEmail`,
+            url: import.meta.env.VITE_BASE_URL+`/verifiedEmail`,
             data: { token: sendData }
         })
         .then((response) => response)
@@ -44,7 +44,7 @@ const ServiceUser = {
     async ResetPassword(sendData) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/resetPassword`,
+            url: import.meta.env.VITE_BASE_URL+`/resetPassword`,
             data: { email: sendData }
         })
         .then((response) => response)
@@ -56,7 +56,7 @@ const ServiceUser = {
     async VerifieOTPCode(sendData) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/verifiedOTPCode`,
+            url: import.meta.env.VITE_BASE_URL+`/verifiedOTPCode`,
             data: { otpCode: sendData }
         })
         .then((response) => response)
@@ -68,7 +68,7 @@ const ServiceUser = {
     async CreateNewPassword(sendData) {
         const data = await axios({
             method: "POST",
-            url: URLbase+`/createNewPassword`,
+            url: import.meta.env.VITE_BASE_URL+`/createNewPassword`,
             data: sendData
         })
         .then((response) => response)

@@ -1,12 +1,10 @@
 import axios from 'axios'
 
-const URLbase = 'https://localhost:7052';
-
 const ServiceDetailClass = {
     async GetDetailClass(Id) {
         const data = await axios({
             method: 'GET',
-            url: URLbase + `/products/${Id}`,
+            url: import.meta.env.VITE_BASE_URL + `/products/${Id}`,
             headers:{
                 'Content-Type': 'application/json',
                 // "Authorization" : `Bearer ${token}`,
@@ -21,7 +19,7 @@ const ServiceDetailClass = {
     async GetDataCarRelateType(Id) {
         const data = await axios({
             method: "GET",
-            url: URLbase+`/productsByCategoryId/${Id}`,
+            url: import.meta.env.VITE_BASE_URL+`/productsByCategoryId/${Id}`,
             headers:{
                 'Content-Type': 'application/json',
                 // "Authorization" : `Bearer ${token}`,
@@ -40,7 +38,7 @@ const ServiceDetailClass = {
         }
         const data = await axios({
             method: "POST",
-            url: URLbase+`/carts`,
+            url: import.meta.env.VITE_BASE_URL+`/carts`,
             headers:{
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`,
