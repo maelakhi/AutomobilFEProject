@@ -23,7 +23,7 @@ const ServiceLandingPage = {
   async GetCategoryData() {
     const data = await axios({
       method: "GET",
-      url: URLbase+'/Category',
+      url: URLbase+'/CategoryLimit',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,
