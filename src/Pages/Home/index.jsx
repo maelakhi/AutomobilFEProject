@@ -10,15 +10,16 @@ import './Home.css'
 import ServiceLandingPage from '../../Service/ServiceLandingPage'
 import LoadingAnimation from '../../components/LoadingAnimation'
 import CardCar from '../../components/CardCar'
+import useLoading from '../../Hooks/useLoading'
 
 const Home = () => {
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, RunLoading, EndLoading } = useLoading();
 
 
     useEffect(() => {
-        setIsLoading(true)
+        RunLoading();
         Promise.allSettled([
             ServiceLandingPage.GetCarsLimit(),
             ServiceLandingPage.GetCategoryData()
@@ -27,15 +28,15 @@ const Home = () => {
             setDataCar(getCarsLimit.value.data)
             setTypeCar(categoryData.value.data)
         })
-        .then((response) => setIsLoading(false))
-        .catch((error) => { setIsLoading(false) })
+        .then((response) => EndLoading())
+        .catch((error) => EndLoading())
         
     }, [])
 
     return (
         <>
-            <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
             {isLoading && (<LoadingAnimation />)}
+            <Container maxWidth='xl' sx={{ mt: '5em', padding: '0px !important' }}>
                 {/* Header */}
                 <Box
                     sx={{
@@ -221,7 +222,6 @@ const Home = () => {
                                                     { value.name }
                                                 </Typography>
                                             </CardContent>
-                                            <CardActions></CardActions>
                                         </Card>
                                     </Stack>
                                 </Grid>

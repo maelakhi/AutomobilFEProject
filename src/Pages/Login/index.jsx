@@ -13,6 +13,9 @@ import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
 import { token_name } from '../../data';
 import useAuth from '../../Hooks/useAuth'
+import useLoading from '../../Hooks/useLoading'
+import LoadingAnimation from '../../components/LoadingAnimation';
+import useValidation from '../../Hooks/useValidation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -26,15 +29,17 @@ const Login = () => {
     const authCtx = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [validation, setValidation] = useState({})
+    const { isLoading, RunLoading, EndLoading } = useLoading();
+    const { validation } = useValidation(password,undefined,ValidatePassword);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validation.value) {
+            RunLoading();
             ServiceUser.Login(email, password)
             .then((response) => {
                 if (response.status == 200) {
-                    var expiresTime = new Date(new Date().getTime() + 15 * 60 * 1000);
+                    EndLoading();
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -42,12 +47,14 @@ const Login = () => {
                         showConfirmButton: false,
                         timer: 1000
                     });
+                    var expiresTime = new Date(new Date().getTime() + 15 * 60 * 1000);
                     setTimeout(() => {
                         Cookies.set(token_name, response.data.data.token, { expires: expiresTime })
                         authCtx.setLogIn(response.data.data.token, response.data.data.role)
                         navigate('/')
                     }, 1010);
                 } else {
+                    EndLoading();
                     Swal.fire({
                         position: "center",
                         icon: "error",
@@ -57,7 +64,14 @@ const Login = () => {
                     });
                 }
             }).catch((error) => {
-                alert(error)
+                EndLoading();
+                Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `${error.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
             })
         } else {
             Swal.fire({
@@ -70,16 +84,10 @@ const Login = () => {
         }
 
     }
-    useEffect(() => {
-        if (password != "" ) {
-            const validationPass = ValidatePassword(password)
-            setValidation(validationPass)
-        }
-    }, [password]);
-
 
     return (
-      <>
+        <>
+        {isLoading && (<LoadingAnimation/>)}
         <form method='POST' className='container_login' onSubmit={handleSubmit}>
             <Container maxWidth='sm'>
                 <Stack spacing={6}>
@@ -108,8 +116,8 @@ const Login = () => {
                                 placeholder='Password' 
                                 handleState={setPassword}
                                 radiusBorder="md"
-                                // error={!validation?.value}
-                                // messageValidation={!validation?.value ? validation?.message : null}
+                                error={!validation?.value}
+                                messageValidation={!validation?.value ? validation?.message : null}
                                 required={true}                            
                             />
                         </div>

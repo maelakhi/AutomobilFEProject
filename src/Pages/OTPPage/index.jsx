@@ -20,17 +20,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const OTPPage = () => {
     const [otpCode, setOtpCode] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, RunLoading, EndLoading } = useLoading();
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        RunLoading();
         ServiceUser.VerifieOTPCode(otpCode)
             .then((response) => {
                 console.log(response)
                 if (response.status == 200) {
-                    setIsLoading(false)
+                    EndLoading();
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -42,7 +42,7 @@ const OTPPage = () => {
                         navigate(`/createpassword/${otpCode}`)
                     }, 1010);
                 } else {
-                    setIsLoading(false)
+                    EndLoading();
                     Swal.fire({
                             position: "center",
                             icon: "warning",

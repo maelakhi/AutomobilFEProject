@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles'
 import ServiceUser from '../../Service/ServiceUser'
 import Swal from 'sweetalert2'
 import LoadingAnimation from '../../components/LoadingAnimation'
+import useLoading from '../../Hooks/useLoading'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -21,18 +22,18 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, RunLoading, EndLoading } = useLoading();
     const navigate = useNavigate();
 
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true)
+        RunLoading();
         ServiceUser.ResetPassword(email)
         .then((response) => {
             if (response.status == 200) {
-                setIsLoading(false)
+                EndLoading();
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -44,7 +45,7 @@ const ResetPassword = () => {
                     navigate('/otppage')
                 }, 1010);
             } else {
-                setIsLoading(false)
+                EndLoading();
                 Swal.fire({
                     position: "center",
                     icon: "warning",
@@ -59,7 +60,7 @@ const ResetPassword = () => {
 
     return (
         <>
-            {isLoading && (<LoadingAnimation />)}
+        {isLoading && (<LoadingAnimation />)}
         <form method='POST' className='container_resetPassword' onSubmit={handleSubmit}>
             <Container maxWidth='sm'>
                 <Stack spacing={6}>

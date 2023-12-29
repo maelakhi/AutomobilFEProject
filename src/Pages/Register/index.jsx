@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './Register.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
@@ -10,6 +10,8 @@ import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validat
 import Swal from 'sweetalert2';
 import ServiceUser from '../../Service/ServiceUser'
 import LoadingAnimation from '../../components/LoadingAnimation'
+import useLoading from '../../Hooks/useLoading'
+import useValidation from '../../Hooks/useValidation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -23,16 +25,16 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [valPass, setValPass] = useState({})
-    const [valPassCon, setValPassCon] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, RunLoading, EndLoading } = useLoading();
+    const { validation : valPass } = useValidation(password,undefined,ValidatePassword);
+    const { validation : valPassCon } = useValidation(confirmPassword, password,ValidationConfirmPassword);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        setIsLoading(true);
         e.preventDefault();
         // To check the password strength and password is the same  
         if (valPass.value && valPassCon.value) {
+            RunLoading();
             const data = {
                 email: email,
                 name: name,
@@ -43,7 +45,7 @@ const Register = () => {
                 .then((response) => {
                     console.log(response)
                     if (response.status == 200) {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -55,7 +57,7 @@ const Register = () => {
                            navigate("/informationEmail")
                         }, 1001);
                     } else {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "warning",
@@ -66,7 +68,6 @@ const Register = () => {
                     }
                 })
         } else {
-            setIsLoading(false)
             Swal.fire({
                 position: "center",
                 icon: "warning",
@@ -76,20 +77,6 @@ const Register = () => {
             });
         }
     }
-
-    useEffect(() => {
-        if (password != "" ) {
-            const validatePass = ValidatePassword(password)
-            setValPass(validatePass)
-        }
-    }, [password]);
-
-    useEffect(() => {
-        if (confirmPassword != "" ) {
-            const validatePass = ValidationConfirmPassword(password,confirmPassword)
-            setValPassCon(validatePass)
-        }
-    }, [confirmPassword]);
 
     return (
         <>

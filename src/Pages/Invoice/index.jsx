@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation";
+import useLoading from "../../Hooks/useLoading";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {   
@@ -31,15 +32,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const InvociePage = () => {
   const authCtx = useAuth();
   const [invoice, setInvoice] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, RunLoading, EndLoading } = useLoading();
 
   useEffect(() => {
-    setIsLoading(true);
+    RunLoading();
     ServiceInvoice.GetInvoice(authCtx.token)
     .then((invoice) => {
         setInvoice(invoice.data)
     })
-    .then((res)=> setIsLoading(false))
+    .then((res)=> EndLoading())
 }, [])
 
     return (

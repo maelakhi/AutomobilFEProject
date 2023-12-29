@@ -7,12 +7,12 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const EmailConfirmation = () => {
   const { token } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Failed Verified");
+  const { isLoading, RunLoading, EndLoading } = useLoading();
 
   useEffect(() => {
-    setIsLoading(true);
+    RunLoading();
     ServiceUser.VerifiedAccount(token)
       .then((response) => {
         if (response.status == 200) {
@@ -22,9 +22,10 @@ const EmailConfirmation = () => {
         }
       })
     setTimeout(() => {
-      setIsLoading(false)
+      EndLoading();
     }, 1000);
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
