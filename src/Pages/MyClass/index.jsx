@@ -4,22 +4,23 @@ import Footer from "../../components/Footer";
 import LoadingAnimation from '../../components/LoadingAnimation';
 import ServiceMyClass from "../../Service/ServiceMyClass";
 import useAuth from '../../Hooks/useAuth';
+import useLoading from "../../Hooks/useLoading";
 
 const MyClassPage = () => {
     const authCtx = useAuth();
     const [data, setData] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, RunLoading, EndLoading } = useLoading();
 
     useEffect(() => {
-        setIsLoading(true);
+        RunLoading();
         ServiceMyClass.GetMyClass(authCtx.token)
         .then((orderDetails) => {
             setData(orderDetails.data)
         })
-        .then((res) => setIsLoading(false))
+        .then((res) => EndLoading())
         .catch((res) => {
             console.error(res)
-            setIsLoading(false)
+           EndLoading()
         })
     }, [])
 
