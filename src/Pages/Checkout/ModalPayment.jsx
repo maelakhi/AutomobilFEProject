@@ -1,28 +1,15 @@
+import PropTypes from 'prop-types';
 import { Box, Button, Card, CardActions, CardContent, CircularProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import ModalLayout from '../../components/ModalLayout';
-import gopay from '../../assets/Image/GOPAY.png';
-import ovo from '../../assets/Image/OVO.png';
-import dana from '../../assets/Image/dana.png';
-import mandiri from '../../assets/Image/Mandiri.png';
-import bca from '../../assets/Image/BCA.png';
-import bni from '../../assets/Image/BNI.png';
 import { useEffect, useState } from 'react';
 import useAuth from '../../Hooks/useAuth';
 import ServiceCheckout from '../../Service/ServiceCheckout';
-
-const ListPayment = [
-  {id: 1, image: gopay, text:'GOPAY' },
-  {id: 2, image: ovo, text:'OVO' },
-  {id: 3, image: dana, text:'DANA' },
-  {id: 4, image: mandiri, text:'MANDIRI' },
-  {id: 5, image: bca, text:'BCA' },
-  {id: 6, image: bni, text:'BNI' },
-]
 
 const ModalPayment = (props) => {
   const authCtx = useAuth();
   const { open, handleClose, handlePayment } = props;
   const [isLoading, setIsLoading] = useState(false)
+  const [listPayment, setListPayment] = useState(false)
   const [message, setMessage] = useState();
   const [selectPayment, setSelectPayment] = useState();
 
@@ -31,6 +18,7 @@ const ModalPayment = (props) => {
     ServiceCheckout.GetPaymentMethod(authCtx.token)
         .then((response) => {
           if (response.status == 200) {
+              setListPayment(response.data)
               setIsLoading(false)
             } else {
               setIsLoading(false)
@@ -63,7 +51,7 @@ const ModalPayment = (props) => {
                 {message ? message : <CircularProgress />}
               </Box>
             )}
-            {!isLoading && ListPayment && ListPayment.map((value, i) => {
+            {!isLoading && listPayment && listPayment.map((value, i) => {
               return (
                 <ListItem
                   disablePadding
@@ -75,9 +63,9 @@ const ModalPayment = (props) => {
                 >
                   <ListItemButton>
                     <ListItemIcon>
-                      <img src={value.image} alt='' />
+                      <img src={value.imagePath} alt='' />
                     </ListItemIcon>
-                    <ListItemText primary={value.text} />
+                    <ListItemText primary={value.name} />
                   </ListItemButton>
                 </ListItem>
               )
@@ -108,6 +96,12 @@ const ModalPayment = (props) => {
       </Card>      
     </ModalLayout>
   )
+}
+
+ModalPayment.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func,
+  handlePayment: PropTypes.func
 }
 
 export default ModalPayment

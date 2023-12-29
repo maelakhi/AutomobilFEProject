@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 
-const CardCar = (props) => {
-    const { value } = props;
+const CardCar = ({ value }) => {
     const navigate = useNavigate();
 
     const handleRedirect = (value) => {
@@ -69,6 +69,10 @@ const CardCar = (props) => {
             </Stack>
         </Grid>
   )
+}
+
+CardCar.propTypes = {
+    value : PropTypes.object.isRequired
 }
 
 export default CardCar

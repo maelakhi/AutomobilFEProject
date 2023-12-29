@@ -21,6 +21,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Cookie from 'js-cookie';
 import { token_name } from '../../data';
 import useAuth from '../../Hooks/useAuth';
+import PropTypes from 'prop-types';
 
 const drawerWidth = 240;
 
@@ -328,6 +329,10 @@ const Layout = (props) => {
     </ThemeProvider>
 
   );
+}
+
+Layout.propTypes = {
+  window: PropTypes.object  
 }
 
 export default Layout
