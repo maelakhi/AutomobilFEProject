@@ -5,15 +5,16 @@ import { useParams } from 'react-router'
 import ServiceListMenu from '../../Service/ServiceListMenu'
 import LoadingAnimation from '../../components/LoadingAnimation'
 import CardCar from '../../components/CardCar'
+import useLoading from '../../Hooks/useLoading'
 
 const ListMenu = () => {
     let { typeName } = useParams();
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, RunLoading, EndLoading } = useLoading();
 
     useEffect(() => {
-        setIsLoading(true)
+        RunLoading();
         Promise.allSettled([
             ServiceListMenu.GetDataCarByType(typeName),
             ServiceListMenu.GetDataCarRelateType(typeName)
@@ -22,8 +23,8 @@ const ListMenu = () => {
             setTypeCar(typeCar.value.data)
             setDataCar(dataCar.value.data)
         })
-        .then((response) => setIsLoading(false))
-        .catch((error) => { setIsLoading(false) })
+        .then((response) => EndLoading())
+        .catch((error) => EndLoading())
         
     }, [typeName])
 

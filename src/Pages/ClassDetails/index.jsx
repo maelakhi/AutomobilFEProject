@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material'
 import React, { forwardRef, useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,6 +9,8 @@ import DatePicker from "react-datepicker";
 import'./ClassDetails.css';
 import Swal from 'sweetalert2'
 import useAuth from '../../Hooks/useAuth'
+import useLoading from '../../Hooks/useLoading'
+
 
 const ClassDetails = () => {
     const authCtx = useAuth();
@@ -16,7 +18,7 @@ const ClassDetails = () => {
     const { id } = useParams(); 
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, RunLoading, EndLoading } = useLoading();
     const [startDate, setStartDate] = useState(new Date())
 
     //scroll to top first render
@@ -25,7 +27,7 @@ const ClassDetails = () => {
     }, [id])
 
     useEffect(() => {
-        setIsLoading(true);
+        RunLoading();
         ServiceDetailClass.GetDetailClass(id)
         .then((detailClass) => {
             setDataCar(detailClass.data)
@@ -36,7 +38,7 @@ const ClassDetails = () => {
 
             ServiceDetailClass.GetDataCarRelateType(idCategory)
                 .then((response) => setTypeCar(response.data))
-                .then((res)=> setIsLoading(false))
+                .then((res)=> EndLoading())
         })
     }, [id])
 
@@ -53,11 +55,11 @@ const ClassDetails = () => {
                 }
             });
         } else {
-            setIsLoading(true);
+            RunLoading();
             ServiceDetailClass.AddToCart(authCtx.token, startDate, dataCar.id)
                 .then((response) => {
                     if (response.status == 200) {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -66,7 +68,7 @@ const ClassDetails = () => {
                             timer: 1000
                         });
                     } else {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "warning",

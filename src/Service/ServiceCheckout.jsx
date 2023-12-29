@@ -1,13 +1,11 @@
 import axios from 'axios'
 
-const URLbase = 'https://localhost:7052';
-
-
 const ServiceCheckout = {
+
   async GetItems(token) {
       const data = await axios({
         method: "GET",
-        url: URLbase + '/carts',
+        url: import.meta.env.VITE_BASE_URL + '/carts',
         headers:{
           'Content-Type': 'application/json',
           "Authorization" : `Bearer ${token}`,
@@ -22,7 +20,7 @@ const ServiceCheckout = {
   async GetPaymentMethod(token) {
     const data = await axios({
       method: 'GET',
-      url: URLbase + `/paymentMethod`,
+      url: import.meta.env.VITE_BASE_URL + `/paymentMethod`,
       headers:{
         'Content-Type': 'application/json',
         "Authorization" : `Bearer ${token}`,
@@ -40,7 +38,7 @@ const ServiceCheckout = {
       }
       const data = await axios({
           method: "DELETE",
-          url: URLbase+`/carts/${idCart}`,
+          url: import.meta.env.VITE_BASE_URL+`/carts/${idCart}`,
           headers:{
               'Content-Type': 'application/json',
               "Authorization" : `Bearer ${token}`,
@@ -60,7 +58,7 @@ const ServiceCheckout = {
     }
     const data = await axios({
       method: "POST",
-      url: URLbase + `/orderInvoice`,
+      url: import.meta.env.VITE_BASE_URL + `/orderInvoice`,
       headers:{
           'Content-Type': 'application/json',
           "Authorization" : `Bearer ${token}`,

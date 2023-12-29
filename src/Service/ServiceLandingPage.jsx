@@ -1,14 +1,11 @@
 import axios from 'axios'
 
-const URLbase = 'https://localhost:7052';
-
-
 const ServiceLandingPage = {
 
   async GetCarsLimit() {
     const data = await axios({
       method: "GET",
-      url: URLbase + '/productsLimit',
+      url: import.meta.env.VITE_BASE_URL + '/productsLimit',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,
@@ -23,7 +20,7 @@ const ServiceLandingPage = {
   async GetCategoryData() {
     const data = await axios({
       method: "GET",
-      url: URLbase+'/Category',
+      url: import.meta.env.VITE_BASE_URL+'/CategoryLimit',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,

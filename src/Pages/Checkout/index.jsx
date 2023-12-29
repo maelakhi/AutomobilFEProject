@@ -6,25 +6,27 @@ import ServiceCheckout from "../../Service/ServiceCheckout";
 import LoadingAnimation from "../../components/LoadingAnimation";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
+import useLoading from "../../Hooks/useLoading";
+import useFlag from "../../Hooks/useFlag";
 
 const Checkout = () => {
   const authCtx = useAuth();
   const [dataCar, setDataCar] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [modalPayment, setModalPayment] = useState(false);
-  const [flagRefresh, setFlagRefresh] = useState(false);
+  const { isLoading, RunLoading, EndLoading } = useLoading();
+  const { flag, IsFlag } = useFlag();
 
   useEffect(() => {
-    setIsLoading(true);
+    RunLoading();
     ServiceCheckout.GetItems(authCtx.token)
     .then((orderDetails) => {
         setDataCar(orderDetails.data)
     })
-    .then((res)=> setIsLoading(false))
-}, [flagRefresh])
+    .then((res)=> EndLoading())
+}, [flag])
 
 
   const handleCheckboxChange = (id) => {
@@ -56,10 +58,11 @@ const Checkout = () => {
   };
 
   const handleDelete = () => {
+    RunLoading();
     ServiceCheckout.DeleteItem(authCtx.token, deleteItemId)
     .then((response) => {
       if (response.status == 200) {
-        setIsLoading(false)
+        EndLoading();
         Swal.fire({
             position: "center",
             icon: "success",
@@ -67,9 +70,10 @@ const Checkout = () => {
             showConfirmButton: false,
             timer: 1000
         });
-        setFlagRefresh(prev => !prev);
+        // setFlagRefresh(prev => !prev);
+        IsFlag();
       } else {
-        setIsLoading(false)
+        EndLoading();
         Swal.fire({
             position: "center",
             icon: "warning",
@@ -107,11 +111,11 @@ const Checkout = () => {
 
   const handlePayment = (idPaymentMethod) => {
     setModalPayment(false);
-    setIsLoading(true)
+    RunLoading();
     ServiceCheckout.CheckOutInvoice(authCtx.token,idPaymentMethod, selectedItems)
       .then((response) => {
         if (response.status == 200) {
-          setIsLoading(false)
+          EndLoading();
           Swal.fire({
               position: "center",
               icon: "success",
@@ -119,9 +123,9 @@ const Checkout = () => {
               showConfirmButton: false,
               timer: 1000
           });
-          setFlagRefresh(prev => !prev);
+          IsFlag();
         } else {
-          setIsLoading(false)
+          EndLoading();
           Swal.fire({
               position: "center",
               icon: "error",
@@ -133,7 +137,7 @@ const Checkout = () => {
       })
       .catch((error) => {
         console.log(error)
-        setIsLoading(false)
+        EndLoading();
     })
   }
 

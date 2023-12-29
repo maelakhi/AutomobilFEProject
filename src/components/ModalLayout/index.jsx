@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Box, Modal } from "@mui/material";
 
 const style = {
@@ -26,6 +27,12 @@ const ModalLayout = (props) => {
     </Box>
     </Modal>
   )
+}
+
+ModalLayout.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func,
+  children: PropTypes.element
 }
 
 export default ModalLayout

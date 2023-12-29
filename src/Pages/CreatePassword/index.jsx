@@ -1,9 +1,7 @@
-// import React from 'react'
-import Layout from '../Layout'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import './CreatePassword.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Input from '../../Components/Input'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Container, Stack, Paper } from '@mui/material'
@@ -12,6 +10,8 @@ import { ValidatePassword, ValidationConfirmPassword } from '../../Utils/Validat
 import ServiceUser from '../../Service/ServiceUser'
 import Swal from 'sweetalert2'
 import LoadingAnimation from '../../components/LoadingAnimation'
+import useLoading from '../../Hooks/useLoading'
+import useValidation from '../../Hooks/useValidation'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -25,14 +25,14 @@ const CreatePassword = () => {
     const { otpCode } = useParams();
     const [password, setPassword] = useState('');
     const [confirmPassword, setNewPassword] = useState('');
-    const [valPass, setValPass] = useState({})
-    const [valPassCon, setValPassCon] = useState({});
-    const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, RunLoading, EndLoading } = useLoading();
+    const { validation : valPass } = useValidation(password,undefined,ValidatePassword);
+    const { validation : valPassCon } = useValidation(confirmPassword, password,ValidationConfirmPassword);
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        RunLoading();
         if (valPass.value && valPassCon.value) {
             const data = {
                 dtOkey: {
@@ -45,7 +45,7 @@ const CreatePassword = () => {
                 .then((response) => {
                     console.log(response)
                     if (response.status == 200) {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -57,7 +57,7 @@ const CreatePassword = () => {
                            navigate("/login")
                         }, 1001);
                     } else {
-                        setIsLoading(false)
+                        EndLoading();
                         Swal.fire({
                             position: "center",
                             icon: "warning",
@@ -68,7 +68,7 @@ const CreatePassword = () => {
                     }
                 })
         } else {
-            setIsLoading(false)
+            EndLoading();
             Swal.fire({
                 position: "center",
                 icon: "error",
@@ -78,19 +78,6 @@ const CreatePassword = () => {
             });
         }
     }
-    useEffect(() => {
-        if (password != "" ) {
-            const validatePass = ValidatePassword(password)
-            setValPass(validatePass)
-        }
-    }, [password]);
-
-    useEffect(() => {
-        if (confirmPassword != "" ) {
-            const validatePass = ValidationConfirmPassword(password,confirmPassword)
-            setValPassCon(validatePass)
-        }
-    }, [confirmPassword]);
 
     return (
         <>
