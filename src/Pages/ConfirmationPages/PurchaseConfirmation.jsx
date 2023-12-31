@@ -1,11 +1,20 @@
 import { Home } from '@mui/icons-material'
-import { Button, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Stack, Typography, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
+import logoConfirmation from '../../assets/Image/image_confirmation.png';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const PurchaseConfirmation = () => {
     const witdhFlag =  useMediaQuery('(max-width:600px)')
   return (
-    <>
+      <>
+        <Box
+          component="img"
+          sx={{ height: '100%', width: '100%' }}
+          maxWidth={{ xs: '200px', sm: '300px' }}
+          alt="Confirmation Image"
+          src={logoConfirmation}
+        />
         <Typography
             sx={{
             color: "#790B0A",
@@ -41,7 +50,7 @@ const PurchaseConfirmation = () => {
                   <Home fontSize={ witdhFlag ? 'small':'medium' } /> Back to Home
             </Button>
             <Button
-                component={Link} to="/login"
+                component={Link} to="/invoice"
                 variant='contained'
                 color='success'
                 sx={{
@@ -49,7 +58,7 @@ const PurchaseConfirmation = () => {
                     fontSize: { xs:'0.7em',sm: '1.2em'}
                 }}
             >
-                LOGIN HERE
+               <ArrowForwardIcon/> Open Invoice
             </Button>
         </Stack>
     </>

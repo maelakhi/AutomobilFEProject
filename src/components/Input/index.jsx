@@ -9,7 +9,9 @@ const InputField = ({
   placeholder,
   handleState,
   required=false,
-  error=false,
+  error = false,
+  label,
+  value,
   messageValidation,
 }) => {
 
@@ -17,8 +19,10 @@ const InputField = ({
     <>
         <TextField 
           sx={{ width: '100%'}}
+          label={label}
           name={name}
           type={type}
+          value={value}
           placeholder={placeholder}
           onChange={(e) => handleState(e.target.value)}
           required={required}
@@ -36,7 +40,9 @@ InputField.propTypes = {
   required: PropTypes.bool,
   error: PropTypes.bool,
   handleState: PropTypes.func,
-  messageValidation: PropTypes.string
+  label: PropTypes.string,
+  messageValidation: PropTypes.string,
+  value: PropTypes.any
 }
 
 export default InputField

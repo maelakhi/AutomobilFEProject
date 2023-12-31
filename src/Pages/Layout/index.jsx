@@ -19,7 +19,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Cookie from 'js-cookie';
-import { token_name } from '../../data';
+import { role_name, token_name } from '../../DataStatic';
 import useAuth from '../../Hooks/useAuth';
 import PropTypes from 'prop-types';
 
@@ -104,6 +104,7 @@ const Layout = (props) => {
   const handleLogOut = () => {
     authCtx.setLogOut(null, null)
     Cookie.remove(token_name)
+    Cookie.remove(role_name)
     return navigate('/')
   }
 

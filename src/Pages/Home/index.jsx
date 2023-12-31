@@ -1,9 +1,8 @@
-import { Box, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material'
 import background_header from '../../assets/Image/background_home.png'
 import imgTwo from '../../assets/Image/image_bg.png'
 import imgThree from '../../assets/Image/image_bg2.png'
 import { useEffect, useState } from 'react'
-// import { dataMobil, typeCar as typeCarRaw } from '../../data'
 import Footer from '../../components/Footer'
 import { Link } from 'react-router-dom'
 import './Home.css'
@@ -16,7 +15,6 @@ const Home = () => {
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
     const { isLoading, RunLoading, EndLoading } = useLoading();
-
 
     useEffect(() => {
         RunLoading();
