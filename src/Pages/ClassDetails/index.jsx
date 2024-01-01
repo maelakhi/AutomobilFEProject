@@ -10,6 +10,7 @@ import'./ClassDetails.css';
 import Swal from 'sweetalert2'
 import useAuth from '../../Hooks/useAuth'
 import useLoading from '../../Hooks/useLoading'
+import { FormatDate } from '../../Utils/FormatDate'
 
 
 const ClassDetails = () => {
@@ -102,7 +103,7 @@ const ClassDetails = () => {
     // eslint-disable-next-line react/display-name, react/prop-types
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
         <button className={`example-custom-input`} onClick={onClick} ref={ref}>
-            {value}
+            {FormatDate(value)}
         </button>
     ));
 

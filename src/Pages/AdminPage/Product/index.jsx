@@ -47,7 +47,7 @@ const ProductAdmin = () => {
   const { flag, IsFlag } = useFlag()
 
   useEffect(() => {
-    // RunLoading();
+    RunLoading();
     ServiceAdminProduct.GetDataAllProduct(authCtx.token)
       .then((response) => {
         setData(response.data);
@@ -259,7 +259,7 @@ const ProductAdmin = () => {
                     </Button>
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.price}</StyledTableCell>
+                <StyledTableCell align="center">Rp.{new Intl.NumberFormat().format(row.price)}</StyledTableCell>
                 <StyledTableCell align="right">{row.categoryName}</StyledTableCell>
                 <StyledTableCell sx={{ maxWidth: "300px" }} align="left">
                   <Typography variant='p' sx={{ wordWrap: "break-word"}}>

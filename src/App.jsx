@@ -29,6 +29,7 @@ import CategoryAdmin from "./Pages/AdminPage/Category";
 import InvoiceAdmin from "./Pages/AdminPage/Invoice";
 import AddPageProduct from "./Pages/AdminPage/Product/AddPageProduct";
 import EditPageProduct from "./Pages/AdminPage/Product/EditPageProduct";
+import ViewInvoiceAdmin from './Pages/AdminPage/Invoice/ViewInvoice'
 
 function App() {
   const authCtx = useAuth();
@@ -70,6 +71,7 @@ function App() {
           <Route path="product/edit/:id" element={<EditPageProduct />} />
           <Route path="category" element={<CategoryAdmin />} />
           <Route path="invoice" element={<InvoiceAdmin />} />
+          <Route path="invoice/:id" element={<ViewInvoiceAdmin />} />
         </Route>
        <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>

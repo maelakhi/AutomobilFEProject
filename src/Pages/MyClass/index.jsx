@@ -5,6 +5,7 @@ import LoadingAnimation from '../../components/LoadingAnimation';
 import ServiceMyClass from "../../Service/ServiceMyClass";
 import useAuth from '../../Hooks/useAuth';
 import useLoading from "../../Hooks/useLoading";
+import { FormatDate } from "../../Utils/FormatDate";
 
 const MyClassPage = () => {
     const authCtx = useAuth();
@@ -50,7 +51,7 @@ const MyClassPage = () => {
                                                 {value.product.name}
                                             </Typography>
                                             <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                Schedule : {value.dateSchedule}
+                                                Schedule : {FormatDate(value.dateSchedule)}
                                             </Typography>
                                         </CardContent>
                                     </Box>
