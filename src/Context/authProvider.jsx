@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import AuthContext from './authContext';
+import PropTypes from 'prop-types';
 
 const defaultAuthState = {
     isLogin: false,
@@ -37,6 +38,7 @@ const AuthProvider = ({children}) => {
 
     const authValue = {  
         token: authState.token,
+        role: authState.role,
         isLogin: authState.isLogin,
         setLogOut: handleLogOut,
         setLogIn: handleLogin
@@ -46,6 +48,10 @@ const AuthProvider = ({children}) => {
         {children}
     </AuthContext.Provider>
   )
+}
+
+AuthProvider.propTypes = {
+    children : PropTypes.element
 }
 
 export default AuthProvider

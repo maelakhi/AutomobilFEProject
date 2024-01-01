@@ -11,7 +11,7 @@ import { ValidatePassword } from '../../Utils/Validation'
 import ServiceUser from '../../Service/ServiceUser'
 import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
-import { token_name } from '../../data';
+import { role_name, token_name } from '../../DataStatic';
 import useAuth from '../../Hooks/useAuth'
 import useLoading from '../../Hooks/useLoading'
 import LoadingAnimation from '../../components/LoadingAnimation';
@@ -50,8 +50,14 @@ const Login = () => {
                     var expiresTime = new Date(new Date().getTime() + 15 * 60 * 1000);
                     setTimeout(() => {
                         Cookies.set(token_name, response.data.data.token, { expires: expiresTime })
+                        Cookies.set(role_name, response.data.data.role, { expires: expiresTime })
                         authCtx.setLogIn(response.data.data.token, response.data.data.role)
-                        navigate('/')
+                        const role = response.data.data.role;
+                        if (role.toLowerCase() == "admin") {
+                            navigate('/admin')
+                        } else {
+                            navigate('/')
+                        }
                     }, 1010);
                 } else {
                     EndLoading();

@@ -1,13 +1,31 @@
-import { Box, Container, Grid, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
+import { Box, CircularProgress, Container, Grid, ListItem, ListItemButton, ListItemIcon, Typography } from '@mui/material'
 import { Circle } from '@mui/icons-material';
-import { typeCar } from '../../data';
 import WA from '../../assets/Image/Frame 1744.png';
 import IC2 from '../../assets/Image/Group 100.png';
 import IC3 from '../../assets/Image/Group 97.png';
 import IC4 from '../../assets/Image/Group 98.png';
 import IC5 from '../../assets/Image/Group 99.png';
+import { useEffect, useState } from 'react';
+import ServiceLandingPage from '../../Service/ServiceLandingPage';
+import useAuth from '../../Hooks/useAuth';
+import useLoading from '../../Hooks/useLoading';
 
 const Footer = () => {
+    const authCtx = useAuth();
+    const { isLoading, RunLoading, EndLoading } = useLoading();
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        RunLoading();
+        ServiceLandingPage.GetCategoryData(authCtx.token)
+        .then((invoice) => {
+            setData(invoice.data)
+            EndLoading();
+        })
+        .then((res)=> EndLoading())
+    }, [])
+    
+    
     return (
       <>
         <Container maxWidth={false} sx={{mx: '0px !important', px: '0px !important', py: '2%', borderTop: '1px solid #d3d3d3' }}>
@@ -27,7 +45,8 @@ const Footer = () => {
                     Product
                 </Typography>
                 <Grid container >
-                    {typeCar && typeCar.slice(0,6).map((value) => {
+                    {isLoading && (<CircularProgress color="inherit" />)}
+                    {!isLoading && data && data.map((value) => {
                         return (
                             <Grid item lg={6} key={value.id}>
                                 <ListItem disablePadding>
@@ -36,7 +55,7 @@ const Footer = () => {
                                             <Circle  style={{ fontSize: '8px'}}/>
                                         </ListItemIcon>
                                         <span style={{ fontSize: '15px'}}>
-                                            {value.typeCar}
+                                            {value.name}
                                         </span>
                                     </ListItemButton>
                                 </ListItem>
