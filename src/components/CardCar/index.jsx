@@ -13,8 +13,7 @@ const CardCar = ({ value }) => {
             <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Card sx={{ maxWidth: 345, ":hover": { boxShadow: 3 } }}>
                     <CardMedia
-                        sx={{ height: 140, width: '100%'  }}
-                        // image={`data:image/jpeg;base64, ${value.image}`}
+                        sx={{ height: 140, width: '100%', minWidth: 345  }}
                         image={value?.imagePath}
                         title={value?.name}
                     />
@@ -53,7 +52,7 @@ const CardCar = ({ value }) => {
                             color="text.secondary"
                             sx={{ mt: '8%', color: 'black' }}
                         >
-                            IDR { value?.price }
+                            IDR { new Intl.NumberFormat().format(value?.price) }
                         </Typography>
                     </CardContent>
                     <CardActions>

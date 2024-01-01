@@ -9,6 +9,7 @@ import useAuth from "../../Hooks/useAuth";
 import useLoading from "../../Hooks/useLoading";
 import useFlag from "../../Hooks/useFlag";
 import { useNavigate } from "react-router-dom";
+import { FormatDate } from "../../Utils/FormatDate";
 
 const Checkout = () => {
   const authCtx = useAuth();
@@ -212,7 +213,7 @@ const Checkout = () => {
                                                 {value.product.name}
                                                 </Typography>
                                                 <Typography noWrap>
-                                                {value.dateSchedule}
+                                                {FormatDate(value.dateSchedule)}
                                                 </Typography>
                                                 <Typography variant="h6" sx={{ color: '#790B0A'}}>
                                                 IDR {value.product.price}.00
