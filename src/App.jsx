@@ -20,6 +20,7 @@ import InformationRegister from "./Pages/ConfirmationPages/InformationRegister";
 import OTPPage from "./Pages/OTPPage";
 import useAuth from "./Hooks/useAuth";
 import InvociePage from "./Pages/Invoice";
+import InvoiceDetailsPage from "./Pages/Invoice/ViewInvoice";
 import AuthLogin from "./AuthRoute/AuthLogin";
 import AuthRole from "./AuthRoute/AuthRole";
 import LayoutAdminPage from './Pages/AdminPage/Layout/index';
@@ -52,6 +53,7 @@ function App() {
           <Route path='classdetails/:id' element={<ClassDetailsPage /> } />
           <Route path='otppage' element={<OTPPage /> } />
           <Route path='invoice' element={<AuthLogin><InvociePage/></AuthLogin>} />
+          <Route path='invoice/:details' element={<AuthLogin><InvoiceDetailsPage/></AuthLogin>} />
           <Route path='checkout' element={<AuthLogin><CheckoutPage /></AuthLogin>} />
           <Route path='myclass' element={<AuthLogin><MyClassPage /></AuthLogin>} />
         </Route>

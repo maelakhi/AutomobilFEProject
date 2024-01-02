@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation";
 import useLoading from "../../Hooks/useLoading";
+import { FormatDate } from "../../Utils/FormatDate";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {   
@@ -46,7 +47,7 @@ const InvociePage = () => {
     return (
     <>
       {isLoading && (<LoadingAnimation />)}
-      <Container maxWidth='xl' sx={{ mt: '5em' }}>
+      <Container maxWidth='xl' sx={{ mt: '5em'  }}>
         <Stack direction="row">
           <Typography variant="caption" color='inherit' component={Link} to ="/" style={{ textDecoration: 'none' }}>Home</Typography>
           <Typography variant="caption"><KeyboardArrowRightIcon sx={{ fontSize: '1.5em'}}/></Typography>
@@ -70,22 +71,23 @@ const InvociePage = () => {
               </TableRow> 
             </TableHead>
             <TableBody>
-            {invoice && invoice.map((value) => (
+            {invoice && invoice.map((value, idx) => (
               <StyledTableRow key={value.id}>
                 <StyledTableCell component="th" scope="row">
-                    {value.id}
+                    {idx+1}
                 </StyledTableCell>
-                <StyledTableCell align="right">{value.id}</StyledTableCell>
-                <StyledTableCell align="right">{value.createdAt}</StyledTableCell>
+                <StyledTableCell align="right">OTO0000{value.id}</StyledTableCell>
+                <StyledTableCell align="right">{FormatDate(value.createdAt)}</StyledTableCell>
                 <StyledTableCell align="right">{value.totalCourse}</StyledTableCell>
-                <StyledTableCell align="right">{value.totalPrice}</StyledTableCell>
+                <StyledTableCell align="right">IDR {new Intl.NumberFormat().format(value.totalPrice)}</StyledTableCell>
                 <StyledTableCell align="right">
-                    <Button variant='outlined' color='success'>Details</Button>
+                  <Button component={Link} to={`/invoice/${value.id}`} variant='outlined' color='success'>Details</Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
             </TableBody>
           </Table>
+          {invoice.length == 0 && (<Typography variant="h5" textAlign="center">You have not made any purchases yet.</Typography>)}
         </TableContainer>
       <Footer/>
       </Container>
