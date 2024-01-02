@@ -180,6 +180,7 @@ const Checkout = () => {
                     </ListItemButton>
                 </ListItem>
                 <Divider />
+                {dataCar.length == 0 && (<Typography variant="h5" textAlign="center">You have not made any purchases yet.</Typography>)}
                 {dataCar && dataCar.map((value) => (
                     <ListItem key={value.id}>
                         <Card sx={{width: '100%', border: 'none', boxShadow: 'none', borderBottom: 1, borderColor: '#BDBDBD'}}>

@@ -17,6 +17,21 @@ const ServiceInvoice = {
       return data
   },
 
+  async GetInvoiceDetails(token, idInvoice) {
+    const data = await axios({
+      method: "GET",
+      url: import.meta.env.VITE_BASE_URL + `/invoice/${idInvoice}`,
+      headers:{
+        'Content-Type': 'application/json',
+        "Authorization" : `Bearer ${token}`,
+      }
+    })
+    .then((response) => response)
+    .catch((err) => err.response )
+    
+    return data
+}
+
 
 }
 
