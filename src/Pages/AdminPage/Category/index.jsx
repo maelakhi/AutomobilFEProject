@@ -244,14 +244,14 @@ const CategoryAdmin = () => {
                 <StyledTableCell align="center">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.isActive ? (
-                  <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleDeactivate.bind(null,row.id)}>
-                    Deactivate
-                  </Button>
-                  ): (
-                    <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleActivated.bind(null, row.id)}>
+                <StyledTableCell align="right">{row.isActive ? (
+                    <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleDeactivate.bind(null,row.id)}>
                       Activate
                     </Button>
+                  ): (
+                  <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
+                    Deactivate
+                  </Button>
                   )}
                 </StyledTableCell>
                 <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
