@@ -4,9 +4,11 @@ import useAuth from '../../../Hooks/useAuth';
 import useLoading from '../../../Hooks/useLoading';
 import { PieChart } from '@mui/x-charts';
 import { Box, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
   const authCtx = useAuth();
+  const navigate = useNavigate();
   const [dataProduct, setDataProduct] = React.useState([])
   const [dataUser, setDataUser] = React.useState([])
   const { isLoading, RunLoading, EndLoading } = useLoading();
@@ -19,6 +21,9 @@ const DashBoard = () => {
       ServiceAdminDashboard.GetDashboardUsers(authCtx.token)
     ])
       .then(([dataProduct, dataUser]) => {
+        if (dataProduct.value.status == 403) {
+          navigate("/")
+        }
         const customDataProduct = dataProduct.value.data.data?.map((v, i) => {
           return { id: i, value: v.totalProduct, label: v.categoryName }
         })
@@ -27,8 +32,10 @@ const DashBoard = () => {
         })
         setDataProduct(customDataProduct)
         setDataUser(customDataUser)
+        
         EndLoading();
       })
+      .catch((error) => console.log(error))
 
   }, []);
 
