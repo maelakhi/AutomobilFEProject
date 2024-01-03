@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import React from 'react';
+import { Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from './Pages/Home'
 import LoginPage from './Pages/Login'
 import RegisterPage from './Pages/Register'
@@ -39,12 +40,20 @@ import EditPageUser from "./Pages/AdminPage/User/EditPageUser";
 
 function App() {
   const authCtx = useAuth();
+  const navigate = useNavigate();
 
   if (authCtx.token == "") {
     authCtx.token = Cookie.get(token_name)
     authCtx.role = Cookie.get(role_name)
   }
   
+  
+  React.useEffect(() => {
+    if (authCtx.role == "admin") {
+      return navigate("/admin");
+    }
+  }, [authCtx.role])
+
   return (
     <>
      <Routes>
