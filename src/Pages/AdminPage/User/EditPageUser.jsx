@@ -9,37 +9,40 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import useFlag from '../../../Hooks/useFlag';
+import ServiceAdminUser from '../../../Service/Admin/ServiceAdminUser';
+import useValidation from '../../../Hooks/useValidation';
+import { ValidatePassword, ValidationConfirmPassword } from '../../../Utils/Validation';
 
-const EditPageProduct = () => {
+const EditPageUser = () => {
     const navigate = useNavigate();
     const authCtx = useAuth();
     const { id } = useParams();
+    const [toggle, setToggle] = useState(false);
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState(0);
-    const [image, setImage] = useState(0);
-    const [imageFile, setImageFile] = useState([]);
-    const [category, setCategory] = useState(0);
-    const [categoryOption, setCategoryOption] = useState([]);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    // const [image, setImage] = useState(0);
+    // const [imageFile, setImageFile] = useState([]);
+    const [roleUser, setRoleUser] = useState(0);
+    const userOption = [
+        { value: 'user', label: "USER" },
+        { value: 'admin', label: "ADMIN" }
+    ];
     const { isLoading, RunLoading, EndLoading } = useLoading();
+    const { validation : valPass } = useValidation(password, undefined, ValidatePassword);
+    const { validation : valPassCon } = useValidation(confirmPassword, password,ValidationConfirmPassword);
     const { IsFlag, flag } = useFlag();
 
     useEffect(() => {
         RunLoading();
-        Promise.allSettled([
-            ServiceAdminProduct.GetCategoryData(),
-            ServiceAdminProduct.GetDataByIdProduct(id)
-        ])
-        .then(([optionCategory, dataProduct]) => {
-            const dataOption = optionCategory.value.data.map((v) => {
-                return { value: v.id, label: v.name }
-            })
-            setCategoryOption(dataOption);
-            setName(dataProduct.value.data?.name);
-            setCategory(dataProduct.value.data?.idCategory);
-            setPrice(dataProduct.value.data?.price);
-            setDescription(dataProduct.value.data?.description);
-            setImage(dataProduct.value.data?.imagePath)
+        ServiceAdminUser.GetDataByIdUser(authCtx.token, id)
+        .then((dataUser) => {
+            console.log(dataUser.data)
+            setName(dataUser.data?.name);
+            setEmail(dataUser.data?.email);
+            setRoleUser(dataUser.data?.role);
+            // setImage(dataProduct.value.data?.imagePath)
             EndLoading();
         })
         
@@ -56,29 +59,29 @@ const EditPageProduct = () => {
         // })
     }, [id, flag])
 
-    const handleInputImage = (e) => {
-        setImageFile(e.target.files[0])
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setImage(reader.result);
-            }
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    }
+    // const handleInputImage = (e) => {
+    //     setImageFile(e.target.files[0])
+    //     const reader = new FileReader();
+    //     reader.onload = () => {
+    //         if (reader.readyState === 2) {
+    //             setImage(reader.result);
+    //         }
+    //     };
+    //     reader.readAsDataURL(e.target.files[0]);
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const sendData = new FormData();
-        sendData.append("ProductID", id);
-        sendData.append("Name", name);
-        sendData.append("Description", description);
-        sendData.append("Price", price);
-        sendData.append("IdCategory", category)
-        sendData.append("Image", imageFile)
-
+        const sendData = {
+            id: id,
+            email: email,
+            name: name,
+            password: password,
+            confirmPassword: confirmPassword,
+            role: roleUser
+        }
         RunLoading();
-        ServiceAdminProduct.EditProduct(authCtx.token, sendData)
+        ServiceAdminUser.EditUser(authCtx.token, sendData)
             .then((response) => {
                     if (response.status == 200) {
                         EndLoading();
@@ -114,11 +117,11 @@ const EditPageProduct = () => {
             </Typography>
         <form method='POST' onSubmit={handleSubmit}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: "1em" }}>
-            <Box>        
-                <Typography variant='subtitle1'>Product Name<span style={{ color: 'red'  }}>*</span></Typography>
+           <Box>        
+                <Typography variant='subtitle1'>User Name<span style={{ color: 'red'  }}>*</span></Typography>
                 <InputField
                     type='text'
-                    placeholder='Product Name' 
+                    placeholder='Name' 
                     name='name'
                     handleState={setName}
                     radiusBorder="md"
@@ -127,40 +130,63 @@ const EditPageProduct = () => {
                 />   
             </Box>
             <Box>        
-                <Typography variant='subtitle1'>Product Description<span style={{ color: 'red'  }}>*</span></Typography>
+                <Typography variant='subtitle1'>User Email<span style={{ color: 'red'  }}>*</span></Typography>
                 <InputField
-                    type='text'
-                    placeholder='Product Description' 
-                    name='description'
-                    handleState={setDescription}
+                    type='email'
+                    placeholder='Email' 
+                    name='email'
+                    handleState={setEmail}
                     radiusBorder="md"
-                    value={description}
+                    value={email}
                     required={true}
                 />   
-            </Box>
+            </Box>            
             <Box>        
-                <Typography variant='subtitle1'>Product Price<span style={{ color: 'red'  }}>*</span></Typography>
-                <InputField
-                    type='number'
-                    placeholder='Product Price' 
-                    name='price'
-                    handleState={setPrice}
-                    radiusBorder="md"
-                    value={price}
-                    required={true}
-                />   
+                <Button onClick={() => setToggle(prev => !prev)} variant='contained'>
+                    Change Password
+                </Button>
             </Box>
+            {toggle && (
+                <>
+                    <Box>        
+                        <Typography variant='subtitle1'>User Password<span style={{ color: 'red'  }}>*</span></Typography>
+                        <InputField
+                            type='password'
+                            placeholder='Password' 
+                            name='password'
+                            handleState={setPassword}
+                            radiusBorder="md"
+                            error={!valPass?.value}
+                            messageValidation={!valPass?.value? valPass?.message : null}
+                            required={true}
+                        />   
+                    </Box>
+                    <Box>        
+                        <Typography variant='subtitle1'>User Confirm Password<span style={{ color: 'red'  }}>*</span></Typography>
+                        <InputField
+                            type='password'
+                            placeholder='Confirm Password' 
+                            name='confirmPassword'
+                            handleState={setConfirmPassword}
+                            radiusBorder="md"
+                            error={!valPassCon?.value}
+                            messageValidation={!valPassCon?.value ? valPassCon?.message : null}
+                            required={true}
+                        />   
+                    </Box>  
+                </>   
+            )}
             <Box>        
-                <Typography variant='subtitle1'>Product Category<span style={{ color: 'red'  }}>*</span></Typography>
+                <Typography variant='subtitle1'>User Role<span style={{ color: 'red'  }}>*</span></Typography>
                 <SelectInput 
-                    value={category}
-                    handleState={setCategory}
-                    listOption={categoryOption}
+                    value={roleUser}
+                    handleState={setRoleUser}
+                    listOption={userOption}
                     name="category"
                     required={true}
                 />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>        
+            {/* <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>        
                 <Box sx={{ display: 'flex', flexDirection: 'column' }} >
                     <Typography variant='subtitle1'>Product Image<span style={{ color: 'red'  }}>*</span></Typography>
                     <div>
@@ -177,7 +203,7 @@ const EditPageProduct = () => {
                     width={'200px'}
                     alt=""
                 />
-            </Box>
+            </Box> */}
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px   ' }}>
                 <Button type="submit" variant='contained'>
@@ -192,4 +218,4 @@ const EditPageProduct = () => {
   )
 }
 
-export default EditPageProduct
+export default EditPageUser

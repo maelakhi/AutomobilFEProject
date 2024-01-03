@@ -141,6 +141,10 @@ const Layout = () => {
       icon: <ReceiptIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
       label: 'Invoice', variant: '', color: 'success', link: '/admin/invoice',
     },
+    {
+      icon: <AccountCircle sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
+      label: 'User', variant: '', color: 'success', link: '/admin/user',
+    },
   ];
   
   return (
