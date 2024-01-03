@@ -101,6 +101,7 @@ const ServiceAdminProduct = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -117,6 +118,7 @@ const ServiceAdminProduct = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     }

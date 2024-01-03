@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react'
 
 const ServiceAdminDashboard = {
     async GetDashboardProduct(token) {
@@ -13,6 +12,7 @@ const ServiceAdminDashboard = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -28,6 +28,7 @@ const ServiceAdminDashboard = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     }

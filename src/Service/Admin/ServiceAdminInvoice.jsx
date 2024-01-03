@@ -12,6 +12,7 @@ const ServiceAdminInvoice = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
         
         return data;
     },
@@ -27,6 +28,7 @@ const ServiceAdminInvoice = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
         
         return data;
     }

@@ -12,6 +12,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -27,6 +28,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -43,6 +45,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -59,6 +62,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -74,7 +78,8 @@ const ServiceAdminUser = {
             data: sendData
         })
         .then((response) => response)
-        .catch((err) => err )
+        .catch((err) => err)
+        .finally((response) => response)
         
         return data
     },
@@ -91,6 +96,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -106,6 +112,7 @@ const ServiceAdminUser = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },

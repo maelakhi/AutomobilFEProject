@@ -11,6 +11,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -25,6 +26,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -40,6 +42,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -55,6 +58,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -71,6 +75,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((err) => console.error(err.message))
+        .finally((response) => response)
         
         return data
     },
@@ -87,6 +92,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
@@ -103,6 +109,7 @@ const ServiceAdminCategory = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
