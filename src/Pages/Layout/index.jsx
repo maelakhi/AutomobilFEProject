@@ -76,10 +76,10 @@ const navItemsLogin = [
         flexItem 
       />
   },
-  {
-    icon: <PersonIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
-    label: 'Profile', variant: '', color: 'success', link: '/profile'
-  },
+  // {
+  //   icon: <PersonIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
+  //   label: 'Profile', variant: '', color: 'success', link: '/profile'
+  // },
   {
     icon: <LogoutIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
     label: 'LogOut', variant: '', color: 'success', link: '/'

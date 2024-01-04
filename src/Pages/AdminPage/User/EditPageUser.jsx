@@ -45,18 +45,6 @@ const EditPageUser = () => {
             // setImage(dataProduct.value.data?.imagePath)
             EndLoading();
         })
-        
-        // .then((response) => {
-        //     const dataOption = response?.data?.map((v) => {
-        //         return { value: v.id, label: v.name }
-        //     })
-        //     setCategoryOption(dataOption)
-        //     EndLoading();
-        // })
-        // .catch((error) => {
-        //     EndLoading();
-        //     console.log(error.response);
-        // })
     }, [id, flag])
 
     // const handleInputImage = (e) => {
