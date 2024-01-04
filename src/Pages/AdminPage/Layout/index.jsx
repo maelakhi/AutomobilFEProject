@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CategoryIcon from '@mui/icons-material/Category';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import PaymentIcon from '@mui/icons-material/Payment';
 import logo from '../../../Assets/Frame 1738.png'
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { Menu, MenuItem } from '@mui/material';
@@ -145,6 +146,11 @@ const Layout = () => {
       icon: <AccountCircle sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
       label: 'User', variant: '', color: 'success', link: '/admin/user',
     },
+    {
+      icon: <PaymentIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
+      label: 'Payment Method', variant: '', color: 'success', link: '/admin/payment',
+    },
+
   ];
   
   return (

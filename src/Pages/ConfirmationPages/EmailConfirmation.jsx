@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import ServiceUser from '../../Service/ServiceUser';
 import logoConfirmation from '../../assets/Image/image_confirmation.png'
 import CloseIcon from '@mui/icons-material/Close';
+import useLoading from '../../Hooks/useLoading';
+
 
 const EmailConfirmation = () => {
   const { token } = useParams();

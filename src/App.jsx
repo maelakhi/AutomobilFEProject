@@ -37,6 +37,9 @@ import EditPageCategory from "./Pages/AdminPage/Category/EditPageCategory";
 import UserAdmin from "./Pages/AdminPage/User";
 import AddPageUser from "./Pages/AdminPage/User/AddPageUser";
 import EditPageUser from "./Pages/AdminPage/User/EditPageUser";
+import PaymentAdmin from './Pages/AdminPage/Payment';
+import AddPagePayment from './Pages/AdminPage/Payment/AddPagePayment';
+import EditPagePayment from './Pages/AdminPage/Payment/EditPagePayment';
 
 function App() {
   const authCtx = useAuth();
@@ -93,6 +96,10 @@ function App() {
           <Route path="user" element={<UserAdmin />} />
           <Route path="user/create" element={<AddPageUser />} />
           <Route path="user/edit/:id" element={<EditPageUser />} />
+          <Route path="payment" element={<PaymentAdmin />} />
+          <Route path="payment/create" element={<AddPagePayment />} />
+          <Route path="payment/edit/:id" element={<EditPagePayment />} />
+
         </Route>
        <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>
