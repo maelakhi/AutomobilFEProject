@@ -264,13 +264,13 @@ const UserAdmin = () => {
                   >
                     Edit
                   </Button>
-                  <Button
+                  {/* <Button
                     variant='contained'
                     sx={{ backgroundColor: 'red', fontSize: '0.8em', mx: "10px" }}
                     onClick={handleDelete.bind(null, row.id)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </StyledTableCell>
                 </StyledTableRow>
             ))}

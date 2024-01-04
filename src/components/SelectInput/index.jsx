@@ -30,7 +30,7 @@ const SelectInput = (props) => {
 }
 
 SelectInput.propTypes = {
-    value: PropTypes.number,
+    value: PropTypes.any,
     label: PropTypes.string,
     handleState: PropTypes.func,
     listOption: PropTypes.array

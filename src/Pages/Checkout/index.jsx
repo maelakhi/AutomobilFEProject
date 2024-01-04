@@ -217,7 +217,7 @@ const Checkout = () => {
                                                 {FormatDate(value.dateSchedule)}
                                                 </Typography>
                                                 <Typography variant="h6" sx={{ color: '#790B0A'}}>
-                                                IDR {value.product.price}.00
+                                                IDR {new Intl.NumberFormat().format(value.product.price)}
                                                 </Typography>
                                             </Stack>
                                         </CardContent>
@@ -237,7 +237,7 @@ const Checkout = () => {
             </List>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Typography variant="h6">
-                    Total Price: IDR {totalSelectedPrice.toFixed(3)}
+                    Total Price: IDR {new Intl.NumberFormat().format(totalSelectedPrice)}
                 </Typography>
                   <Button
                     variant='contained'

@@ -163,52 +163,52 @@ const CategoryAdmin = () => {
     });
   }
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        RunLoading();
-        ServiceAdminCategory.DeleteCategory(authCtx.token, id)
-          .then((response) => {
-                if (response.status == 200) {
-                    EndLoading();
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: `${response.data.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    IsFlag();
-                } else {
-                    EndLoading();
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: `${response.data.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                }
-            }).catch((error) => {
-                EndLoading();
-                Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: `${error.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-            })
-      }
-    });
-  }
+  // const handleDelete = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, Delete it!"
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       RunLoading();
+  //       ServiceAdminCategory.DeleteCategory(authCtx.token, id)
+  //         .then((response) => {
+  //               if (response.status == 200) {
+  //                   EndLoading();
+  //                   Swal.fire({
+  //                       position: "center",
+  //                       icon: "success",
+  //                       title: `${response.data.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //                   IsFlag();
+  //               } else {
+  //                   EndLoading();
+  //                   Swal.fire({
+  //                       position: "center",
+  //                       icon: "error",
+  //                       title: `${response.data.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //               }
+  //           }).catch((error) => {
+  //               EndLoading();
+  //               Swal.fire({
+  //                       position: "center",
+  //                       icon: "error",
+  //                       title: `${error.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //           })
+  //     }
+  //   });
+  // }
 
   return (
     <>
@@ -268,13 +268,13 @@ const CategoryAdmin = () => {
                   >
                     Edit
                   </Button>
-                  <Button
+                  {/* <Button
                     variant='contained'
                     sx={{ backgroundColor: 'red', fontSize: '0.8em', mx: "10px" }}
                     onClick={handleDelete.bind(null, row.id)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </StyledTableCell>
                 </StyledTableRow>
             ))}
