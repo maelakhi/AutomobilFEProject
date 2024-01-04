@@ -60,9 +60,9 @@ const EditPagePayment = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const sendData = new FormData();
-        sendData.append("Payment ID", id);
+        sendData.append("PaymentID", id);
         sendData.append("Name", name);
-        sendData.append("Account Number", accNumber);
+        sendData.append("AccountNumber", accNumber);
         sendData.append("Image", imageFile)
 
         console.log(imageFile)
