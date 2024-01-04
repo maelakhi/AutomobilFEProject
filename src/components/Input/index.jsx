@@ -1,8 +1,7 @@
 // import React from 'react'
-import { IconButton, Input, InputAdornment, TextField } from '@mui/material'
+import PropTypes from 'prop-types';
+import { TextField } from '@mui/material'
 import './Input.css'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useState } from 'react';
 
 const InputField = ({
   name,
@@ -10,23 +9,20 @@ const InputField = ({
   placeholder,
   handleState,
   required=false,
-  error=false,
+  error = false,
+  label,
+  value,
   messageValidation,
 }) => {
-  // const rdStyle = {
-  //   md : 'input-rd-medium'
-  // }
-
-  // const [showPassword, setShowPassword] = useState(false);
-
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <>
         <TextField 
           sx={{ width: '100%'}}
+          label={label}
           name={name}
           type={type}
+          value={value}
           placeholder={placeholder}
           onChange={(e) => handleState(e.target.value)}
           required={required}
@@ -35,6 +31,18 @@ const InputField = ({
         />
     </>
   )
+}
+
+InputField.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  error: PropTypes.bool,
+  handleState: PropTypes.func,
+  label: PropTypes.string,
+  messageValidation: PropTypes.string,
+  value: PropTypes.any
 }
 
 export default InputField
