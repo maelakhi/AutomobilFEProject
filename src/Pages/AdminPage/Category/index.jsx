@@ -18,8 +18,8 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+  [`&.${tableCellClasses.head}`]: {   
+    backgroundColor: '#790B0A',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -28,8 +28,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+  '&:nth-of-type(even)': {
+    backgroundColor: '#790B0A1A',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -213,9 +213,15 @@ const CategoryAdmin = () => {
   return (
     <>
       {isLoading && (<LoadingAnimation />)}
+      <Box sx={{ padding: '0.1% 0' }}>
+        <Typography variant="h5" component="h2">
+            Menu Admin Category
+        </Typography>
+      </Box>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "end", margin: "1% 0" }}>
         <Button
-          variant='contained'
+          variant='outlined'
+          color='success'
           onClick={() => navigate('create')}
         >
           Add Category
@@ -244,12 +250,12 @@ const CategoryAdmin = () => {
                 <StyledTableCell align="center">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.isActive ? (
+                <StyledTableCell align="center">{row.isActive ? (
                     <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleDeactivate.bind(null,row.id)}>
                       Activate
                     </Button>
                   ): (
-                  <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
+                  <Button variant='contained' color = 'success' sx={{fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
                     Deactivate
                   </Button>
                   )}
@@ -259,11 +265,11 @@ const CategoryAdmin = () => {
                     {row.description}
                   </Typography>
                 </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
+                <StyledTableCell align="center">
                   <Button
                     variant='contained'
-                    color='info'
-                    sx={{ backgroundColor: '#FFA500', fontSize: '0.8em', mx: "10px" }}
+                    color='success'
+                    sx={{ fontSize: '0.8em'}}
                     onClick={() => navigate(`edit/${row.id}`) }
                   >
                     Edit

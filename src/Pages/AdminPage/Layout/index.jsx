@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { styled, useTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -29,6 +29,34 @@ import { role_name, token_name } from '../../../DataStatic';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const drawerWidth = 240;
+
+const myTheme = createTheme({
+  typography: {
+    fontFamily: "Montserrat",
+  },
+  palette: {
+    success: {
+      main: "#790B0A",
+      contrastText: "#FFFFFF",
+    },
+    warning: {
+      main: "#FFFFFF",
+      contrastText: "#790B0A",
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          textTransform: "none",
+          padding: "10px 20px",
+          boxShadow: "none",
+        },
+      },
+    },
+  },
+});
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -155,116 +183,118 @@ const Layout = () => {
   
   return (
     <>
+    <ThemeProvider theme={myTheme}>
       <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
-                <Box
-                  component="img"
+        <AppBar position="fixed" open={open}>
+          <Toolbar sx={{backgroundColor:'#790B0A'}}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
+                  <Box
+                    component="img"
+                    sx={{
+                      height: '100%',
+                      width: '100%',
+                      maxWidth: '200px',
+                      backgroundColor: 'white',
+                      padding: '0% 1%'
+                    }}
+                    alt="Car Image"
+                    src={logo}
+                />
+                <Box>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                  </Menu>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleLogOut}
+                    color="inherit"
+                  >
+                    <Logout/>
+                  </IconButton>
+                </Box>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {navItemsLogin.map((value, index) => (
+              <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                <ListItemButton 
                   sx={{
-                    height: '100%',
-                    width: '100%',
-                    maxWidth: '200px',
-                    backgroundColor: 'white',
-                    padding: '0% 1%'
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
-                  alt="Car Image"
-                  src={logo}
-              />
-              <Box>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
+                  onClick={() => navigate(value.link)}
                 >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                </Menu>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleLogOut}
-                  color="inherit"
-                >
-                  <Logout/>
-                </IconButton>
-              </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {navItemsLogin.map((value, index) => (
-            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton 
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-                onClick={() => navigate(value.link)}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {value.icon}
-                </ListItemIcon>
-                <ListItemText primary={value.label} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Outlet/>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {value.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={value.label} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <Outlet/>
+        </Box>
       </Box>
-    </Box>
+    </ThemeProvider>
       
     </>
   )
