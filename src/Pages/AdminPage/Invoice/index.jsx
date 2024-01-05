@@ -12,14 +12,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, TableFooter, TablePagination } from '@mui/material';
+import { Box, Button, TableFooter, TablePagination, Typography } from '@mui/material';
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
 import { useNavigate } from 'react-router-dom'
 import ServiceAdminInvoice from '../../../Service/Admin/ServiceAdminInvoice'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+  [`&.${tableCellClasses.head}`]: {   
+    backgroundColor: '#790B0A',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -28,8 +28,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+  '&:nth-of-type(even)': {
+    backgroundColor: '#790B0A1A',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -76,6 +76,11 @@ const InvoiceAdmin = () => {
   return (
     <>
       {isLoading && (<LoadingAnimation />)}
+      <Box sx={{ padding: '3% 0' }}>
+          <Typography variant="h5" component="h2">
+              Menu Admin Invoice
+          </Typography>
+        </Box>
       <TableContainer component={Paper}>
       <Table stickyHeader sx={{ minWidth: 700, maxHeight: 500 }} aria-label="customized table">
         <TableHead>
@@ -101,8 +106,9 @@ const InvoiceAdmin = () => {
                 <StyledTableCell align="center">{row.status}</StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
-                    variant='contained'
-                    sx={{ backgroundColor: 'blue', fontSize: '0.8em', mx: "10px" }}
+                    variant='outlined'
+                    color='success'
+                    sx={{ fontSize: '0.8em', mx: "10px" }}
                     onClick={handleViewInvoice.bind(null, row.id)}
                   >
                     View

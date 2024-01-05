@@ -18,8 +18,8 @@ import { useNavigate } from 'react-router-dom'
 import ServiceAdminUser from '../../../Service/Admin/ServiceAdminUser'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+  [`&.${tableCellClasses.head}`]: {   
+    backgroundColor: '#790B0A',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -28,8 +28,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+  '&:nth-of-type(even)': {
+    backgroundColor: '#790B0A1A',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -215,10 +215,17 @@ const UserAdmin = () => {
 
   return (
     <>
+    
       {isLoading && (<LoadingAnimation />)}
+      <Box sx={{ padding: '0.25% 0' }}>
+        <Typography variant="h5" component="h2">
+            Menu Admin User
+        </Typography>
+      </Box>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "end", margin: "1% 0" }}>
         <Button
-          variant='contained'
+          variant='outlined'
+          color='success'
           onClick={() => navigate('create')}
         >
           Add User
@@ -229,10 +236,10 @@ const UserAdmin = () => {
         <TableHead>
           <TableRow>
             <StyledTableCell>User Name</StyledTableCell>
-            <StyledTableCell align="center">Email</StyledTableCell>
-            <StyledTableCell align="right">Role</StyledTableCell>
+            <StyledTableCell align="left">Email</StyledTableCell>
+            <StyledTableCell align="left">Role</StyledTableCell>
             <StyledTableCell align="right">Status</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
+            <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -242,8 +249,8 @@ const UserAdmin = () => {
             ).map((row) => (
                 <StyledTableRow key={row.id}>
                 <StyledTableCell>{row.name}</StyledTableCell>
-                <StyledTableCell align="center">{row.email}</StyledTableCell>
-                <StyledTableCell align="center">{row.role}</StyledTableCell>
+                <StyledTableCell align="left">{row.email}</StyledTableCell>
+                <StyledTableCell align="left">{row.role}</StyledTableCell>
                 <StyledTableCell align="right">{row.isActive ? (
                     <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleDeactivate.bind(null,row.id)}>
                       Activate
@@ -255,11 +262,11 @@ const UserAdmin = () => {
                     
                   )}
                 </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
+                <StyledTableCell sx={{ maxWidth: "300px" }} align="right">
                   <Button
                     variant='contained'
-                    color='info'
-                    sx={{ backgroundColor: '#FFA500', fontSize: '0.8em', mx: "10px" }}
+                    color='success'
+                    sx={{ fontSize: '0.8em', mx: "10px" }}
                     onClick={() => navigate(`edit/${row.id}`) }
                   >
                     Edit

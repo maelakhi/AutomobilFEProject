@@ -163,7 +163,7 @@ const AddPageUser = () => {
             </Box> */}
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px', py: '20px' }}>
-                <Button type="submit" variant='contained'>
+                <Button type="submit" variant='contained' color='success'>
                     Create Data
                 </Button>
                 <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/user')}>
