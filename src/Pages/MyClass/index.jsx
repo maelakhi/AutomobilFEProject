@@ -35,10 +35,22 @@ const MyClassPage = () => {
                     return (
                         <Box sx={{ width: '100%', ":hover": { bgcolor: 'lightgray' }, cursor: 'pointer' }} key={i}>
                             <ListItem alignItems="flex-start" width='100%' >
-                                <Card sx={{ display: 'flex', width: '100%', boxShadow: 'none', bgcolor: 'transparent', padding: '1  % 0' }}>
+                                <Card
+                                    sx={{
+                                        display: 'flex',
+                                        width: '100%',
+                                        boxShadow: 'none',
+                                        flexDirection: { lg: "row", xs:"column" },
+                                        bgcolor: 'transparent',
+                                        padding: '1  % 0'
+                                    }}
+                                >
                                     <CardMedia
                                         component="img"
-                                        sx={{ width: 151 }}
+                                        sx={{
+                                            width: { lg: 151, xs: "100%" },
+                                            objectFit: "fill"
+                                        }}
                                         image={value.product.imagePath}
                                         alt="Live from space album cover"
                                     />
@@ -57,7 +69,7 @@ const MyClassPage = () => {
                                     </Box>
                                 </Card>
                             </ListItem>
-                            <Divider variant="middle" component="li" sx={{ borderWidth: '1px', borderColor: "black" }} />  
+                            {i < data?.length-1 && <Divider variant="middle" component="li" sx={{ borderWidth: '1px', borderColor: "black" }} />}
                         </Box>
                     )
                 })}

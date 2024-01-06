@@ -44,10 +44,10 @@ const ListMenu = () => {
                         padding: '0px !important',
                         backgroundImage: `url(${typeCar.imagePath})`,
                         backgroundRepeat: "no-repeat",
-                        backgroundSize: 'cover',
+                        backgroundSize: { lg: 'fill', xs: 'cover' },
                         width: '100%',
                         height: '100%',
-                        minHeight: '60vh'
+                        minHeight: { lg:'60vh', xs: '40vh'}
                     }}
                 />
                 {/* Body */}
