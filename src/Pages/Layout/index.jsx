@@ -116,7 +116,7 @@ const Layout = (props) => {
       <Divider />
       <List>
         {!authCtx.isLogin && navItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
+          <ListItem key={item.label} disablePadding onClick={() => handleRedirect(item.link)}>
             <ListItemButton sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.label} />
             </ListItemButton>

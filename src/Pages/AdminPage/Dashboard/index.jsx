@@ -40,7 +40,7 @@ const DashBoard = () => {
   }, []);
 
   return (
-    <Container >
+    <>
       <Box
         sx={{
           width: '100%',
@@ -86,7 +86,7 @@ const DashBoard = () => {
           colors={['#E86342','#94B9F3']}
         />
      </Box>
-    </Container>
+    </>
   );
 }
 
