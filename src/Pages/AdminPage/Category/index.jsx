@@ -255,7 +255,7 @@ const CategoryAdmin = () => {
                       Activate
                     </Button>
                   ): (
-                  <Button variant='contained' color = 'success' sx={{fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
+                  <Button variant='contained' color = 'success' sx={{fontSize: '0.8em',backgroundColor: 'red'}} onClick={handleActivated.bind(null, row.id)}>
                     Deactivate
                   </Button>
                   )}

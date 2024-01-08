@@ -13,6 +13,7 @@ import useDate from '../../Hooks/useDate'
 import SelectInput from '../../components/SelectInput'
 import ModalPayment from '../Checkout/ModalPayment'
 import ServiceCheckout from '../../Service/ServiceCheckout'
+import { FormatDate } from '../../Utils/FormatDate'
 
 
 const ClassDetails = () => {
@@ -24,8 +25,8 @@ const ClassDetails = () => {
     const [modalPayment, setModalPayment] = useState(false);
     const [buyNowId, setModalBuyNowId] = useState(null);
     const { isLoading, RunLoading, EndLoading } = useLoading();
-    const { date } = useDate();
     const [startDate, setStartDate] = useState(0)
+    const { date } = useDate();
 
     //scroll to top first render
     useEffect(() => {
@@ -44,8 +45,9 @@ const ClassDetails = () => {
 
             ServiceDetailClass.GetDataCarRelateType(idCategory)
                 .then((response) => setTypeCar(response.data))
-                .then((res)=> EndLoading())
+                .then((res) => EndLoading())
         })
+        .finally((res)=> EndLoading())
     }, [id])
 
     const handleAddCart = () => {

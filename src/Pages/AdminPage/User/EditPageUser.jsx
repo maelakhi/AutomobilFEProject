@@ -17,7 +17,7 @@ const EditPageUser = () => {
     const navigate = useNavigate();
     const authCtx = useAuth();
     const { id } = useParams();
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,8 +30,8 @@ const EditPageUser = () => {
         { value: 'admin', label: "ADMIN" }
     ];
     const { isLoading, RunLoading, EndLoading } = useLoading();
-    const { validation : valPass } = useValidation(password, undefined, ValidatePassword);
-    const { validation : valPassCon } = useValidation(confirmPassword, password,ValidationConfirmPassword);
+    // const { validation : valPass } = useValidation(password, undefined, ValidatePassword);
+    // const { validation : valPassCon } = useValidation(confirmPassword, password,ValidationConfirmPassword);
     const { IsFlag, flag } = useFlag();
 
     useEffect(() => {
@@ -129,12 +129,12 @@ const EditPageUser = () => {
                     required={true}
                 />   
             </Box>            
-            <Box>        
+            {/*<Box>        
                 <Button onClick={() => setToggle(prev => !prev)} variant='contained'>
                     Change Password
                 </Button>
             </Box>
-            {toggle && (
+             {toggle && (
                 <>
                     <Box>        
                         <Typography variant='subtitle1'>User Password<span style={{ color: 'red'  }}>*</span></Typography>
@@ -163,7 +163,7 @@ const EditPageUser = () => {
                         />   
                     </Box>  
                 </>   
-            )}
+            )} */}
             <Box>        
                 <Typography variant='subtitle1'>User Role<span style={{ color: 'red'  }}>*</span></Typography>
                 <SelectInput 
@@ -193,11 +193,11 @@ const EditPageUser = () => {
                 />
             </Box> */}
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px   ' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px', py: '20px' }}>
                 <Button type="submit" variant='contained' color='success'>
                     Update Data
                 </Button>
-                <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/product')}>
+                <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/user')}>
                     Cancel
                 </Button>
             </Box>    
