@@ -4,7 +4,7 @@ const ServiceAdminProduct = {
     async GetDataAllProduct() {
         const data = axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL + '/products',
+            url: import.meta.env.VITE_BASE_URL + '/admin/products',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -64,7 +64,7 @@ const ServiceAdminProduct = {
     async GetCategoryData() {
         const data = await axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL+'/Category',
+            url: import.meta.env.VITE_BASE_URL+'/admin/Category',
             headers:{
                 'Content-Type': 'application/json'
             }

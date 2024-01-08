@@ -20,7 +20,8 @@ const ServiceLandingPage = {
   async GetCategoryData() {
     const data = await axios({
       method: "GET",
-      url: import.meta.env.VITE_BASE_URL+'/CategoryLimit',
+      // url: import.meta.env.VITE_BASE_URL+'/CategoryLimit',
+      url: import.meta.env.VITE_BASE_URL+'/Category',
       headers:{
         'Content-Type': 'application/json',
         // "Authorization" : `Bearer ${token}`,

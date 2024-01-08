@@ -19,7 +19,7 @@ const ServiceAdminCategory = {
     async GetCategoryData() {
         const data = await axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL+'/Category',
+            url: import.meta.env.VITE_BASE_URL+'/admin/Category',
             headers:{
                 'Content-Type': 'application/json'
             }
