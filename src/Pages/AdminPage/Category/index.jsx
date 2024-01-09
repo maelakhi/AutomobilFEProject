@@ -245,7 +245,7 @@ const CategoryAdmin = () => {
             ).map((row) => (
                 <StyledTableRow key={row.id}>
                 <StyledTableCell align="center">
-                   <img src={row.imagePath} alt={row.name} width={'80px'} />
+                   <img src={`${import.meta.env.VITE_BASE_URL}/${row.imagePath}`} alt={row.name} width={'80px'} />
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.name}

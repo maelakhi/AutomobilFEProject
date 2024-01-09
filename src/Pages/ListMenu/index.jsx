@@ -42,7 +42,7 @@ const ListMenu = () => {
                     sx={{
                         margin: '0px !important',
                         padding: '0px !important',
-                        backgroundImage: `url(${typeCar.imagePath})`,
+                        backgroundImage: `url(${import.meta.env.VITE_BASE_URL}/${typeCar.imagePath})`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: { lg: 'fill', xs: 'cover' },
                         width: '100%',
