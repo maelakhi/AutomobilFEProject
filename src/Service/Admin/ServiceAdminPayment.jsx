@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const ServiceAdminCategory = {
-    async GetCategoryById(Id) {
+const ServiceAdminPayment = {
+    async GetPaymentById(Id) {
         const data = axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL + `/category/${Id}`,
+            url: import.meta.env.VITE_BASE_URL + `/paymentMethod/${Id}`,
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -16,10 +16,10 @@ const ServiceAdminCategory = {
         return data;
     },
 
-    async GetCategoryData() {
+    async GetPayment() {
         const data = await axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL+'/admin/Category',
+            url: import.meta.env.VITE_BASE_URL+'/admin/paymentMethod',
             headers:{
                 'Content-Type': 'application/json'
             }
@@ -31,10 +31,25 @@ const ServiceAdminCategory = {
         return data
     },
 
-    async AddCategory(token, sendData) {
+    async GetPaymentAdmin() {
+        const data = await axios({
+            method: "GET",
+            url: import.meta.env.VITE_BASE_URL+'/admin/paymentMethod',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response)
+        .catch((err) => console.error(err.message))
+        .finally((response) => response)
+        
+        return data
+    },
+
+    async AddPayment(token, sendData) {
         const data = await axios({
             method: "POST",
-            url: import.meta.env.VITE_BASE_URL+'/category',
+            url: import.meta.env.VITE_BASE_URL+'/paymentMethod',
             headers:{
                 "Authorization" : `Bearer ${token}`
             },
@@ -47,10 +62,10 @@ const ServiceAdminCategory = {
         return data
     },
 
-    async EditCategory(token,sendData) {
+    async EditPayment(token,sendData) {
         const data = await axios({
             method: "PUT",
-            url: import.meta.env.VITE_BASE_URL+'/category',
+            url: import.meta.env.VITE_BASE_URL+'/paymentMethod',
             headers: {
                 "Authorization" : `Bearer ${token}`
             },
@@ -63,10 +78,10 @@ const ServiceAdminCategory = {
         return data
     },
 
-    async DeleteCategory(token, sendData) {
+    async DeletePayment(token, sendData) {
         const data = await axios({
             method: "DELETE",
-            url: import.meta.env.VITE_BASE_URL+'/category',
+            url: import.meta.env.VITE_BASE_URL+'/paymentMethod',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -80,10 +95,10 @@ const ServiceAdminCategory = {
         return data
     },
 
-    async DeactivateCategory(token, id) {
+    async DeactivatePayment(token, id) {
         const data = axios({
             method: "PUT",
-            url: import.meta.env.VITE_BASE_URL + '/category/Deactived',
+            url: import.meta.env.VITE_BASE_URL + '/paymentMethod/Deactived',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -97,10 +112,10 @@ const ServiceAdminCategory = {
         return data;
     },
 
-    async ActivateCategory(token, id) {
+    async ActivatePayment(token, id) {
         const data = axios({
             method: "PUT",
-            url: import.meta.env.VITE_BASE_URL + '/category/Actived',
+            url: import.meta.env.VITE_BASE_URL + '/paymentMethod/Actived',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -116,4 +131,4 @@ const ServiceAdminCategory = {
 
 }
 
-export default ServiceAdminCategory;
+export default ServiceAdminPayment;

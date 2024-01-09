@@ -1,57 +1,40 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Input, Typography } from '@mui/material'
 import InputField from '../../../Components/Input'
 import { useEffect, useState } from 'react';
 import useLoading from '../../../Hooks/useLoading';
-import ServiceAdminCategory from '../../../Service/Admin/ServiceAdminCategory';
+import ServiceAdminPayment from '../../../Service/Admin/ServiceAdminPayment';
 import SelectInput from '../../../components/SelectInput'
 import LoadingAnimation from '../../../components/LoadingAnimation';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
-import useFlag from '../../../Hooks/useFlag';
 
-const EditPageCategory = () => {
+const AddPagePayment = () => {
     const navigate = useNavigate();
     const authCtx = useAuth();
-    const { id } = useParams();
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [accNumber, setAccountNumber] = useState("");
     const [image, setImage] = useState(0);
     const [imageFile, setImageFile] = useState([]);
     const [categoryOption, setCategoryOption] = useState([]);
     const { isLoading, RunLoading, EndLoading } = useLoading();
-    const { IsFlag, flag } = useFlag();
 
     useEffect(() => {
         RunLoading();
-        Promise.allSettled([
-            ServiceAdminCategory.GetCategoryData(),
-            ServiceAdminCategory.GetCategoryById(id)
-        ])
-        .then(([optionCategory, data]) => {
-            const dataOption = optionCategory.value.data.map((v) => {
+        ServiceAdminPayment.GetPayment()
+        .then((response) => {
+            const dataOption = response?.data?.map((v) => {
                 return { value: v.id, label: v.name }
             })
-            setCategoryOption(dataOption);
-            setName(data.value.data?.name);
-            setDescription(data.value.data?.description);
-            setImage(data.value.data?.imagePath)
+            setCategoryOption(dataOption)
             EndLoading();
         })
-        
-        // .then((response) => {
-        //     const dataOption = response?.data?.map((v) => {
-        //         return { value: v.id, label: v.name }
-        //     })
-        //     setCategoryOption(dataOption)
-        //     EndLoading();
-        // })
-        // .catch((error) => {
-        //     EndLoading();
-        //     console.log(error.response);
-        // })
-    }, [id, flag])
-
+        .catch((error) => {
+            EndLoading();
+            console.log(error.response);
+        })
+    }, [])
+    
     const handleInputImage = (e) => {
         setImageFile(e.target.files[0])
         const reader = new FileReader();
@@ -66,13 +49,13 @@ const EditPageCategory = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const sendData = new FormData();
-        sendData.append("CategoryID", id);
         sendData.append("Name", name);
-        sendData.append("Description", description);
+        sendData.append("AccountNumber", accNumber);
         sendData.append("Image", imageFile)
+        console.log(accNumber)
 
         RunLoading();
-        ServiceAdminCategory.EditCategory(authCtx.token, sendData)
+        ServiceAdminPayment.AddPayment(authCtx.token, sendData)
             .then((response) => {
                     if (response.status == 200) {
                         EndLoading();
@@ -83,10 +66,9 @@ const EditPageCategory = () => {
                             showConfirmButton: false,
                             timer: 1000
                         });
-                        IsFlag();
-                        // setTimeout(() => {
-                        //     navigate('/admin/category')
-                        // }, 1100);
+                        setTimeout(() => {
+                            navigate('/admin/payment')
+                        }, 1100);
                     } else {
                         EndLoading();
                         Swal.fire({
@@ -104,48 +86,46 @@ const EditPageCategory = () => {
         <>
         {isLoading && (<LoadingAnimation />)}
         <Typography variant='h6' sx={{ padding: "2% 0", fontWeight: "600    " }}>
-            Form Edit Category 
+            Form Add Payment Method 
             </Typography>
         <form method='POST' onSubmit={handleSubmit}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: "1em" }}>
             <Box>        
-                <Typography variant='subtitle1'>Category Name<span style={{ color: 'red'  }}>*</span></Typography>
+                <Typography variant='subtitle1'>Payment Method<span style={{ color: 'red'  }}>*</span></Typography>
                 <InputField
                     type='text'
-                    placeholder='Category Name' 
+                    placeholder='Payment Name' 
                     name='name'
                     handleState={setName}
                     radiusBorder="md"
-                    value={name}
                     required={true}
                 />   
             </Box>
             <Box>        
-                <Typography variant='subtitle1'>Category Description<span style={{ color: 'red'  }}>*</span></Typography>
+                <Typography variant='subtitle1'>Account Number<span style={{ color: 'red'  }}>*</span></Typography>
                 <InputField
                     type='text'
-                    placeholder='Category Description' 
-                    name='description'
-                    handleState={setDescription}
+                    placeholder='No. Account' 
+                    name='accountNumber'
+                    handleState={setAccountNumber}
                     radiusBorder="md"
-                    value={description}
                     required={true}
                 />   
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>        
                 <Box sx={{ display: 'flex', flexDirection: 'column' }} >
-                    <Typography variant='subtitle1'>Category Image<span style={{ color: 'red'  }}>*</span></Typography>
+                    <Typography variant='subtitle1'>Logo<span style={{ color: 'red'  }}>*</span></Typography>
                     <div>
                         <input
                             type="file"
                             accept="image/png"
                             onChange={(e) => handleInputImage(e)}
-                            // required={true}
+                            required={true}
                         />
                     </div>
                 </Box>
                 <img
-                    src={image && image?.search('uploads') >= 0 ? `${import.meta.env.VITE_BASE_URL}/${image}`: image}
+                    src={image}
                     width={'200px'}
                     alt=""
                 />
@@ -153,9 +133,9 @@ const EditPageCategory = () => {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px   ' }}>
                 <Button type="submit" variant='contained' color='success'>
-                    Update Data
+                    Create Data
                 </Button>
-                <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/category')}>
+                <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/payment')}>
                     Cancel
                 </Button>
             </Box>    
@@ -164,4 +144,4 @@ const EditPageCategory = () => {
   )
 }
 
-export default EditPageCategory
+export default AddPagePayment

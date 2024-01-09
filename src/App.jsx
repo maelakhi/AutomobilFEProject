@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import React from 'react';
+import { Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from './Pages/Home'
 import LoginPage from './Pages/Login'
 import RegisterPage from './Pages/Register'
@@ -33,15 +34,29 @@ import EditPageProduct from "./Pages/AdminPage/Product/EditPageProduct";
 import ViewInvoiceAdmin from './Pages/AdminPage/Invoice/ViewInvoice'
 import AddPageCategory from "./Pages/AdminPage/Category/AddPageCategory";
 import EditPageCategory from "./Pages/AdminPage/Category/EditPageCategory";
+import UserAdmin from "./Pages/AdminPage/User";
+import AddPageUser from "./Pages/AdminPage/User/AddPageUser";
+import EditPageUser from "./Pages/AdminPage/User/EditPageUser";
+import PaymentAdmin from './Pages/AdminPage/Payment';
+import AddPagePayment from './Pages/AdminPage/Payment/AddPagePayment';
+import EditPagePayment from './Pages/AdminPage/Payment/EditPagePayment';
 
 function App() {
   const authCtx = useAuth();
+  const navigate = useNavigate();
 
   if (authCtx.token == "") {
     authCtx.token = Cookie.get(token_name)
     authCtx.role = Cookie.get(role_name)
   }
   
+  
+  React.useEffect(() => {
+    if (authCtx.role == "admin") {
+      return navigate("/admin");
+    }
+  }, [authCtx.role])
+
   return (
     <>
      <Routes>
@@ -78,6 +93,13 @@ function App() {
           <Route path="category/edit/:id" element={<EditPageCategory />} />
           <Route path="invoice" element={<InvoiceAdmin />} />
           <Route path="invoice/:id" element={<ViewInvoiceAdmin />} />
+          <Route path="user" element={<UserAdmin />} />
+          <Route path="user/create" element={<AddPageUser />} />
+          <Route path="user/edit/:id" element={<EditPageUser />} />
+          <Route path="payment" element={<PaymentAdmin />} />
+          <Route path="payment/create" element={<AddPagePayment />} />
+          <Route path="payment/edit/:id" element={<EditPagePayment />} />
+
         </Route>
        <Route path='*' exact={true} element={<NotFoundPage/>} />
     </Routes>

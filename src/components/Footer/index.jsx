@@ -9,11 +9,13 @@ import { useEffect, useState } from 'react';
 import ServiceLandingPage from '../../Service/ServiceLandingPage';
 import useAuth from '../../Hooks/useAuth';
 import useLoading from '../../Hooks/useLoading';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
     const authCtx = useAuth();
     const { isLoading, RunLoading, EndLoading } = useLoading();
     const [data, setData] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         RunLoading();
@@ -49,7 +51,7 @@ const Footer = () => {
                     {!isLoading && data && data.map((value) => {
                         return (
                             <Grid item lg={6} key={value.id}>
-                                <ListItem disablePadding>
+                                <ListItem disablePadding onClick={() => navigate(`/listmenu/${value.id}`)}>
                                     <ListItemButton>
                                         <ListItemIcon sx={{ minWidth: '20px !important'}}>
                                             <Circle  style={{ fontSize: '8px'}}/>

@@ -17,24 +17,25 @@ const AddPageProduct = () => {
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState(0);
     const [imageFile, setImageFile] = useState([]);
-    const [category, setCategory] = useState(0);
+    const [category, setCategory] = useState();
     const [categoryOption, setCategoryOption] = useState([]);
     const { isLoading, RunLoading, EndLoading } = useLoading();
 
     useEffect(() => {
         RunLoading();
         ServiceAdminProduct.GetCategoryData()
-        .then((response) => {
-            const dataOption = response?.data?.map((v) => {
-                return { value: v.id, label: v.name }
+            .then((response) => {
+                const dataOption = response?.data?.map((v) => {
+                    return { value: v.id, label: v.name }
+                })
+                setCategoryOption(dataOption)
+                EndLoading();
             })
-            setCategoryOption(dataOption)
-            EndLoading();
-        })
-        .catch((error) => {
-            EndLoading();
-            console.log(error.response);
-        })
+            .catch((error) => {
+                EndLoading();
+                console.log(error.response);
+            })
+            .finally((res) => EndLoading());
     }, [])
     
     const handleInputImage = (e) => {
@@ -156,7 +157,7 @@ const AddPageProduct = () => {
             </Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px   ' }}>
-                <Button type="submit" variant='contained'>
+                <Button type="submit" variant='contained' color='success'>
                     Create Data
                 </Button>
                 <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/product')}>

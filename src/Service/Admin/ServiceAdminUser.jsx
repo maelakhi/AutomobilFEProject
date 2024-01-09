@@ -1,38 +1,42 @@
-import axios from 'axios';
+import axios from "axios";
 
-const ServiceAdminProduct = {
-    async GetDataAllProduct() {
+const ServiceAdminUser = {
+     async GetUsers(token) {
         const data = axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL + '/admin/products',
+            url: import.meta.env.VITE_BASE_URL + `/users`,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`
             }
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
 
-    async GetDataByIdProduct(Id) {
+    async GetDataByIdUser(token,Id) {
         const data = axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL + `/products/${Id}`,
+            url: import.meta.env.VITE_BASE_URL + `/users/${Id}`,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`
             }
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
 
-    async DeactivateProduct(token, id) {
+    async DeactivateUser(token, id) {
         const data = axios({
             method: "PUT",
-            url: import.meta.env.VITE_BASE_URL + '/products/Deactived',
+            url: import.meta.env.VITE_BASE_URL + '/user/Deactived',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -41,14 +45,15 @@ const ServiceAdminProduct = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
 
-    async ActivateProduct(token, id) {
+    async ActivateUser(token, id) {
         const data = axios({
             method: "PUT",
-            url: import.meta.env.VITE_BASE_URL + '/products/Actived',
+            url: import.meta.env.VITE_BASE_URL + '/user/Actived',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -57,59 +62,15 @@ const ServiceAdminProduct = {
         })
         .then((response) => response)
         .catch((error) => error.response)
+        .finally((response) => response)
 
         return data;
     },
 
-    async GetCategoryData() {
-        const data = await axios({
-            method: "GET",
-            url: import.meta.env.VITE_BASE_URL+'/admin/Category',
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then((response) => response)
-        .catch((err) => console.error(err.message))
-        
-        return data
-    },
-
-    async AddProduct(token, sendData) {
+    async RegisterAdmin(token, sendData) {
         const data = await axios({
             method: "POST",
-            url: import.meta.env.VITE_BASE_URL+'/products',
-            headers:{
-                "Authorization" : `Bearer ${token}`
-            },
-            data: sendData
-        })
-        .then((response) => response)
-        .catch((err) => console.error(err.message))
-        
-        return data
-    },
-
-    async EditProduct(token,sendData) {
-        const data = await axios({
-            method: "PUT",
-            url: import.meta.env.VITE_BASE_URL+'/products',
-            headers: {
-                "Authorization" : `Bearer ${token}`
-            },
-            data: sendData
-        })
-        .then((response) => response)
-        .catch((err) => console.error(err.message))
-        .finally((response) => response)
-        
-        return data
-    },
-
-    async DeleteProduct(token, sendData) {
-        const data = await axios({
-            method: "DELETE",
-            url: import.meta.env.VITE_BASE_URL+'/products',
+            url: import.meta.env.VITE_BASE_URL + '/admin/Register',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : `Bearer ${token}`
@@ -117,11 +78,44 @@ const ServiceAdminProduct = {
             data: sendData
         })
         .then((response) => response)
+        .catch((err) => err)
+        .finally((response) => response)
+        
+        return data
+    },
+
+    async DeleteUser(token, id) {
+        const data = await axios({
+            method: "DELETE",
+            url: import.meta.env.VITE_BASE_URL+'/user',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`
+            },
+            data: id
+        })
+        .then((response) => response)
         .catch((err) => console.error(err.message))
         .finally((response) => response)
         
         return data
-    }
+    },
+
+    async EditUser(token,sendData) {
+        const data = await axios({
+            method: "PUT",
+            url: import.meta.env.VITE_BASE_URL+'/users',
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            },
+            data: sendData
+        })
+        .then((response) => response)
+        .catch((err) => console.error(err.message))
+        .finally((response) => response)
+        
+        return data
+    },
 }
 
-export default ServiceAdminProduct;
+export default ServiceAdminUser

@@ -18,8 +18,8 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+  [`&.${tableCellClasses.head}`]: {   
+    backgroundColor: '#790B0A',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -28,8 +28,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+  '&:nth-of-type(even)': {
+    backgroundColor: '#790B0A1A',
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -163,59 +163,65 @@ const CategoryAdmin = () => {
     });
   }
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        RunLoading();
-        ServiceAdminCategory.DeleteCategory(authCtx.token, id)
-          .then((response) => {
-                if (response.status == 200) {
-                    EndLoading();
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: `${response.data.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    IsFlag();
-                } else {
-                    EndLoading();
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: `${response.data.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                }
-            }).catch((error) => {
-                EndLoading();
-                Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: `${error.message}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-            })
-      }
-    });
-  }
+  // const handleDelete = (id) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, Delete it!"
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       RunLoading();
+  //       ServiceAdminCategory.DeleteCategory(authCtx.token, id)
+  //         .then((response) => {
+  //               if (response.status == 200) {
+  //                   EndLoading();
+  //                   Swal.fire({
+  //                       position: "center",
+  //                       icon: "success",
+  //                       title: `${response.data.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //                   IsFlag();
+  //               } else {
+  //                   EndLoading();
+  //                   Swal.fire({
+  //                       position: "center",
+  //                       icon: "error",
+  //                       title: `${response.data.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //               }
+  //           }).catch((error) => {
+  //               EndLoading();
+  //               Swal.fire({
+  //                       position: "center",
+  //                       icon: "error",
+  //                       title: `${error.message}`,
+  //                       showConfirmButton: false,
+  //                       timer: 1000
+  //                   });
+  //           })
+  //     }
+  //   });
+  // }
 
   return (
     <>
       {isLoading && (<LoadingAnimation />)}
+      <Box sx={{ padding: '0.1% 0' }}>
+        <Typography variant="h5" component="h2">
+            Menu Admin Category
+        </Typography>
+      </Box>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "end", margin: "1% 0" }}>
         <Button
-          variant='contained'
+          variant='outlined'
+          color='success'
           onClick={() => navigate('create')}
         >
           Add Category
@@ -239,19 +245,19 @@ const CategoryAdmin = () => {
             ).map((row) => (
                 <StyledTableRow key={row.id}>
                 <StyledTableCell align="center">
-                   <img src={row.imagePath} alt={row.name} width={'80px'} />
+                   <img src={`${import.meta.env.VITE_BASE_URL}/${row.imagePath}`} alt={row.name} width={'80px'} />
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.isActive ? (
-                  <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleDeactivate.bind(null,row.id)}>
-                    Deactivate
-                  </Button>
-                  ): (
-                    <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleActivated.bind(null, row.id)}>
+                    <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleDeactivate.bind(null,row.id)}>
                       Activate
                     </Button>
+                  ): (
+                  <Button variant='contained' color = 'success' sx={{fontSize: '0.8em',backgroundColor: 'red'}} onClick={handleActivated.bind(null, row.id)}>
+                    Deactivate
+                  </Button>
                   )}
                 </StyledTableCell>
                 <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
@@ -259,22 +265,22 @@ const CategoryAdmin = () => {
                     {row.description}
                   </Typography>
                 </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
+                <StyledTableCell align="center">
                   <Button
                     variant='contained'
-                    color='info'
-                    sx={{ backgroundColor: '#FFA500', fontSize: '0.8em', mx: "10px" }}
+                    color='success'
+                    sx={{ fontSize: '0.8em'}}
                     onClick={() => navigate(`edit/${row.id}`) }
                   >
                     Edit
                   </Button>
-                  <Button
+                  {/* <Button
                     variant='contained'
                     sx={{ backgroundColor: 'red', fontSize: '0.8em', mx: "10px" }}
                     onClick={handleDelete.bind(null, row.id)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
                 </StyledTableCell>
                 </StyledTableRow>
             ))}

@@ -81,7 +81,7 @@ const Register = () => {
     return (
         <>
         {isLoading && (<LoadingAnimation />)}
-        <form method='POST' className='container_register' onSubmit={handleSubmit} style={{ margin: "40px 0 0 0" }}>
+        <form method='POST' className='container_register' onSubmit={handleSubmit} style={{ margin: "60px 0 0 0" }}>
             <Container maxWidth='sm'>
                 <Stack spacing={6}>
                     <Item elevation={0}>

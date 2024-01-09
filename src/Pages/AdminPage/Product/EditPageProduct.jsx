@@ -77,8 +77,6 @@ const EditPageProduct = () => {
         sendData.append("IdCategory", category)
         sendData.append("Image", imageFile)
 
-        console.log(imageFile)
-        console.log(image)
         RunLoading();
         ServiceAdminProduct.EditProduct(authCtx.token, sendData)
             .then((response) => {
@@ -107,6 +105,7 @@ const EditPageProduct = () => {
                     }
             }).catch(err => console.log(err.response))
     }
+
 
     return (
         <>
@@ -175,14 +174,14 @@ const EditPageProduct = () => {
                     </div>
                 </Box>
                 <img
-                    src={image}
+                    src={image && image?.search('uploads') >= 0 ? `${import.meta.env.VITE_BASE_URL}/${image}`: image}
                     width={'200px'}
                     alt=""
                 />
             </Box>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px   ' }}>
-                <Button type="submit" variant='contained'>
+                <Button type="submit" variant='contained' color='success'>
                     Update Data
                 </Button>
                 <Button type="submit" variant='contained' color='warning' onClick={() => navigate('/admin/product')}>

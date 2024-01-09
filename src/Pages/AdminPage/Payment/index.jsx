@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import ServiceAdminProduct from '../../../Service/Admin/ServiceAdminProduct'
+import ServiceAdminPayment from '../../../Service/Admin/ServiceAdminPayment'
 import useAuth from '../../../Hooks/useAuth'
 import useLoading from '../../../Hooks/useLoading'
 import useFlag from '../../../Hooks/useFlag'
@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const ProductAdmin = () => {
+const PaymentAdmin = () => {
   const navigate = useNavigate();
   const authCtx = useAuth();
   const [data, setData] = useState([]);
@@ -48,7 +48,7 @@ const ProductAdmin = () => {
 
   useEffect(() => {
     RunLoading();
-    ServiceAdminProduct.GetDataAllProduct(authCtx.token)
+    ServiceAdminPayment.GetPaymentAdmin(authCtx.token)
       .then((response) => {
         setData(response.data);
         EndLoading();
@@ -72,7 +72,6 @@ const ProductAdmin = () => {
   const handleDeactivate = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to Deactivate!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -81,7 +80,7 @@ const ProductAdmin = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         RunLoading();
-        ServiceAdminProduct.DeactivateProduct(authCtx.token, id)
+        ServiceAdminPayment.DeactivatePayment(authCtx.token, id)
           .then((response) => {
                 if (response.status == 200) {
                     EndLoading();
@@ -120,7 +119,6 @@ const ProductAdmin = () => {
   const handleActivated = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to Activated!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -129,7 +127,7 @@ const ProductAdmin = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         RunLoading();
-        ServiceAdminProduct.ActivateProduct(authCtx.token, id)
+        ServiceAdminPayment.ActivatePayment(authCtx.token, id)
           .then((response) => {
                 if (response.status == 200) {
                     EndLoading();
@@ -164,11 +162,10 @@ const ProductAdmin = () => {
       }
     });
   }
-  
+
   // const handleDelete = (id) => {
   //   Swal.fire({
   //     title: "Are you sure?",
-  //     text: "You won't be able to Delete this!",
   //     icon: "warning",
   //     showCancelButton: true,
   //     confirmButtonColor: "#3085d6",
@@ -177,7 +174,7 @@ const ProductAdmin = () => {
   //   }).then((result) => {
   //     if (result.isConfirmed) {
   //       RunLoading();
-  //       ServiceAdminProduct.DeleteProduct(authCtx.token, id)
+  //       ServiceAdminPayment.DeletePayment(authCtx.token, id)
   //         .then((response) => {
   //               if (response.status == 200) {
   //                   EndLoading();
@@ -216,30 +213,23 @@ const ProductAdmin = () => {
   return (
     <>
       {isLoading && (<LoadingAnimation />)}
-      <Box sx={{ padding: '0.1% 0' }}>
-        <Typography variant="h5" component="h2">
-            Menu Admin Product
-        </Typography>
-      </Box>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "end", margin: "1% 0" }}>
         <Button
           variant='outlined'
           color='success'
           onClick={() => navigate('create')}
         >
-          Add Product
+          Add Payment Method
         </Button>
       </Box>
       <TableContainer component={Paper}>
       <Table stickyHeader sx={{ minWidth: 700, maxHeight: 500 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Course Image</StyledTableCell>
-            <StyledTableCell>Course Name</StyledTableCell>
+            <StyledTableCell align="center">Logo</StyledTableCell>
+            <StyledTableCell align="center">Payment Name</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right">Category</StyledTableCell>
-            <StyledTableCell align="center">Description</StyledTableCell>
+            <StyledTableCell align="center">Payment No. Account</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -249,10 +239,10 @@ const ProductAdmin = () => {
             : data
             ).map((row) => (
                 <StyledTableRow key={row.id}>
-                <StyledTableCell >
+                <StyledTableCell align="center">
                    <img src={`${import.meta.env.VITE_BASE_URL}/${row.imagePath}`} alt={row.name} width={'80px'} />
                 </StyledTableCell>
-                <StyledTableCell >
+                <StyledTableCell align="center">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.isActive ? (
@@ -265,14 +255,12 @@ const ProductAdmin = () => {
                   </Button>
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="center">Rp.{new Intl.NumberFormat().format(row.price)}</StyledTableCell>
-                <StyledTableCell align="right">{row.categoryName}</StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="left">
+                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
                   <Typography variant='p' sx={{ wordWrap: "break-word"}}>
-                    {row.description}
+                    {row.accountNumber}
                   </Typography>
                 </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="left">
+                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
                   <Button
                     variant='contained'
                     color='success'
@@ -323,4 +311,4 @@ const ProductAdmin = () => {
   )
 }
 
-export default ProductAdmin
+export default PaymentAdmin

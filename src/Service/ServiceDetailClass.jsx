@@ -51,6 +51,26 @@ const ServiceDetailClass = {
         return data
     },
 
+    async AddToCartBuyNow(token, date, idProduct) {
+        const senData = {
+            idProduct: idProduct,
+            dateSchedule: date
+        }
+        const data = await axios({
+            method: "POST",
+            url: import.meta.env.VITE_BASE_URL+`/cartsBuyNow`,
+            headers:{
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`,
+            },
+            data: senData
+        })
+        .then((response) => response)
+        .catch((err) => err.response )
+        
+        return data
+    },
+
 }
 
 export default ServiceDetailClass

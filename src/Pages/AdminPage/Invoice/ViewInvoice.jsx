@@ -8,26 +8,26 @@ import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { FormatDate } from '../../../Utils/FormatDate'
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
+    [`&.${tableCellClasses.head}`]: {   
+      backgroundColor: '#790B0A',
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+      backgroundColor: '#790B0A1A',
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+    
 const ViewInvoice = () => {
     const authCtx = useAuth();
     const { id } = useParams();
@@ -79,16 +79,16 @@ const ViewInvoice = () => {
                                 </TableHead>
                                 <TableBody>
                                 {data?.orderDetails?.map((row, i) => (
-                                    <TableRow
+                                    <StyledTableRow
                                         key={i}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align='left'>{i+1}</TableCell>
-                                        <TableCell align='left'>{row?.product?.name}</TableCell>
-                                        <TableCell align="left">{row?.product?.categoryName}</TableCell>
-                                        <TableCell align="right">{FormatDate(row?.dateSchedule)}</TableCell>
-                                        <TableCell align="right">Rp. {new Intl.NumberFormat().format(row?.product?.price)}</TableCell>
-                                    </TableRow>
+                                        <StyledTableCell align='left'>{i+1}</StyledTableCell>
+                                        <StyledTableCell align='left'>{row?.product?.name}</StyledTableCell>
+                                        <StyledTableCell align="left">{row?.product?.categoryName}</StyledTableCell>
+                                        <StyledTableCell align="right">{FormatDate(row?.dateSchedule)}</StyledTableCell>
+                                        <StyledTableCell align="right">Rp. {new Intl.NumberFormat().format(row?.product?.price)}</StyledTableCell>
+                                    </StyledTableRow>
                                 ))}
                                 </TableBody>
                             </Table>

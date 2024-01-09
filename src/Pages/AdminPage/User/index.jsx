@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import ServiceAdminProduct from '../../../Service/Admin/ServiceAdminProduct'
 import useAuth from '../../../Hooks/useAuth'
 import useLoading from '../../../Hooks/useLoading'
 import useFlag from '../../../Hooks/useFlag'
@@ -16,6 +15,7 @@ import { Box, Button, TableFooter, TablePagination, Typography } from '@mui/mate
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import ServiceAdminUser from '../../../Service/Admin/ServiceAdminUser'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {   
@@ -37,18 +37,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const ProductAdmin = () => {
+const UserAdmin = () => {
   const navigate = useNavigate();
   const authCtx = useAuth();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { isLoading, RunLoading, EndLoading } = useLoading();
-  const { flag, IsFlag } = useFlag()
+  const { flag, IsFlag } = useFlag();
 
   useEffect(() => {
     RunLoading();
-    ServiceAdminProduct.GetDataAllProduct(authCtx.token)
+    ServiceAdminUser.GetUsers(authCtx.token)
       .then((response) => {
         setData(response.data);
         EndLoading();
@@ -77,11 +77,11 @@ const ProductAdmin = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Deactivate it!"
+      confirmButtonText: "Yes, Inactive it!"
     }).then((result) => {
       if (result.isConfirmed) {
         RunLoading();
-        ServiceAdminProduct.DeactivateProduct(authCtx.token, id)
+        ServiceAdminUser.DeactivateUser(authCtx.token, id)
           .then((response) => {
                 if (response.status == 200) {
                     EndLoading();
@@ -129,7 +129,7 @@ const ProductAdmin = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         RunLoading();
-        ServiceAdminProduct.ActivateProduct(authCtx.token, id)
+        ServiceAdminUser.ActivateUser(authCtx.token, id)
           .then((response) => {
                 if (response.status == 200) {
                     EndLoading();
@@ -165,60 +165,61 @@ const ProductAdmin = () => {
     });
   }
   
-  // const handleDelete = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to Delete this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, Delete it!"
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       RunLoading();
-  //       ServiceAdminProduct.DeleteProduct(authCtx.token, id)
-  //         .then((response) => {
-  //               if (response.status == 200) {
-  //                   EndLoading();
-  //                   Swal.fire({
-  //                       position: "center",
-  //                       icon: "success",
-  //                       title: `${response.data.message}`,
-  //                       showConfirmButton: false,
-  //                       timer: 1000
-  //                   });
-  //                   IsFlag();
-  //               } else {
-  //                   EndLoading();
-  //                   Swal.fire({
-  //                       position: "center",
-  //                       icon: "error",
-  //                       title: `${response.data.message}`,
-  //                       showConfirmButton: false,
-  //                       timer: 1000
-  //                   });
-  //               }
-  //           }).catch((error) => {
-  //               EndLoading();
-  //               Swal.fire({
-  //                       position: "center",
-  //                       icon: "error",
-  //                       title: `${error.message}`,
-  //                       showConfirmButton: false,
-  //                       timer: 1000
-  //                   });
-  //           })
-  //     }
-  //   });
-  // }
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to Delete this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        RunLoading();
+        ServiceAdminUser.DeleteUser(authCtx.token, id)
+          .then((response) => {
+                if (response.status == 200) {
+                    EndLoading();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    IsFlag();
+                } else {
+                    EndLoading();
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            }).catch((error) => {
+                EndLoading();
+                Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `${error.message}`,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+            })
+      }
+    });
+  }
 
   return (
     <>
+    
       {isLoading && (<LoadingAnimation />)}
-      <Box sx={{ padding: '0.1% 0' }}>
+      <Box sx={{ padding: '0.25% 0' }}>
         <Typography variant="h5" component="h2">
-            Menu Admin Product
+            Menu Admin User
         </Typography>
       </Box>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "end", margin: "1% 0" }}>
@@ -227,20 +228,18 @@ const ProductAdmin = () => {
           color='success'
           onClick={() => navigate('create')}
         >
-          Add Product
+          Add User
         </Button>
       </Box>
       <TableContainer component={Paper}>
       <Table stickyHeader sx={{ minWidth: 700, maxHeight: 500 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Course Image</StyledTableCell>
-            <StyledTableCell>Course Name</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right">Category</StyledTableCell>
-            <StyledTableCell align="center">Description</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
+            <StyledTableCell>User Name</StyledTableCell>
+            <StyledTableCell align="left">Email</StyledTableCell>
+            <StyledTableCell align="left">Role</StyledTableCell>
+            <StyledTableCell align="right">Status</StyledTableCell>
+            <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -249,30 +248,21 @@ const ProductAdmin = () => {
             : data
             ).map((row) => (
                 <StyledTableRow key={row.id}>
-                <StyledTableCell >
-                   <img src={`${import.meta.env.VITE_BASE_URL}/${row.imagePath}`} alt={row.name} width={'80px'} />
-                </StyledTableCell>
-                <StyledTableCell >
-                  {row.name}
-                </StyledTableCell>
+                <StyledTableCell>{row.name}</StyledTableCell>
+                <StyledTableCell align="left">{row.email}</StyledTableCell>
+                <StyledTableCell align="left">{row.role}</StyledTableCell>
                 <StyledTableCell align="right">{row.isActive ? (
                     <Button variant='contained' sx={{ backgroundColor: 'green', fontSize: '0.8em' }} onClick={handleDeactivate.bind(null,row.id)}>
                       Activate
                     </Button>
                   ): (
-                  <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
-                    Deactivate
-                  </Button>
+                    <Button variant='contained' sx={{backgroundColor: 'red', fontSize: '0.8em'}} onClick={handleActivated.bind(null, row.id)}>
+                        Inactivate
+                    </Button>
+                    
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="center">Rp.{new Intl.NumberFormat().format(row.price)}</StyledTableCell>
-                <StyledTableCell align="right">{row.categoryName}</StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="left">
-                  <Typography variant='p' sx={{ wordWrap: "break-word"}}>
-                    {row.description}
-                  </Typography>
-                </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="left">
+                <StyledTableCell sx={{ maxWidth: "300px" }} align="right">
                   <Button
                     variant='contained'
                     color='success'
@@ -323,4 +313,4 @@ const ProductAdmin = () => {
   )
 }
 
-export default ProductAdmin
+export default UserAdmin

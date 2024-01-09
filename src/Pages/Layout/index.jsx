@@ -76,10 +76,10 @@ const navItemsLogin = [
         flexItem 
       />
   },
-  {
-    icon: <PersonIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
-    label: 'Profile', variant: '', color: 'success', link: '/profile'
-  },
+  // {
+  //   icon: <PersonIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
+  //   label: 'Profile', variant: '', color: 'success', link: '/profile'
+  // },
   {
     icon: <LogoutIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
     label: 'LogOut', variant: '', color: 'success', link: '/'
@@ -115,26 +115,37 @@ const Layout = (props) => {
       </Box>
       <Divider />
       <List>
-        {!authCtx.isLogin && navItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
+        {!authCtx.token && navItems.map((item) => (
+          <ListItem key={item.label} disablePadding onClick={() => handleRedirect(item.link)}>
             <ListItemButton sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
-        {authCtx.isLogin && navItemsLogin.map((item) => (
+        {authCtx.token && navItemsLogin.map((item) => (
           <ListItem key={item.label} disablePadding onClick={() => handleRedirect(item.link)}>
             <ListItemButton sx={{ textAlign: 'center', justifyContent: "center" }}>
-              {item?.icon ? <>{item.icon}{item.label}</> : <ListItemText primary={item.label} />}
+              {item?.icon ? 
+                item.label == 'LogOut' ? (
+                    <>
+                      <div onClick={() => handleLogOut()} >
+                            {item.icon}{item.label}
+                      </div>
+                    </>
+                  ) : (
+                    <>{item.icon}{item.label}</>
+                  )
+                : <ListItemText primary={item.label} />}
             </ListItemButton>
           </ListItem>
+          
         ))}
       </List>
     </Box>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
+  
   return (
     <ThemeProvider theme={myTheme}>
 

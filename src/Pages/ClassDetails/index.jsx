@@ -1,15 +1,18 @@
 import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material'
-import React, { forwardRef, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import { useNavigate, useParams } from 'react-router-dom'
 import ServiceDetailClass from '../../Service/ServiceDetailClass'
 import CardCar from '../../components/CardCar'
 import LoadingAnimation from '../../components/LoadingAnimation'
-import DatePicker from "react-datepicker";
 import'./ClassDetails.css';
 import Swal from 'sweetalert2'
 import useAuth from '../../Hooks/useAuth'
 import useLoading from '../../Hooks/useLoading'
+import useDate from '../../Hooks/useDate'
+import SelectInput from '../../components/SelectInput'
+import ModalPayment from '../Checkout/ModalPayment'
+import ServiceCheckout from '../../Service/ServiceCheckout'
 import { FormatDate } from '../../Utils/FormatDate'
 
 
@@ -19,8 +22,11 @@ const ClassDetails = () => {
     const { id } = useParams(); 
     const [dataCar, setDataCar] = useState([])
     const [typeCar, setTypeCar] = useState([])
+    const [modalPayment, setModalPayment] = useState(false);
+    const [buyNowId, setModalBuyNowId] = useState(null);
     const { isLoading, RunLoading, EndLoading } = useLoading();
-    const [startDate, setStartDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(0)
+    const { date } = useDate();
 
     //scroll to top first render
     useEffect(() => {
@@ -39,8 +45,9 @@ const ClassDetails = () => {
 
             ServiceDetailClass.GetDataCarRelateType(idCategory)
                 .then((response) => setTypeCar(response.data))
-                .then((res)=> EndLoading())
+                .then((res) => EndLoading())
         })
+        .finally((res)=> EndLoading())
     }, [id])
 
     const handleAddCart = () => {
@@ -57,7 +64,7 @@ const ClassDetails = () => {
             });
         } else {
             RunLoading();
-            ServiceDetailClass.AddToCart(authCtx.token, startDate, dataCar.id)
+            ServiceDetailClass.AddToCart(authCtx.token, date[startDate]?.valueDate, dataCar.id)
                 .then((response) => {
                     if (response.status == 200) {
                         EndLoading();
@@ -80,7 +87,6 @@ const ClassDetails = () => {
                     }
             }).catch(err => console.log(err.response))
         }
-
     }
 
     const handleBuyNow = () => {
@@ -96,20 +102,81 @@ const ClassDetails = () => {
                 }
             });
         } else {
-            console.log('API')
+            RunLoading();
+            ServiceDetailClass.AddToCartBuyNow(authCtx.token, date[startDate]?.valueDate, dataCar.id)
+                .then((response) => {
+                    if (response.status == 200) {
+                        EndLoading();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        setModalBuyNowId(parseInt(response.data.data))
+                        setTimeout(() => {
+                            setModalPayment(true);
+                        }, 1100);
+                    } else {
+                        EndLoading();
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: `${response.data.message}`,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    }
+            }).catch(err => console.log(err.response))
         }
     }
-    
-    // eslint-disable-next-line react/display-name, react/prop-types
-    const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-        <button className={`example-custom-input`} onClick={onClick} ref={ref}>
-            {FormatDate(value)}
-        </button>
-    ));
+
+    const handlePayment = (idPaymentMethod) => {
+        setModalPayment(false);
+        RunLoading();
+        ServiceCheckout.CheckOutInvoice(authCtx.token, idPaymentMethod, [buyNowId])
+        .then((response) => {
+            if (response.status == 200) {
+            EndLoading();
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: `${response.data.message}`,
+                showConfirmButton: false,
+                timer: 1000
+            });
+            setTimeout(() => {
+                navigate("/confirmationPurchase")
+            }, 1100);
+            } else {
+            EndLoading();
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `${response.data.message}`,
+                showConfirmButton: false,
+                timer: 1000
+            });
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            EndLoading();
+        })
+    }
 
     return (
         <>
             {isLoading && (<LoadingAnimation />)}
+            {modalPayment && (
+                <ModalPayment
+                    open={modalPayment}
+                    handleClose={()=> setModalPayment(false)}
+                    selectedItems={[id]} 
+                    handlePayment={handlePayment}
+                />
+            )}
             <Container maxWidth={'xl'} sx={{ mt: '60px', padding: '0px !important' }}>
                 {/* Body */}
                 <Box sx={{ padding: "5%" }}>
@@ -122,7 +189,7 @@ const ClassDetails = () => {
                                     width: '100%',
                                 }}
                                 alt="Car Image"
-                                src={dataCar?.imagePath}
+                                src={`${import.meta.env.VITE_BASE_URL}/${dataCar?.imagePath}`}
                             />
                         </Grid>
                         <Grid item md={8}>
@@ -138,11 +205,13 @@ const ClassDetails = () => {
                                         IDR { dataCar.price }
                                     </Typography>
                                 </Grid>
-                                <Grid item sm={12} >
-                                    <DatePicker
-                                        selected={startDate}
-                                        onChange={(date) => setStartDate(date)}
-                                        customInput={<ExampleCustomInput />}
+                                <Grid item sm={6} >
+                                    <SelectInput 
+                                        value={startDate}
+                                        handleState={setStartDate}
+                                        listOption={date}
+                                        name="date"
+                                        required={true}
                                     />
                                 </Grid>
                                 <Grid item sm={12}>

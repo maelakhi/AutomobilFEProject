@@ -206,8 +206,8 @@ const Home = () => {
                                     >
                                         <Card sx={{ maxWidth: 345, boxShadow: 1,":hover": { boxShadow: 3 } }}>
                                             <CardMedia
-                                                sx={{ height: 140, minWidth: '180px', width: '100%' }}
-                                                image={value.imagePath}
+                                                sx={{ height: 140, minWidth: { lg:'180px', xs:'155px' }, width: '100%' }}
+                                                image={`${import.meta.env.VITE_BASE_URL}/${value?.imagePath}`}
                                                 // title={value.type_name}
                                             />
                                             <CardContent>

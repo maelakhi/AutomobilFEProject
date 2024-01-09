@@ -183,7 +183,14 @@ const Checkout = () => {
                 {dataCar.length == 0 && (<Typography variant="h5" textAlign="center">You have not made any purchases yet.</Typography>)}
                 {dataCar && dataCar.map((value) => (
                     <ListItem key={value.id}>
-                        <Card sx={{width: '100%', border: 'none', boxShadow: 'none', borderBottom: 1, borderColor: '#BDBDBD'}}>
+                    <Card
+                      sx={{
+                        width: '100%',
+                        border: 'none',
+                        boxShadow: 'none',
+                        borderBottom: 1,
+                        borderColor: '#BDBDBD'
+                      }}>
                             <Grid container>
                                 <Grid item md={0.5} sx={{display:'flex', justifyContent: 'center'}}>
                                     <Checkbox
@@ -195,15 +202,22 @@ const Checkout = () => {
                                     color="success"
                                     />
                                 </Grid>
-                                <Grid item md={11} sx={{display: 'flex'}}>
-                                    <Stack direction="row" spacing={2}>
+                                <Grid item md={11} xs={11} sx={{display: 'flex'}}>
+                                    <Stack 
+                                      sx={{
+                                        flexDirection:{ lg: 'row', xs:'column'}
+                                      }}
+                                      spacing={2}
+                                    >
                                         <CardMedia
                                         component="img"
                                         alt="Car Image"
-                                        width='200'
-                                        height='133.33'
-                                        image={value.product.imagePath}
-                                        sx={{objectFit: "contain"}}
+                                        image={`${import.meta.env.VITE_BASE_URL}/${value.product.imagePath}`}
+                                        sx={{
+                                          width: { lg: '200px', xs: '100%' },
+                                          height: {lg: '133.33px' },
+                                          objectFit: "contain"
+                                        }}
                                         />
                                         <CardContent>
                                             <Stack>
@@ -217,13 +231,13 @@ const Checkout = () => {
                                                 {FormatDate(value.dateSchedule)}
                                                 </Typography>
                                                 <Typography variant="h6" sx={{ color: '#790B0A'}}>
-                                                IDR {value.product.price}.00
+                                                IDR {new Intl.NumberFormat().format(value.product.price)}
                                                 </Typography>
                                             </Stack>
                                         </CardContent>
                                     </Stack>
                                 </Grid>
-                                <Grid item md={0.5} sx={{display: 'flex'}}>
+                                <Grid item md={0.5} xs={12} sx={{display: 'flex', justifyContent:{ xs: 'center'}}}>
                                     <CardActions>
                                     <IconButton onClick={() => handleOpenDeleteModal(value.id)} sx={{ color: '#EB5757' }}>
                                         <DeleteForeverIcon />
@@ -235,9 +249,13 @@ const Checkout = () => {
                     </ListItem>
                 ))}  
             </List>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack direction="row" justifyContent="space-between" alignItems="center"
+            sx={{
+              flexDirection: { lg: 'row', xs: 'column' }
+            }}
+          >
                 <Typography variant="h6">
-                    Total Price: IDR {totalSelectedPrice.toFixed(3)}
+                    Total Price: IDR {new Intl.NumberFormat().format(totalSelectedPrice)}
                 </Typography>
                   <Button
                     variant='contained'
