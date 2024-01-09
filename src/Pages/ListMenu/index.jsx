@@ -50,16 +50,16 @@ const ListMenu = () => {
                         minHeight: { lg: '60vh', xs: '40vh' }
                     }}
                 >
-                    <img
+                    {!isLoading && typeCar && (<img
                         src={`${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath}`}
                         alt="" 
                         width={'100%'} 
-                    />
+                    />)}
                 </Box>
                 {/* Body */}
                 <Box sx={{ padding: "5%" }}>
                     <Typography variant='h5' sx={{ textAlign: 'left'}}>
-                        {typeCar.type_name}
+                        {typeCar.name}
                     </Typography>
                     <br />
                     <Typography variant='h10' sx={{ textAlign: 'left', mb: "5% "}}>
