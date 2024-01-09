@@ -19,7 +19,7 @@ const ServiceAdminPayment = {
     async GetPayment() {
         const data = await axios({
             method: "GET",
-            url: import.meta.env.VITE_BASE_URL+'/paymentMethod',
+            url: import.meta.env.VITE_BASE_URL+'/admin/paymentMethod',
             headers:{
                 'Content-Type': 'application/json'
             }
