@@ -87,7 +87,7 @@ const InvoiceAdmin = () => {
           <TableRow>
             <StyledTableCell>Invoice Id</StyledTableCell>
             <StyledTableCell align="center">Order Number</StyledTableCell>
-            <StyledTableCell align="center">User Number</StyledTableCell>
+            <StyledTableCell align="center">User Name</StyledTableCell>
             <StyledTableCell align="center">Total Items</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
@@ -101,7 +101,7 @@ const InvoiceAdmin = () => {
               <StyledTableRow key={row.id}>
                 <StyledTableCell > {row.id} </StyledTableCell>
                 <StyledTableCell align="center">{row.idOrder}</StyledTableCell>
-                <StyledTableCell align="center">{row.idUser}</StyledTableCell>
+                <StyledTableCell align="center">{row.userData.name}</StyledTableCell>
                 <StyledTableCell align="center">{row.totalCourse}</StyledTableCell>
                 <StyledTableCell align="center">{row.status}</StyledTableCell>
                 <StyledTableCell align="center">

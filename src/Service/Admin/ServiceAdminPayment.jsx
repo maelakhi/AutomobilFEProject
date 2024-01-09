@@ -31,6 +31,21 @@ const ServiceAdminPayment = {
         return data
     },
 
+    async GetPaymentAdmin() {
+        const data = await axios({
+            method: "GET",
+            url: import.meta.env.VITE_BASE_URL+'/admin/paymentMethod',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response)
+        .catch((err) => console.error(err.message))
+        .finally((response) => response)
+        
+        return data
+    },
+
     async AddPayment(token, sendData) {
         const data = await axios({
             method: "POST",

@@ -48,7 +48,7 @@ const PaymentAdmin = () => {
 
   useEffect(() => {
     RunLoading();
-    ServiceAdminPayment.GetPayment(authCtx.token)
+    ServiceAdminPayment.GetPaymentAdmin(authCtx.token)
       .then((response) => {
         setData(response.data);
         EndLoading();
