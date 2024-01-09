@@ -105,8 +105,8 @@ const EditPageProduct = () => {
                     }
             }).catch(err => console.log(err.response))
     }
-console.log(image)
-console.log(image && image?.search('uploads'))
+
+
     return (
         <>
         {isLoading && (<LoadingAnimation />)}

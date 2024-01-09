@@ -71,8 +71,6 @@ const EditPageCategory = () => {
         sendData.append("Description", description);
         sendData.append("Image", imageFile)
 
-        console.log(imageFile)
-        console.log(image)
         RunLoading();
         ServiceAdminCategory.EditCategory(authCtx.token, sendData)
             .then((response) => {
