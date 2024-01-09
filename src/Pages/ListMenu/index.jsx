@@ -38,18 +38,24 @@ const ListMenu = () => {
             {isLoading && (<LoadingAnimation />)}
                 {/* Header */}
                 <Box
-                    component="img"
+                    // component="img"
                     sx={{
                         margin: '0px !important',
                         padding: '0px !important',
-                        backgroundImage: `url(${import.meta.env.VITE_BASE_URL}/${typeCar.imagePath})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: { lg: 'fill', xs: 'cover' },
+                        // backgroundImage: `url(${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath})`,
+                        // backgroundRepeat: "no-repeat",
+                        // backgroundSize: { lg: 'fill', xs: 'cover' },
                         width: '100%',
                         height: '100%',
-                        minHeight: { lg:'60vh', xs: '40vh'}
+                        minHeight: { lg: '60vh', xs: '40vh' }
                     }}
-                />
+                >
+                    <img
+                        src={`${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath}`}
+                        alt="" 
+                        width={'100%'} 
+                    />
+                </Box>
                 {/* Body */}
                 <Box sx={{ padding: "5%" }}>
                     <Typography variant='h5' sx={{ textAlign: 'left'}}>
