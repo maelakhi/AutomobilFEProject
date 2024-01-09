@@ -189,7 +189,7 @@ const ClassDetails = () => {
                                     width: '100%',
                                 }}
                                 alt="Car Image"
-                                src={dataCar?.imagePath}
+                                src={`${import.meta.env.VITE_BASE_URL}/${dataCar?.imagePath}`}
                             />
                         </Grid>
                         <Grid item md={8}>

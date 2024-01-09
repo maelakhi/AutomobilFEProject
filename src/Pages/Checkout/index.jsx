@@ -212,7 +212,7 @@ const Checkout = () => {
                                         <CardMedia
                                         component="img"
                                         alt="Car Image"
-                                        image={value.product.imagePath}
+                                        image={`${import.meta.env.VITE_BASE_URL}/${value.product.imagePath}`}
                                         sx={{
                                           width: { lg: '200px', xs: '100%' },
                                           height: {lg: '133.33px' },

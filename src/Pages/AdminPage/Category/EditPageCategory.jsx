@@ -147,7 +147,7 @@ const EditPageCategory = () => {
                     </div>
                 </Box>
                 <img
-                    src={image}
+                    src={image && image?.search('uploads') >= 0 ? `${import.meta.env.VITE_BASE_URL}/${image}`: image}
                     width={'200px'}
                     alt=""
                 />

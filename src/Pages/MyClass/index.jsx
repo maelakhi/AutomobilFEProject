@@ -51,7 +51,7 @@ const MyClassPage = () => {
                                             width: { lg: 151, xs: "100%" },
                                             objectFit: "fill"
                                         }}
-                                        image={value.product.imagePath}
+                                        image={`${import.meta.env.VITE_BASE_URL}/${value.product.imagePath}`}
                                         alt="Live from space album cover"
                                     />
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
