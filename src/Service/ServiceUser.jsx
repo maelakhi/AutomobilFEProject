@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-const URLbase = 'https://localhost:7052';
-
-
 const ServiceUser = {
 
     async Login(email, password) {

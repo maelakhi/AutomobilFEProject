@@ -50,8 +50,9 @@ const AddPagePayment = () => {
         e.preventDefault();
         const sendData = new FormData();
         sendData.append("Name", name);
-        sendData.append("Account number", accNumber);
+        sendData.append("AccountNumber", accNumber);
         sendData.append("Image", imageFile)
+        console.log(accNumber)
 
         RunLoading();
         ServiceAdminPayment.AddPayment(authCtx.token, sendData)

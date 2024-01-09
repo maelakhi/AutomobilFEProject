@@ -47,19 +47,19 @@ const DashBoard = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center'
+          // alignItems: 'center'
         }}
       >  
         <Typography variant='h5' sx={{ fontWeight: 600, textAlign: 'center' }}>
           Data Product in Category
-        </Typography>  
+        </Typography> 
         <PieChart
           series={[
             {
               data: dataProduct,
             },
           ]}
-          width={400}
+          width={1000}
           height={200}
         />
      </Box>
@@ -69,7 +69,7 @@ const DashBoard = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center'
+          // alignItems: 'center'
         }}
       >  
         <Typography variant='h5' sx={{ fontWeight: 600, textAlign: 'center' }}>
@@ -81,7 +81,7 @@ const DashBoard = () => {
               data: dataUser,
             },
           ]}
-          width={400}
+          width={1000}
           height={200}
           colors={['#E86342','#94B9F3']}
         />
