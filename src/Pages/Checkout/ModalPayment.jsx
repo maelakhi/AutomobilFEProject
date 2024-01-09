@@ -63,7 +63,7 @@ const ModalPayment = (props) => {
                 >
                   <ListItemButton>
                     <ListItemIcon>
-                      <img src={value.imagePath} alt='' />
+                      <img src={`${import.meta.env.VITE_BASE_URL}/${value?.imagePath}`} alt='' />
                     </ListItemIcon>
                     <ListItemText primary={value.name} />
                   </ListItemButton>
