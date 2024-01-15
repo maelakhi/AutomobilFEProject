@@ -74,6 +74,7 @@ const Checkout = () => {
             showConfirmButton: false,
             timer: 1000
         });
+        setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((item) => item !== deleteItemId));
         IsFlag();
       } else {
         EndLoading();
@@ -84,8 +85,8 @@ const Checkout = () => {
             showConfirmButton: false,
             timer: 1000
         });
-    }
-  })
+      }
+    })
     handleCloseDeleteModal();
   };
 
@@ -150,7 +151,7 @@ const Checkout = () => {
   return (
   <>
     {isLoading && (<LoadingAnimation />)}
-    <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important' }}>
+    <Container maxWidth="xl" sx={{ mt: '60px', padding: '0px !important', minHeight: '100vh', display: 'grid', gridTemplateRows: '1fr auto' }}>
         {modalPayment && (
           <ModalPayment
             open={modalPayment}
@@ -159,7 +160,7 @@ const Checkout = () => {
             handlePayment={handlePayment}
           />
         )}
-        <Paper sx={{ p: 1 }}>
+          <Paper sx={{ p: 1, flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto', maxHeight: '100%' }}>
             <List>
                 <ListItem disablePadding>
                     <ListItemButton>
@@ -249,23 +250,6 @@ const Checkout = () => {
                     </ListItem>
                 ))}  
             </List>
-          <Stack direction="row" justifyContent="space-between" alignItems="center"
-            sx={{
-              flexDirection: { lg: 'row', xs: 'column' }
-            }}
-          >
-                <Typography variant="h6">
-                    Total Price: IDR {new Intl.NumberFormat().format(totalSelectedPrice)}
-                </Typography>
-                  <Button
-                    variant='contained'
-                    color='success'
-                    sx={{ width: isSmallScreen ? '100%' : 'auto' }}
-                    onClick={handleModalPayment}
-                  >
-                    Pay Now
-                </Button>
-            </Stack>
         </Paper>
 
       {/* Delete Confirmation Modal */}
@@ -293,6 +277,29 @@ const Checkout = () => {
         </Paper>
         </Modal>
     </Container>
+
+    {/* Sticky Footer */}
+    <Stack direction="row" justifyContent="space-between" alignItems="center"
+      sx={{
+        flexDirection: { lg: 'row', xs: 'column' },
+        backgroundColor: 'white',
+        padding: 2,
+        position: 'sticky',
+        bottom: 0,
+        borderTop: '3px solid #BDBDBD',
+      }}
+    >
+      <Typography variant="h6">
+        Total Price: IDR {new Intl.NumberFormat().format(totalSelectedPrice)}
+      </Typography>
+      <Button
+        variant='contained'
+        color='success'
+        onClick={handleModalPayment}
+      >
+        Pay Now
+      </Button>
+    </Stack>
   </>
   );
 }
