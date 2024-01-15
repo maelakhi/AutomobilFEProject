@@ -50,7 +50,7 @@ const Footer = () => {
                     {isLoading && (<CircularProgress color="inherit" />)}
                     {!isLoading && data && data.map((value) => {
                         return (
-                            <Grid item lg={6} key={value.id}>
+                            <Grid item lg={6} xs={12} key={value.id}>
                                 <ListItem disablePadding onClick={() => navigate(`/listmenu/${value.id}`)}>
                                     <ListItemButton>
                                         <ListItemIcon sx={{ minWidth: '20px !important'}}>

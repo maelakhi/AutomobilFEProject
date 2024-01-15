@@ -11,7 +11,12 @@ const CardCar = ({ value }) => {
   return (
          <Grid item lg={4} md={6} sm={12} >
             <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Card sx={{ maxWidth: 320, ":hover": { boxShadow: 3 } }}>
+              <Card
+                  sx={{
+                      maxWidth: { lg:320, xs:300 },
+                      ":hover": { boxShadow: 3 }
+                  }}
+              >
                   <CardMedia
                       sx={{ height: 180, width: '100%', minWidth: 345 }}
                       image={`${import.meta.env.VITE_BASE_URL}/${value?.imagePath}`}

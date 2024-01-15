@@ -98,7 +98,13 @@ const Login = () => {
             <Container maxWidth='sm'>
                 <Stack spacing={6}>
                     <Item elevation={0}>
-                        <Typography variant="h3" component="h2" color="#790B0A">
+                        <Typography
+                            sx={{
+                                color: "#790B0A",
+                                fontSize: { lg: '4em', xs: '2.5em' },
+                                pt:{ lg: '0px', xs: '20%' }
+                            }}
+                        >
                             Welcome Back!
                         </Typography>
                         <br />

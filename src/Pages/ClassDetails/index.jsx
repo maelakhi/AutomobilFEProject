@@ -179,21 +179,21 @@ const ClassDetails = () => {
             )}
             <Container maxWidth={'xl'} sx={{ mt: '60px', padding: '0px !important' }}>
                 {/* Body */}
-                <Box sx={{ padding: "5%" }}>
+                <Box sx={{ padding: { md:"5%", sm: '0%' } }}>
                     <Grid container columnSpacing={5}>
-                        <Grid item md={4} sm={12}>
+                        <Grid item md={5} sm={12}>
                             <Box
                                 component="img"
                                 sx={{
-                                    height: 266.67,
+                                    height: 345,
                                     width: '100%',
                                 }}
                                 alt="Car Image"
                                 src={`${import.meta.env.VITE_BASE_URL}/${dataCar?.imagePath}`}
                             />
                         </Grid>
-                        <Grid item md={8}>
-                            <Grid container rowSpacing={5}>
+                        <Grid item md={7} sm={12} >
+                            <Grid container rowSpacing={5} sx={{ padding: { md:"0%", sm: '5%', xs: '15px' } }}>
                                 <Grid item sm={12}>
                                     <Typography component="p">
                                         { dataCar.categoryName }
@@ -205,7 +205,7 @@ const ClassDetails = () => {
                                         IDR { dataCar.price }
                                     </Typography>
                                 </Grid>
-                                <Grid item sm={6} >
+                                <Grid item sm={6} xs={12} >
                                     <SelectInput 
                                         value={startDate}
                                         handleState={setStartDate}
@@ -214,10 +214,10 @@ const ClassDetails = () => {
                                         required={true}
                                     />
                                 </Grid>
-                                <Grid item sm={12}>
+                                <Grid item sm={12} xs={12}>
                                     <Stack direction={{ sm: 'column', md:'row' }}  columnGap={2} rowGap={2}>
                                     <Button
-                                        sx={{width:233.5, height:40}}
+                                            sx={{ width: { sm:233.5, xs:'100%'} , height:40}}
                                         variant='outlined'
                                         color='success'
                                         onClick={handleAddCart}
@@ -225,7 +225,7 @@ const ClassDetails = () => {
                                         Add To Cart 
                                     </Button>
                                     <Button
-                                        sx={{width:233.5 ,height:40}}
+                                        sx={{width: { sm:233.5, xs:'100%'},height:40}}
                                         variant='contained'
                                             color='success'
                                             onClick={handleBuyNow}
@@ -238,11 +238,11 @@ const ClassDetails = () => {
                         </Grid>
                     </Grid>
 
-                    <Typography variant='h5' sx={{ textAlign: 'left'}}>
+                    <Typography variant='h5' sx={{ textAlign: 'left', padding: { md:"0%", sm: '5%', xs: '15px' } }}>
                         Description
                     </Typography>
                     <br />
-                    <Typography display='block' variant='h10' sx={{ textAlign: 'left', mb: "5% "}}>
+                    <Typography display='block' variant='h10' sx={{ textAlign: 'left', mb: "5% ", padding: { md:"0%", sm: '5%', xs: '15px' } }}>
                        {dataCar.description}
                     </Typography>
                 </Box>

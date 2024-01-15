@@ -142,7 +142,7 @@ const Home = () => {
                     <Typography variant='h5' sx={{ textAlign: 'center', my: "5% "}}>
                         Join us for the course
                     </Typography>
-                    <Grid container rowGap={6} alignItems='center' justifyContent='center' >
+                    <Grid container rowGap={6} alignItems='center' justifyContent='center'  >
                         {dataCar && dataCar.map((value, index) => {
                             return (
                                 <CardCar value={value} key={index} />
@@ -191,14 +191,14 @@ const Home = () => {
                         </Grid>
                     </Grid>
                 </Container>
-                <Container maxWidth='lg' sx={{padding: '0px !important'}}>
+                <Container maxWidth='lg' sx={{px: '0px !important', pb:'5%'}}>
                     <Typography variant='h5' sx={{ textAlign: 'center', mb: "5% "}}>
                         More car type you can choose
                     </Typography>
                     <Grid container rowGap={6} alignItems='center' justifyContent='center' >
                         {typeCar && typeCar.map((value, index) => {
                             return (
-                                <Grid item lg={3} md={4} sm={6} xs={6} key={index}>
+                                <Grid item lg={3} md={4} sm={6} xs={6} key={index} >
                                     <Stack
                                         sx={{ justifyContent: 'center', alignItems: 'center', textDecoration: 'none' }}
                                         component={Link}
@@ -206,7 +206,7 @@ const Home = () => {
                                     >
                                         <Card sx={{ maxWidth: 345, boxShadow: 1,":hover": { boxShadow: 3 } }}>
                                             <CardMedia
-                                                sx={{ height: 140, minWidth: { lg:'180px', xs:'155px' }, width: '100%' }}
+                                                sx={{ height: 140, minWidth: { lg:'180px', xs:'145px' }, width: '100%' }}
                                                 image={`${import.meta.env.VITE_BASE_URL}/${value?.imagePath}`}
                                                 // title={value.type_name}
                                             />
