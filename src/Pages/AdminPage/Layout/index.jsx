@@ -156,7 +156,7 @@ const Layout = () => {
   const navItemsLogin = [
     {
       icon: <DashboardIcon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,
-      label: 'Daashboard', variant: '', color: 'success', link: '/admin',
+      label: 'Dashboard', variant: '', color: 'success', link: '/admin',
     },
     {
       icon: <Inventory2Icon sx={{ stroke: '#790B0A', fill: '#790B0A' }} />,

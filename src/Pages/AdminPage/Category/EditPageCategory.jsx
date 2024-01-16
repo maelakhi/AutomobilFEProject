@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import InputField from '../../../Components/Input'
 import { useEffect, useState } from 'react';
 import useLoading from '../../../Hooks/useLoading';
@@ -122,14 +122,15 @@ const EditPageCategory = () => {
             </Box>
             <Box>        
                 <Typography variant='subtitle1'>Category Description<span style={{ color: 'red'  }}>*</span></Typography>
-                <InputField
+                <TextField
                     type='text'
                     placeholder='Category Description' 
                     name='description'
-                    handleState={setDescription}
-                    radiusBorder="md"
-                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     required={true}
+                    multiline
+                    rows={5}
+                    sx={{width: "100%"}}
                 />   
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>        

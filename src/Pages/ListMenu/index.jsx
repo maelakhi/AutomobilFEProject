@@ -38,22 +38,22 @@ const ListMenu = () => {
             {isLoading && (<LoadingAnimation />)}
                 {/* Header */}
                 <Box
-                    // component="img"
+                    // component="div"
                     sx={{
                         margin: '0px !important',
                         padding: '0px !important',
-                        // backgroundImage: `url(${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath})`,
+                        // backgroundImage: url(${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath}),
                         // backgroundRepeat: "no-repeat",
                         // backgroundSize: { lg: 'fill', xs: 'cover' },
-                        width: '100%',
-                        height: '100%',
-                        minHeight: { lg: '60vh', xs: '40vh' }
+                        maxWidth: '100%',
+                        border: '2px solid black',
+                        height: { sm: '60vh', xs: '30vh' }
                     }}
                 >
                     {!isLoading && typeCar && (<img
                         src={`${import.meta.env.VITE_BASE_URL}/${typeCar?.imagePath}`}
                         alt="" 
-                        width={'100%'} 
+                        style={{ width:'100%', height: '100%'}}                      
                     />)}
                 </Box>
                 {/* Body */}
