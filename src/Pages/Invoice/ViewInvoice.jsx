@@ -68,10 +68,10 @@ useEffect(() => {
         <Box sx={{ display: 'flex', flexDirection:'column'}}>
           <Typography variant='p'>No. Invoice : OTO0000{invoice.id}</Typography>
           <Grid container sx={{ alignItems: "center" }}>
-            <Grid item xs={10} >
+            <Grid item sm={10} xs={12}>
               <Typography variant='p'>Date : {FormatDate(invoice.createdAt)}</Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item sm={2} xs={12}>
               <Typography variant='p'>Total Price IDR {new Intl.NumberFormat().format(invoice.totalAmount)}</Typography>
             </Grid>
           </Grid>
